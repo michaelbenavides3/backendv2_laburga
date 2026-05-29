@@ -1,3 +1,4 @@
+com\dao\DetallePedidoDao.class
 com\dao\ClienteDao.class
 com\modelo\Permisos.class
 com\conexion\PruebaRoles.class
@@ -11,6 +12,7 @@ com\dao\PedidoDao.class
 com\conexion\Productos.class
 com\mycompany\laburgaproyecto\JakartaRestConfiguration.class
 com\dao\PermisosDAO.class
+com\controlador\CajeroControlador.class
 com\controlador\ClienteControlador.class
 com\controlador\FinalizarCobro.class
 com\dao\RolesDao.class
@@ -18,12 +20,14 @@ com\modelo\Mesa.class
 com\dao\MesaDao.class
 com\modelo\CorreoUsuario.class
 com\dao\UsuarioDao.class
+com\modelo\DetallePedido.class
 com\controlador\PedidoControlador.class
 com\dao\RolPermisoDao.class
 com\modelo\RolPermisos.class
 com\conexion\claseConexion.class
 com\conexion\PruebaCliente.class
 com\modelo\Pedido.class
+com\conexion\PruebaDetalle.class
 com\conexion\Prueba.class
 com\conexion\PruebaPedidos.class
 com\modelo\Cliente.class

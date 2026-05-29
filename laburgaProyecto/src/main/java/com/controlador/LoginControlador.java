@@ -44,7 +44,7 @@ public class LoginControlador extends HttpServlet {
             } else if (empleadoLogeado.getIdRol() == 1) {
                 respuestaWeb.sendRedirect("html/m-meserocopy.jsp");
             } else if (empleadoLogeado.getIdRol() == 2) {
-                respuestaWeb.sendRedirect("html/c-cuenta-por-mesa.html");
+                respuestaWeb.sendRedirect("html/c-cajero.jsp");
             } else {
                 respuestaWeb.sendRedirect("index.html");
             }

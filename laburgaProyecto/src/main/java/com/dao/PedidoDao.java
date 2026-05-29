@@ -106,32 +106,49 @@ public class PedidoDao {
     }
 
     public List<Pedido> listarPedidosPendientes() {
-    List<Pedido> lista = new ArrayList<>();
-    // Usamos SUM para calcular el total y GROUP_CONCAT para mostrar los productos
-    String sql = "SELECT p.id_pedido, p.id_mesa, " +
-                 "GROUP_CONCAT(prod.nombre_producto SEPARATOR ', ') as detalle, " +
-                 "SUM(dp.cantidad_producto * dp.precio_unitarioventa) as total " +
-                 "FROM pedidos p " +
-                 "JOIN detallePedido dp ON p.id_pedido = dp.id_pedido " +
-                 "JOIN productos prod ON dp.id_producto = prod.id_producto " +
-                 "WHERE p.estado_pedido = 'activo' " + // O el estado que uses para pendiente de pago
-                 "GROUP BY p.id_pedido";
-    
-    try (Connection con = claseConexion.getConexion();
-         PreparedStatement ps = con.prepareStatement(sql);
-         ResultSet rs = ps.executeQuery()) {
-        
-        while (rs.next()) {
-            Pedido p = new Pedido();
-            p.setIdPedido(rs.getInt("id_pedido"));
-            p.setIdMesa(rs.getInt("id_mesa"));
-            p.setDetalle(rs.getString("detalle")); // Ahora esto trae los nombres de los productos
-            p.setTotal(rs.getDouble("total"));     // Esto trae la suma calculada
-            lista.add(p);
+        List<Pedido> lista = new ArrayList<>();
+        // Usamos SUM para calcular el total y GROUP_CONCAT para mostrar los productos
+        String sql = "SELECT p.id_pedido, p.id_mesa, "
+                + "GROUP_CONCAT(prod.nombre_producto SEPARATOR ', ') as detalle, "
+                + "SUM(dp.cantidad_producto * dp.precio_unitarioventa) as total "
+                + "FROM pedidos p "
+                + "JOIN detallePedido dp ON p.id_pedido = dp.id_pedido "
+                + "JOIN productos prod ON dp.id_producto = prod.id_producto "
+                + "WHERE p.estado_pedido = 'activo' "
+                + // O el estado que uses para pendiente de pago
+                "GROUP BY p.id_pedido";
+
+        try (Connection con = claseConexion.getConexion(); PreparedStatement ps = con.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
+
+            while (rs.next()) {
+                Pedido p = new Pedido();
+                p.setIdPedido(rs.getInt("id_pedido"));
+                p.setIdMesa(rs.getInt("id_mesa"));
+                p.setDetalle(rs.getString("detalle")); // Ahora esto trae los nombres de los productos
+                p.setTotal(rs.getDouble("total"));     // Esto trae la suma calculada
+                lista.add(p);
+            }
+        } catch (Exception e) {
+            System.out.println("Error al listar pedidos: " + e.getMessage());
         }
-    } catch (Exception e) {
-        System.out.println("Error al listar pedidos: " + e.getMessage());
+        return lista;
     }
-    return lista;
-}
+
+    public boolean solicitarCuenta(int idPedido) {
+
+        String sql = "UPDATE pedidos SET estado_pedido='pendiente_cobro' WHERE id_pedido=?";
+
+        try (
+                Connection con = claseConexion.getConexion(); PreparedStatement ps = con.prepareStatement(sql);) {
+
+            ps.setInt(1, idPedido);
+
+            return ps.executeUpdate() > 0;
+
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+
+        return false;
+    }
 }
