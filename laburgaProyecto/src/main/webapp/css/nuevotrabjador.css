@@ -1,0 +1,119 @@
+@import url(style.css);
+@import url(variables.css);
+
+/* Página del administrador */
+body.admin {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: var(--gris-claro);
+  margin: 0;
+  padding: 0;
+  overflow-y: hidden;
+}
+
+
+/* Encabezado */
+.encabezado {
+  width: 100%;
+  margin: 0;
+  padding: 1.5rem ;
+  text-align: center;
+  background-color: var(--crema-claro);
+  border-bottom: 1px solid var(--naranja-medio);
+  margin-right: 0;
+
+}
+
+/* Main: contenido central */
+main {
+  flex: 1;                /* ocupa todo el espacio disponible */
+  display: flex;
+  justify-content: center;  /* centra la sección */
+  align-items: flex-start;  /* arranca desde arriba */
+  padding: 2rem 0;          /* espacio arriba y abajo */
+}
+
+/* Sección de nuevo trabajador */
+.nuevo-trabajador {
+  margin: 2rem auto;
+  width: 400px;
+  background: var(--crema-claro);
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  margin-bottom: 100px;
+}
+
+.nuevo-trabajador h2 {
+  margin-bottom: 1rem;
+  color: var(--naranja-oscuro);
+  text-align: center;
+}
+
+.nuevo-trabajador form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+
+.nuevo-trabajador label {
+  font-weight: bold;
+  color: var(--naranja-oscuro);
+}
+
+.nuevo-trabajador input,
+.nuevo-trabajador select {
+  width: 100%;
+  max-width: 100%;
+  padding: 0.5rem;
+  border: 1px solid var(--naranja-medio);
+  border-radius: 4px;
+  background-color: #fff;
+  font-size: 1rem;
+}
+
+/* Botón registrar */
+.btn-naranja {
+  background-color: var(--naranja-medio);
+  color: #fff;
+  padding: 0.6rem 1.2rem;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.btn-rojo {
+  background-color: var(--rojo-medio);
+  color: #fff;
+  padding: 0.6rem 1.2rem;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.btn-naranja:hover {
+  background-color: var(--naranja-oscuro);
+}
+
+.btn-rojo:hover {
+  background-color: var(--rojo-cancelar);
+}
+
+.form__botones {
+  display: flex;
+  justify-content: center; /* centra los botones */
+  gap: 15px;               /* espacio entre ellos */
+  margin-top: 20px;
+}
+
+/* Footer */
+.footer {
+  background-color: var(--naranja-medio);
+  text-align: center;
+  padding: 25px;
+  margin-top: 0; /* evita que se superponga */
+  border-top: 3px solid var(--naranja-oscuro);
+  color: #fff;
+}

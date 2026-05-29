@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Actualizar Menú</title>
+  <link rel="stylesheet" href="../css/actualizar-menu.css">
+</head>
+
+<body>
+  <!-- Header -->
+  <header class="header">
+    <h1>Gestión de Menú - Panel Administrador</h1>
+  </header>
+
+  <div class="layout">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <h2>Opciones Administrador</h2>
+      <nav>
+        <a href="a-nuevoTrabajado.html" class="btn">Nuevo Usuario</a>
+        <a href="a-actualizar-menu.html" class="btn">Asignar Rol</a>
+        <a href="a-desactivar-usuario.html" class="btn">Desactivar Usuario</a>
+        <a href="a-gestionar-permisos.html" class="btn">Permisos</a>
+        <a href="a-restablecer-pwss.html" class="btn">Restablecer Contraseña</a>
+        <a href="a-actualizar-menu.html" class="btn">Actualizar Menú</a>
+      </nav>
+    </aside>
+
+    <main class="contenido">
+    <!-- Contenido principal -->
+      <h2 class="titlo-contenido">Actualizar Menú</h2>
+
+      <!-- Formulario agregar producto -->
+      <form id="form-producto">
+        <label for="nombre">Nombre del producto:</label>
+        <input type="text" id="nombre" name="nombre" required>
+
+        <label for="descripcion">Descripción:</label>
+        <textarea id="descripcion" name="descripcion" required></textarea>
+
+        <label for="precio">Precio:</label>
+        <input type="number" id="precio" name="precio" required>
+
+        <label for="categoria">Categoría:</label>
+        <select id="categoria" name="categoria" required>
+          <option value="hamburguesas">Hamburguesas</option>
+          <option value="hotdogs">Hotdogs</option>
+          <option value="papas">Papas Locas</option>
+          <option value="bebidas">Bebidas</option>
+          <option value="temporada">Menú de Temporada</option>
+        </select>
+
+        <label for="imagen">Imagen:</label>
+        <input type="file" id="imagen" name="imagen">
+
+        <button type="submit" class="btn btn--guardar">Agregar</button>
+        <button type="submit" class="btn btn--guardar">Actualizar Producto</button>
+      </form>
+
+
+      <h2>Listado de Productos</h2>
+
+      <table class="tabla-productos">
+        <thead>
+          <tr>
+            <th>Nombre</th>
+            <th>Precio</th>
+            <th>Categoría</th>
+            <th>Estado</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Hamburguesa Clásica</td>
+            <td>$19.000</td>
+            <td>Hamburguesas</td>
+            <td>Activo</td>
+            <td>
+              <button class="btn btn--modificar">Modificar</button>
+              <button class="btn btn--desactivar">Desactivar</button>
+            </td>
+          </tr>
+          <tr>
+            <td>Hamburguesa Especial</td>
+            <td>$25.000</td>
+            <td>Hamburguesas</td>
+            <td>Activo</td>
+            <td>
+              <button class="btn btn--modificar">Modificar</button>
+              <button class="btn btn--desactivar">Desactivar</button>
+            </td>
+          </tr>
+          <tr>
+            <td>Hamburguesa de Pollo</td>
+            <td>$22.000</td>
+            <td>Hamburguesas</td>
+            <td>Activo</td>
+            <td>
+              <button class="btn btn--modificar">Modificar</button>
+              <button class="btn btn--desactivar">Desactivar</button>
+            </td>
+          </tr>
+          <tr>
+            <td>Hamburguesa Suprema</td>
+            <td>$35.000</td>
+            <td>Hamburguesas</td>
+            <td>Activo</td>
+            <td>
+              <button class="btn btn--modificar">Modificar</button>
+              <button class="btn btn--desactivar">Desactivar</button>
+            </td>
+          </tr>
+          <tr>
+            <td>Hotdog Clásico</td>
+            <td>$19.000</td>
+            <td>Hotdogs</td>
+            <td>Activo</td>
+            <td>
+              <button class="btn btn--modificar">Modificar</button>
+              <button class="btn btn--desactivar">Desactivar</button>
+            </td>
+          </tr>
+          <tr>
+            <td>Hotdog de la Casa</td>
+            <td>$19.000</td>
+            <td>Hotdogs</td>
+            <td>Activo</td>
+            <td>
+              <button class="btn btn--modificar">Modificar</button>
+              <button class="btn btn--desactivar">Desactivar</button>
+            </td>
+          </tr>
+          <tr>
+            <td>Papas Locas</td>
+            <td>$25.000</td>
+            <td>Papas</td>
+            <td>Activo</td>
+            <td>
+              <button class="btn btn--modificar">Modificar</button>
+              <button class="btn btn--desactivar">Desactivar</button>
+            </td>
+          </tr>
+          <tr>
+            <td>Gaseosa</td>
+            <td>$5.000</td>
+            <td>Bebidas</td>
+            <td>Activo</td>
+            <td>
+              <button class="btn btn--modificar">Modificar</button>
+              <button class="btn btn--desactivar">Desactivar</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </main>
+
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <p>&copy; 2025 Labur-Ga. Todos los derechos reservados.</p>
+  </footer>
+</body>
+
+</html>

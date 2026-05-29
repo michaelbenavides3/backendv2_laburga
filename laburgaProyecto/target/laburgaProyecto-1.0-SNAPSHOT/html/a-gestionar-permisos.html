@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gestionar Permisos</title>
+  <link rel="stylesheet" href="../css/gestionar-permisos.css">
+</head>
+
+<body>
+  <!-- Header -->
+  <header class="header">
+    <h1>Gestión de Permisos - Panel Administrador</h1>
+  </header>
+
+  <!-- Layout principal -->
+  <div class="layout">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <h2>Opciones Administrador</h2>
+      <nav>
+        <a href="a-nuevoTrabajado.html" class="btn">Nuevo Usuario</a>
+        <a href="a-actualizar-menu.html" class="btn">Asignar Rol</a>
+        <a href="a-desactivar-usuario.html" class="btn">Desactivar Usuario</a>
+        <a href="a-gestionar-permisos.html" class="btn">Permisos</a>
+        <a href="a-restablecer-pwss.html" class="btn">Restablecer Contraseña</a>
+        <a href="a-actualizar-menu.html" class="btn">Actualizar Menú</a>
+      </nav>
+    </aside>
+
+    <!-- Contenido principal -->
+    <main class="contenido">
+      <h2>Permisos por Rol</h2>
+
+      <form id="form-permisos">
+        <label for="rol">Seleccione Rol:</label>
+        <select id="rol" name="rol" required>
+          <option value="">Seleccione...</option>
+          <option value="administrador">Administrador</option>
+          <option value="cajero">Cajero</option>
+          <option value="mesero">Mesero</option>
+          <option value="cocinero">Cocinero</option>
+        </select>
+
+        <!-- Contenedor dinámico de permisos -->
+        <div id="permisos-container"></div>
+
+        <button type="submit" class="btn btn--guardar">Guardar Permisos</button>
+        <button type="reset" class="btn btn--cancelar">Cancelar</button>
+
+      </form>
+    </main>
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <p>&copy; 2025 Labur-Ga. Todos los derechos reservados.</p>
+  </footer>
+
+  <!-- Script -->
+  <script>
+    const permisosPorRol = {
+      administrador: [
+        "Crear/Modificar/Eliminar usuarios",
+        "Asignar/Modificar roles",
+        "Desactivar usuarios",
+        "Gestionar permisos",
+        "Restablecer contraseñas",
+        "Actualizar menú",
+        "Consultar reportes",
+        "Manejar módulo de mesero",
+        "modificar precios del menu"
+      ],
+      cajero: [
+        "Visualizar orden",
+        "Confirmar consumos",
+        "Registrar pago",
+        "Cerrar orden",
+        "Habilitar mesa"
+      ],
+      mesero: [
+        "Unir mesas",
+        "Desunir mesas",
+        "Crear clientes nuevos",
+        "Agregar productos a ordenes",
+        "Enviar ordenes al cajero",
+        "cancelar ordenes"
+      ],
+      cocinero: [
+        "Sin permisos activos (solo trazabilidad)"
+      ]
+    };
+
+    document.getElementById("rol").addEventListener("change", function () {
+      const rol = this.value;
+      const contenedor = document.getElementById("permisos-container");
+      contenedor.innerHTML = "";
+
+      if (rol && permisosPorRol[rol]) {
+        const lista = document.createElement("ul");
+        permisosPorRol[rol].forEach(p => {
+          const item = document.createElement("li");
+          item.textContent = p;
+          lista.appendChild(item);
+        });
+        contenedor.appendChild(lista);
+      }
+    });
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,95 @@
+@import url(style.css);
+@import url(variables.css);
+
+
+/* Página de login */
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  overflow-y: hidden; /* oculta scroll vertical */
+}
+
+
+
+body.login {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: var(--gris-claro);
+}
+
+.encabezado {
+  width: 100%;
+  margin: 0;
+  padding: 1.5rem 1rem;
+  text-align: center;
+  background-color: var(--crema-claro);
+  border-bottom: 1px solid var(--naranja-medio);
+}
+
+
+
+.form-login {
+  background-color: var(--crema-claro);
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  width: 300px;
+  margin: 2rem auto; /* centra horizontalmente y separa del encabezado */
+}
+
+
+.form-login h2 {
+  margin-bottom: 1rem;
+  color: var(--naranja-oscuro);
+}
+
+.campo {
+  margin-bottom: 1rem;
+  text-align: left;
+}
+
+.campo label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: bold;
+}
+
+.campo input {
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid var(--naranja-medio);
+  border-radius: 4px;
+}
+
+.accion-form {
+  display: flex;
+  flex-direction: row; /*//los coloca en fila */
+  align-items: center; /*//centra verticalmente */
+  gap: 15px;
+  margin-top: 10px;
+}
+
+.btn {
+  background-color: var(--naranja-oscuro);
+}
+
+.btn-link{
+  background: none; /*se le quito el color de fondo*/
+  border: none; /* se le quitaron los bordes al bottton*/
+  color: var(--naranja-medio); 
+  text-decoration: underline; /*subraya el texto en la parteinferior*/
+  cursor: pointer; /*se coloca en forma de mano cuando se pasa el mouse por encima*/
+  padding: 0; /*se quita el relleno dentro del boton para que el texto quede alineado*/
+}
+
+.footer {
+  width: 100%;                 /* ocupa todo el ancho */
+  text-align: center;          /* centra el texto */
+  /* background-color: var(-); */
+  padding: 25px;
+  border-top: 3px solid var(--naranja-oscuro);
+  margin-top: auto;            /* empuja el footer al fondo */
+  box-sizing: border-box;
+}

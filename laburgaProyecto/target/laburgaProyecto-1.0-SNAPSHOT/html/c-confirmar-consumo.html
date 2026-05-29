@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Confirmar Consumo</title>
+  <link rel="stylesheet" href="../css/confirmar-consumo.css">
+</head>
+
+<body>
+
+  <header class="header">
+    <h2>Confirmar Consumo - Mesa (# )</h2>
+  </header>
+
+  <div class="layout">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <h2>Panel Menú Cajero</h2>
+      <nav>
+        <img src="../recurso/logo-burguer.png" alt="imagen-logo-lagurga">
+        <a href="cuenta-por-mesa.html" class="btn">Consultar Cuenta</a> <!-- RF-11 -->
+        <a href="confirmar-consumo.html" class="btn">Confirmar Consumo</a> <!-- RF-12 -->
+        <a href="registrar-pago.html" class="btn">Registrar Pago</a> <!-- RF-14 -->
+      </nav>
+    </aside>
+
+    <main class="contenido">
+      <h2>confirmar consumo - Mesa (# )</h2>
+
+      <form id="form-consumo">
+        <table class="cuenta-tabla">
+          <thead>
+            <tr>
+              <th>Producto</th>
+              <th>Cantidad</th>
+              <th>Precio</th>
+              <th>Consumido</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Hamburguesa Clásica</td>
+              <td>2</td>
+              <td>$19.000</td>
+              <td><input type="checkbox" name="producto1" checked></td>
+            </tr>
+            <tr>
+              <td>Gaseosa</td>
+              <td>2</td>
+              <td>$5.000</td>
+              <td><input type="checkbox" name="producto2" checked></td>
+            </tr>
+            <tr>
+              <td>Papas Locas</td>
+              <td>1</td>
+              <td>$12.000</td>
+              <td><input type="checkbox" name="producto3"></td>
+            </tr>
+          </tbody>
+        </table>
+
+        <button type="submit" class="btn btn--confirmar">Confirmar Consumo</button>
+      </form>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <p>&copy; 2025 Labur-Ga. Todos los derechos reservados.</p>
+    </footer>
+    </main>
+
+</body>
+
+</html>

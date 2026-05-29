@@ -1,0 +1,129 @@
+@import url(style.css);
+@import url(variables.css);
+/* Reset básico */
+html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    background-color: var(--crema-claro);
+}
+
+/* Distribución vertical */
+body {
+    display: flex;
+    flex-direction: column;
+    height: 100%; /* asegura que ocupe toda la ventana */
+}
+
+/* Header */
+header {
+    background-color: var(--naranja-medio);
+    color: white;
+    border-bottom: 3px solid var(--gris-claro);
+
+    /* Centrado con flexbox */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    /* Padding más moderado */
+    padding: var(--padding-header);
+    width:  100%;
+    margin-top: 0;
+}
+
+/* El título dentro del header */
+header h1 {
+    margin: 0;
+    font-size: 1.8rem;
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+
+
+
+/* Main ocupa el espacio central y empuja el footer */
+main {
+    flex: 1; /* se expande para empujar el footer */
+    /* display: flex; */
+    justify-content: center;
+    align-items: center;
+}
+
+/* Formulario */
+.form-reserva {
+    background-color: var(--color-fondo-formulario);
+    padding: 25px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px var(--gris-claro);
+    width: 400px;
+    margin: 20px auto;
+}
+
+.form-reserva h2 {
+    text-align: center;
+    color: var(--naranja-medio);
+    margin-bottom: 20px;
+}
+
+.form-reserva label {
+    display: block;
+    margin-top: 10px;
+    font-weight: bold;
+    color: var(--naranja-medio);
+}
+
+.form-reserva input,
+.form-reserva select {
+    width: 100%;
+    padding: 8px;
+    margin-top: 5px;
+    border: 1px solid var(--gris-claro);
+    border-radius: 4px;
+}
+
+/* Botón de envío (verde) */
+.btn--envio {
+    margin-top: 15px;
+    width: 100%;
+    padding: 10px;
+    background-color: var(--btn-envio-verde);
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.btn--envio:hover {
+    background-color: var(--btn-hover-envio);
+}
+
+/* Botón de cancelar (rojo) */
+.btn--cancelar {
+    margin-top: 10px;
+    width: 100%;
+    padding: 10px;
+    background-color: var(--btn-rojo-cancelar); /* rojo */
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.btn--cancelar:hover {
+    background-color: var(--btn-hover-cancelar); /* rojo más oscuro */
+}
+
+
+/* Footer */
+.footer {
+    background-color: var(--naranja-medio);
+    color: white;
+    text-align: center;
+    padding: 25px; /*se debe dejar esta medida para todos los footer, tener encuenta ahora en adelante*/
+    border-top: 3px solid var(--naranja-oscuro);
+}

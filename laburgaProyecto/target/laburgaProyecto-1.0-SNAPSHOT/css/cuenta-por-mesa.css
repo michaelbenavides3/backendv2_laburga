@@ -1,0 +1,140 @@
+@import url(style.css);
+@import url(variables.css);
+
+
+/* Header general */
+.header {
+  background-color: var(--gris-claro);   /* color distinto al mesero */
+  color:var(--naranja-oscuro);
+  text-align: center;
+  padding: 2rem;
+  border-bottom: 3px solid var(--naranja-oscuro);
+  width: 100%;
+}
+
+.header h1 {
+  margin: 0;
+  font-size: 1.8rem;
+  font-weight: bold;
+  letter-spacing: 1px;
+}
+
+/* Layout general */
+.layout {
+  display: flex;
+  min-height: calc(100vh - 120px); /* ocupa todo el alto menos header y footer */
+}
+
+/* Sidebar */
+.sidebar {
+  width: 220px;                     /* ancho fijo */
+  background-color: var(--naranja-medio); /* color distinto al mesero */
+  color: white;
+  padding: 20px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+}
+
+.sidebar h2 {
+  text-align: center;
+  margin-bottom: qrem;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.sidebar nav {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.sidebar a {
+  background-color: var(--azul-oscuro);
+  color: white;
+  text-decoration: none;
+  padding: 10px;
+  border-radius: 6px;
+  text-align: center;
+  font-weight: bold;
+  transition: background 0.3s ease;
+}
+
+.sidebar a:hover {
+  background-color: var(--azul-claro);
+}
+
+.sidebar .btn {
+  display: block;
+  padding: 0.8rem;
+  background-color: var(--naranja-oscuro);
+  color: #fff;
+  text-decoration: none;
+  border-radius: 6px;
+  text-align: center;
+  font-weight: bold;
+  transition: background 0.3s ease;
+}
+
+.sidebar .btn:hover {
+  background-color: var(--naranja-claro);
+}
+
+/* Contenido principal */
+.contenido {
+  flex: 1;               /* ocupa todo el espacio restante */
+  padding: 20px;
+  background-color: var(--gris-claro);
+}
+
+/* Contenedor de mesas en cuadrícula */
+.mesas {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr); /* 4 columnas */
+  gap: 20px;                             /* espacio entre mesas */
+  margin-top: 20px;
+}
+
+/* Tarjeta de mesa */
+.mesa {
+  background-color: #fff;
+  border: 2px solid var(--gris-claro);
+  border-radius: 8px;
+  padding: 15px;
+  text-align: center;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+.mesa h3 {
+  margin: 0 0 10px;
+  font-size: 1.2rem;
+  color: var(--naranja-oscuro);
+}
+
+.estado--mesa {
+  font-weight: bold;
+  margin-bottom: 10px;
+  color: var(--naranja-claro);
+}
+
+.btn--consultar-cuenta {
+  display: inline-block;
+  background-color: var(--naranja-medio);
+  color: #fff;
+  padding: 10px 15px;
+  border-radius: 6px;
+  text-decoration: none;
+  font-weight: bold;
+  transition: background 0.3s ease;
+}
+
+.btn--consultar-cuenta:hover {
+  background-color: var(--naranja-oscuro);
+}
+
+
+
+
+.footer{
+  text-align: center;
+}

@@ -1,0 +1,67 @@
+@import url(style.css);
+@import url(variables.css);
+
+
+
+/* Página del cajero */
+
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  overflow-y: auto; /* oculta scroll vertical */
+}
+
+body.cajero {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: var(--gris-claro);
+}
+
+.encabezado, .pie {
+  width: 100%;          /* ocupan todo el ancho */
+  margin: 0;            /* eliminamos márgenes externos */
+  padding: 1.5rem 1rem; /* espacio interno */
+  text-align: center;   /* centra el texto */
+  background-color: var(--crema-claro);
+  box-sizing: border-box; /* asegura que padding no rompa el ancho */
+}
+
+.encabezado {
+  border-bottom: 1px solid var(--naranja-medio);
+}
+
+
+
+.ordenes {
+  flex: 1;
+  padding: 2rem;
+  text-align: center;
+}
+
+.tabla-ordenes {
+  width: 80%;
+  margin: 2rem auto;
+  border-collapse: collapse;
+  background-color: var(--crema-claro);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.tabla-ordenes th, .tabla-ordenes td {
+  border: 1px solid var(--naranja-medio);
+  padding: 1rem;
+  text-align: center;
+}
+
+.tabla-ordenes th {
+  background-color: var(--naranja-medio);
+  color: white;
+}
+
+.footer {
+  border-top: 1px solid var(--naranja-medio);
+  margin-top: auto;     /* empuja el footer al final */
+  text-align: center;
+  border-top: 3px solid var(--naranja-oscuro);
+}

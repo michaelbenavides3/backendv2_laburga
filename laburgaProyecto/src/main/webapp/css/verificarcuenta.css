@@ -1,0 +1,128 @@
+@import url(style.css);
+@import url(variables.css);
+
+/* Reset básico */
+html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    background-color: var(--crema-claro);
+    font-family: Arial, sans-serif;
+}
+
+/* Distribución vertical */
+body {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+/* Header */
+header {
+    background-color: var(--naranja-medio);
+    color: white;
+    text-align: center;
+    padding: 20px;
+    border-bottom: 3px solid var(--gris-claro);
+}
+
+header h1 {
+    margin: 0;
+    font-size: 1.8rem;
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+
+/* Main ocupa el espacio central y empuja el footer */
+main {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start; /* mantiene arriba, no centrado vertical */
+    padding: 40px 0;
+}
+
+/* Formulario de verificar cuenta */
+.verificar-cuenta {
+    background-color: var(--color-fondo-formulario);
+    padding: 25px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px var(--gris-claro);
+    width: 450px;
+    margin: auto;
+}
+
+.verificar-cuenta h2 {
+    text-align: center;
+    color: var(--naranja-medio);
+    margin-bottom: 20px;
+}
+
+.verificar-cuenta label {
+    display: block;
+    margin-top: 10px;
+    font-weight: bold;
+    color: var(--naranja-medio);
+}
+
+.verificar-cuenta select,
+.verificar-cuenta input {
+    width: 100%;
+    padding: 8px;
+    margin-top: 5px;
+    border: 1px solid var(--gris-claro);
+    border-radius: 4px;
+}
+
+/* Cuadro de resumen dinámico */
+.resumen-cuenta {
+    margin-top: 20px;
+    padding: 15px;
+    background-color: var(--crema-claro);
+    border-radius: 6px;
+    min-height: 120px; /* cuadro en blanco al inicio */
+    border: 1px dashed var(--gris-claro);
+}
+
+/* Botones */
+.btn--envio {
+    margin-top: 15px;
+    width: 100%;
+    padding: 10px;
+    background-color: var(--btn-envio-verde);
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.btn--envio:hover {
+    background-color: var(--btn-hover-envio);
+}
+
+.btn--cancelar {
+    margin-top: 10px;
+    width: 100%;
+    padding: 10px;
+    background-color: var(--btn-rojo-cancelar); /* rojo */
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.btn--cancelar:hover {
+    background-color: var(--btn-hover-cancelar);
+}
+
+/* Footer */
+footer {
+    background-color: var(--naranja-medio);
+    color: white;
+    text-align: center;
+    padding: 10px;
+}

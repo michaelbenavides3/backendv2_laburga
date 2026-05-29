@@ -1,0 +1,61 @@
+@import url(style.css);
+@import url(variables.css);
+
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+
+body.admin {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: var(--gris-claro);
+}
+
+.encabezado, .pie {
+  width: 100%;
+  margin: 0;
+  padding: 1.5rem 1rem;
+  text-align: center;
+  background-color: var(--crema-claro);
+  box-sizing: border-box;
+}
+
+.encabezado {
+  border-bottom: 1px solid var(--naranja-medio);
+}
+
+
+.usuarios {
+  flex: 1;
+  padding: 2rem;
+  text-align: center;
+}
+
+.tabla-usuarios {
+  width: 80%;
+  margin: 2rem auto;
+  border-collapse: collapse;
+  background-color: var(--crema-claro);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.tabla-usuarios th, .tabla-usuarios td {
+  border: 1px solid var(--naranja-medio);
+  padding: 1rem;
+  text-align: center;
+}
+
+.tabla-usuarios th {
+  background-color: var(--naranja-medio);
+  color: white;
+}
+
+.footer {
+  border-top: 1px solid var(--naranja-medio);
+  margin-top: auto;
+  text-align: center;
+  border-top: 3px solid var(--naranja-oscuro);
+}
