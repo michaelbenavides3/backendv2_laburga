@@ -59,6 +59,11 @@ body.cajero {
   color: white;
 }
 
+
+btn{
+    background-color: green;
+}
+
 .footer {
   border-top: 1px solid var(--naranja-medio);
   margin-top: auto;     /* empuja el footer al final */

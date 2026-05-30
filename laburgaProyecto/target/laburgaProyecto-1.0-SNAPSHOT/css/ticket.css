@@ -1,4 +1,87 @@
 @import url(style.css);
 @import url(variables.css);
 
+/* Contenedor principal que simula el papel térmico */
+.ticket-container {
+    width: 300px;
+    margin: 40px auto; /* Centrado en la pantalla */
+    padding: 20px;
+    border: 1px solid #333;
+    background-color: #fff;
+    font-family: 'Courier New', Courier, monospace;
+    color: #000;
+    text-align: center;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
 
+/* /css/ticket.css */
+
+.ticket-logo {
+    width: 80px;      /* Tamaño controlado */
+    height: auto;     /* Mantiene la proporción */
+    display: block;   /* Para centrarlo fácilmente */
+    margin: 0 auto 10px auto; /* Centrado y margen inferior */
+}
+
+/* Encabezado del ticket */
+.ticket-header h2 {
+    margin: 0;
+    font-size: 1.5em;
+    text-transform: uppercase;
+}
+
+/* Cuerpo con detalles de productos */
+.ticket-body {
+    text-align: left;
+    margin: 20px 0;
+    border-top: 1px dashed #333;
+    border-bottom: 1px dashed #333;
+    padding: 10px 0;
+}
+
+.ticket-body p {
+    margin: 5px 0;
+    font-size: 0.9em;
+}
+
+/* Total resaltado */
+.ticket-total {
+    font-size: 1.2em;
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+/* Botones de acción (que no se imprimirán) */
+.no-print {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.no-print button, .no-print a {
+    padding: 10px;
+    cursor: pointer;
+    text-decoration: none;
+    border-radius: 5px;
+}
+
+/* Configuración para la impresión física */
+@media print {
+    .no-print {
+        display: none !important;
+    }
+    
+    .ticket-container {
+        border: none;
+        box-shadow: none;
+        width: 100%;
+        margin: 0;
+        padding: 0;
+    }
+    
+    /* Ocultamos el header y footer de la página web al imprimir */
+    .encabezado, .footer {
+        display: none !important;
+    }
+}
