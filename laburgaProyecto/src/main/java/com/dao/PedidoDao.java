@@ -179,4 +179,42 @@ public class PedidoDao {
 
         return 0;
     }
+
+    public Pedido obtenerPedidoPorId(int idPedido) {
+
+        Pedido p = null;
+
+        String sql = "SELECT p.id_pedido, p.id_mesa, "
+                + "GROUP_CONCAT(prod.nombre_producto SEPARATOR ', ') as detalle, "
+                + "SUM(dp.cantidad_producto * dp.precio_unitarioventa) as total "
+                + "FROM pedidos p "
+                + "JOIN detallePedido dp ON p.id_pedido = dp.id_pedido "
+                + "JOIN productos prod ON dp.id_producto = prod.id_producto "
+                + "WHERE p.id_pedido = ? "
+                + "GROUP BY p.id_pedido";
+
+        try (
+                Connection con = claseConexion.getConexion(); PreparedStatement ps = con.prepareStatement(sql)) {
+
+            ps.setInt(1, idPedido);
+
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+
+                p = new Pedido();
+
+                p.setIdPedido(rs.getInt("id_pedido"));
+                p.setIdMesa(rs.getInt("id_mesa"));
+                p.setDetalle(rs.getString("detalle"));
+                p.setTotal(rs.getDouble("total"));
+            }
+
+        } catch (Exception e) {
+            System.out.println("Error al obtener pedido: " + e.getMessage());
+        }
+
+        return p;
+    }
+
 }

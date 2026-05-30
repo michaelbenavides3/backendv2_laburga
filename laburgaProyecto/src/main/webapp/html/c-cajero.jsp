@@ -44,8 +44,8 @@
           <td><%= p.getDetalle() %></td>
           <td>$<%= p.getTotal() %></td>
           <td>
-            <a href="../FinalizarCobro?idPedido=<%= p.getIdPedido() %>&idMesa=<%= p.getIdMesa() %>" 
-               class="btn btn-naranja">Generar factura</a>
+              <a href="ticket.jsp?idPedido=<%= p.getIdPedido() %>" class="btn btn-verde">Ver Ticket</a>
+            <a href="../FinalizarCobro?idPedido=<%= p.getIdPedido() %>&idMesa=<%= p.getIdMesa() %>" class="btn btn-naranja">Cerrar Cuenta</a>
           </td>
         </tr>
         <% } %>
