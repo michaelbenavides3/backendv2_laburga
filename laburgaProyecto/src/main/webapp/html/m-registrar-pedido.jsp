@@ -39,9 +39,10 @@
                    <!-- <a href="unir-mesas.jsp" class="btn">Unir Mesas</a>
                     <a href="separar-mesas.jsp" class="btn">Separar Mesas</a>
                     <a href="enviar-cuenta.jsp" class="btn">Enviar cuenta</a> -->
-                    <a href="verificarcuenta.jsp" class="btn">Verificar cuenta</a>
+                   <!--<a href="verificarcuenta.jsp" class="btn">Verificar cuenta</a>-->
                     <a href="m-formulario-reserva.jsp" class="btn">Realizar Reserva</a>
                     <a href="m-formulario-clientenuevo-mesero.jsp" class="btn">Nuevo Cliente</a>
+                    <a href="../cerrarSesion" class="btn">Cerrar Sesión</a>
                 </nav>
             </aside>
             <main class="contenido">
@@ -197,8 +198,8 @@
                         <textarea name="txtObservaciones" class="pedido__observacion-general" placeholder="Observaciones Generales"> </textarea>
                         <!-- BotÃ³n Guardar -->
                         <button type="submit" class="pedido__boton pedido__boton--guardar">Guardar Pedido</button>
-                        <button type="button" class="pedido__boton pedido__boton--cancelar" onclick="cancelarPedido()">Cancelar
-                            Pedido</button>
+                        <!--<button type="button" class="pedido__boton pedido__boton--cancelar" onclick="cancelarPedido()">Cancelar Pedido</button>-->
+                        <button type="button" class="btn--cancelar pedido__boton pedido__boton--cancelar" onclick="window.location.href = 'm-meserocopy.jsp'">Cancelar Pedido</button>
                     </div>
                 </form>
             </main>

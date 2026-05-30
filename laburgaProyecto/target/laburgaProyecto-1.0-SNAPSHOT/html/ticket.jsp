@@ -40,14 +40,32 @@
             <p style="font-size: 0.8em;">Fecha: <%= fechaActual%></p>
 
             <div class="ticket-body">
+
                 <p><strong>Pedido N°:</strong> <%= p.getIdPedido()%></p>
+
                 <p><strong>Mesa:</strong> <%= p.getIdMesa()%></p>
+
                 <p><strong>Detalle:</strong></p>
-                <p><%= p.getDetalle()%></p>
+
+                <p>
+                    <%
+                        out.print(
+                                p.getDetalle().replace(",", "<br>")
+                        );
+                    %>
+                </p>
+
             </div>
 
+            <!-- <div class="ticket-body">
+                 <p><strong>Pedido N°:</strong> <%= p.getIdPedido()%></p>
+                 <p><strong>Mesa:</strong> <%= p.getIdMesa()%></p>
+                 <p><strong>Detalle:</strong></p>
+                 <p><%= p.getDetalle()%></p>
+             </div> -->
+
             <div class="ticket-total">
-                <p>TOTAL: $<%= String.format("%.2f", p.getTotal())%></p>
+                <p>TOTAL: $<%= String.format("%.0f", p.getTotal())%></p>
             </div>
 
             <div class="no-print">

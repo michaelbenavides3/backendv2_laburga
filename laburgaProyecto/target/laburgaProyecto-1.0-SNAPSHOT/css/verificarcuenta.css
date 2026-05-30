@@ -126,3 +126,16 @@ footer {
     text-align: center;
     padding: 10px;
 }
+
+.btn-verde{
+    margin-top: 15px;
+    width: 100%;
+    padding: 10px;
+    background-color: var(--btn-envio-verde);
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+}

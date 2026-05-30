@@ -9,6 +9,7 @@ com\modelo\TelefonoUsuarios.class
 com\conexion\PruebaUsuarios.class
 com\conexion\PruebaMesa.class
 com\dao\PedidoDao.class
+com\controlador\cerrarSesion.class
 com\conexion\Productos.class
 com\mycompany\laburgaproyecto\JakartaRestConfiguration.class
 com\dao\PermisosDAO.class

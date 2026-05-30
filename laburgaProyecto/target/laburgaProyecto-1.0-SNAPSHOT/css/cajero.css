@@ -26,6 +26,7 @@ body.cajero {
   text-align: center;   /* centra el texto */
   background-color: var(--crema-claro);
   box-sizing: border-box; /* asegura que padding no rompa el ancho */
+  position: relative;
 }
 
 .encabezado {
@@ -59,9 +60,18 @@ body.cajero {
   color: white;
 }
 
-
-btn{
+.btn-verde{
     background-color: green;
+}
+
+.btn_cerrar_sesion{
+    position: absolute;
+    right: 20px;
+    top: 20px;
+    color: black;
+    text-decoration: underline;
+    background: none;
+    border: none;
 }
 
 .footer {
