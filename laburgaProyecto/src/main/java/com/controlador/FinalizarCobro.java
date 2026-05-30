@@ -24,7 +24,7 @@ public class FinalizarCobro extends HttpServlet {
             MesaDao mesaDao = new MesaDao();
             
             // 1. Cerramos el pedido en la base de datos
-            pedidoDao.actualizarEstadoPedido(Integer.parseInt(idPedido), "cerrado");
+            pedidoDao.actualizarEstadoPedido(Integer.parseInt(idPedido), "cerrada");
             
             // 2. Liberamos la mesa (la ponemos disponible de nuevo)
             mesaDao.cambiarEstado(Integer.parseInt(idMesa), "disponible");

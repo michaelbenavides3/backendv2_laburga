@@ -25,6 +25,7 @@ com\controlador\PedidoControlador.class
 com\dao\RolPermisoDao.class
 com\modelo\RolPermisos.class
 com\conexion\claseConexion.class
+com\controlador\SolicitarCuenta.class
 com\conexion\PruebaCliente.class
 com\modelo\Pedido.class
 com\conexion\PruebaDetalle.class

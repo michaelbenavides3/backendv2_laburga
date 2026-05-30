@@ -75,7 +75,7 @@ public class PedidoDao {
         PreparedStatement operacion;
 
         // SQL limpio apuntando a tu tabla de detalles (Ajusta los nombres si cambian en tu BD)
-        String sqlQuery = "INSERT INTO detalle_pedido (id_pedido, id_producto, cantidad, precio_unitario) VALUES (?, ?, ?, ?)";
+        String sqlQuery = "INSERT INTO detallePedido (id_pedido, id_producto, cantidad_producto, precio_unitarioventa) VALUES (?, ?, ?, ?)";
 
         try {
             operacion = accesoBD.prepareStatement(sqlQuery);
@@ -114,9 +114,8 @@ public class PedidoDao {
                 + "FROM pedidos p "
                 + "JOIN detallePedido dp ON p.id_pedido = dp.id_pedido "
                 + "JOIN productos prod ON dp.id_producto = prod.id_producto "
-                + "WHERE p.estado_pedido = 'activo' "
-                + // O el estado que uses para pendiente de pago
-                "GROUP BY p.id_pedido";
+                + "WHERE p.estado_pedido = 'pendiente_cobro' "
+                + "GROUP BY p.id_pedido";
 
         try (Connection con = claseConexion.getConexion(); PreparedStatement ps = con.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
 
@@ -150,5 +149,34 @@ public class PedidoDao {
         }
 
         return false;
+    }
+
+    public int obtenerPedidoActivoPorMesa(int idMesa) {
+
+        String sql = """
+        SELECT id_pedido
+        FROM pedidos
+        WHERE id_mesa = ?
+        AND estado_pedido = 'activo'
+        ORDER BY id_pedido DESC
+        LIMIT 1
+    """;
+
+        try (
+                Connection con = claseConexion.getConexion(); PreparedStatement ps = con.prepareStatement(sql);) {
+
+            ps.setInt(1, idMesa);
+
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                return rs.getInt("id_pedido");
+            }
+
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+
+        return 0;
     }
 }

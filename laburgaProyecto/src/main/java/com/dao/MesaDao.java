@@ -119,7 +119,8 @@ public class MesaDao {
             System.out.println("Estado de mesa " + idMesa + " actualizado a: " + nuevoEstado + " ===");
 
         } catch (Exception e) {
-            System.out.println("Error al actualizar estado de mesa: " + e.getMessage());
+            //System.out.println("Error al actualizar estado de mesa: " + e.getMessage());
+            e.printStackTrace();
         }
 
     }
@@ -127,7 +128,7 @@ public class MesaDao {
 
     public List<Mesa> listarMesasPendientesCobro() {
         List<Mesa> lista = new ArrayList<>();
-        String sql = "SELECT * FROM mesas WHERE estado_mesa = 'pediente_cobro'";
+        String sql = "SELECT * FROM mesas WHERE estado_mesa = 'pendiente_cobro'";
         try {
             // Conexión y ejecución de tu consulta SQL...
             // (Usa la misma estructura que ya tienes en listarMesas())

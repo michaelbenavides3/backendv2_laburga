@@ -54,7 +54,7 @@
                         <h3>Mesa 1</h3>
                         <p class="estado--mesa">Estado: <%= estadoMesa1.toUpperCase()%> </p>
                         <%if (estadoMesa1.equals("ocupada")) { %>
-                        <a href="../CambiarEstadoMesa?idMesa=1&estado=pendiente_cobro" class=" btn-amarillo">Solicitar Cuenta</a>
+                        <a href="../CambiarEstadoMesa?idMesa=1&estado=pendiente_cobro" class=" btn-amarillo pendiente_cobro ">Solicitar Cuenta</a>
 
                         <%} else if (estadoMesa1.equals("pendiente_cobro")) { %>
                         <span class="etiqueta-amarilla">Esperando en Caja....</span>
@@ -76,7 +76,7 @@
                         <h3>Mesa 2</h3>
                         <p class="estado--mesa">Estado: <%= estadoMesa2.toUpperCase()%> </p>
                         <%if (estadoMesa2.equals("ocupada")) { %>
-                        <a href="../CambiarEstadoMesa?idMesa=2&estado=pendiente_cobro" class=" btn-amarillo">Solicitar Cuenta</a>
+                        <a href="../CambiarEstadoMesa?idMesa=2&estado=pendiente_cobro" class=" btn-amarillo pendiente_cobro">Solicitar Cuenta</a>
 
                         <%} else if (estadoMesa2.equals("pendiente_cobro")) { %>
                         <span class="etiqueta-amarilla">Esperando en Caja....</span>
@@ -98,7 +98,7 @@
                         <h3>Mesa 3</h3>
                         <p class="estado--mesa">Estado: <%= estadoMesa3.toUpperCase()%> </p>
                         <%if (estadoMesa3.equals("ocupada")) { %>
-                        <a href="../CambiarEstadoMesa?idMesa=3&estado=pendiente_cobro" class=" btn-amarillo">Solicitar Cuenta</a>
+                        <a href="../CambiarEstadoMesa?idMesa=3&estado=pendiente_cobro" class=" btn-amarillo pendiente_cobro">Solicitar Cuenta</a>
 
                         <%} else if (estadoMesa3.equals("pendiente_cobro")) { %>
                         <span class="etiqueta-amarilla">Esperando en Caja....</span>
@@ -120,7 +120,7 @@
                         <h3>Mesa 4</h3>
                         <p class="estado--mesa">Estado: <%= estadoMesa4.toUpperCase()%> </p>
                         <%if (estadoMesa4.equals("ocupada")) { %>
-                        <a href="../CambiarEstadoMesa?idMesa=4&estado=pendiente_cobro" class=" btn-amarillo">Solicitar Cuenta</a>
+                        <a href="../CambiarEstadoMesa?idMesa=4&estado=pendiente_cobro" class=" btn-amarillo pendiente_cobro">Solicitar Cuenta</a>
 
                         <%} else if (estadoMesa4.equals("pendiente_cobro")) { %>
                         <span class="etiqueta-amarilla">Esperando en Caja....</span>
@@ -142,7 +142,7 @@
                         <h3>Mesa 5</h3>
                         <p class="estado--mesa">Estado: <%= estadoMesa5.toUpperCase()%> </p>
                         <%if (estadoMesa5.equals("ocupada")) { %>
-                        <a href="../CambiarEstadoMesa?idMesa=5&estado=pendiente_cobro" class=" btn-amarillo">Solicitar Cuenta</a>
+                        <a href="../CambiarEstadoMesa?idMesa=5&estado=pendiente_cobro" class=" btn-amarillo pendiente_cobro">Solicitar Cuenta</a>
 
                         <%} else if (estadoMesa5.equals("pendiente_cobro")) { %>
                         <span class="etiqueta-amarilla">Esperando en Caja....</span>
@@ -164,7 +164,7 @@
                         <h3>Mesa 6</h3>
                         <p class="estado--mesa">Estado: <%= estadoMesa6.toUpperCase()%> </p>
                         <%if (estadoMesa6.equals("ocupada")) { %>
-                        <a href="../CambiarEstadoMesa?idMesa=6&estado=pendiente_cobro" class=" btn-amarillo">Solicitar Cuenta</a>
+                        <a href="../CambiarEstadoMesa?idMesa=6&estado=pendiente_cobro" class=" btn-amarillo pendiente_cobro">Solicitar Cuenta</a>
 
                         <%} else if (estadoMesa6.equals("pendiente_cobro")) { %>
                         <span class="etiqueta-amarilla">Esperando en Caja....</span>
@@ -186,7 +186,7 @@
                         <h3>Mesa 7</h3>
                         <p class="estado--mesa">Estado: <%= estadoMesa1.toUpperCase()%> </p>
                         <%if (estadoMesa7.equals("ocupada")) { %>
-                        <a href="../CambiarEstadoMesa?idMesa=7&estado=pendiente_cobro" class=" btn-amarillo">Solicitar Cuenta</a>
+                        <a href="../CambiarEstadoMesa?idMesa=7&estado=pendiente_cobro" class=" btn-amarillo pendiente_cobro">Solicitar Cuenta</a>
 
                         <%} else if (estadoMesa7.equals("pendiente_cobro")) { %>
                         <span class="etiqueta-amarilla">Esperando en Caja....</span>
@@ -208,7 +208,7 @@
                         <h3>Mesa 8</h3>
                         <p class="estado--mesa">Estado: <%= estadoMesa1.toUpperCase()%> </p>
                         <%if (estadoMesa8.equals("ocupada")) { %>
-                        <a href="../CambiarEstadoMesa?idMesa=8&estado=pendiente_cobro" class=" btn-amarillo">Solicitar Cuenta</a>
+                        <a href="../CambiarEstadoMesa?idMesa=8&estado=pendiente_cobro" class=" btn-amarillo pendiente_cobro">Solicitar Cuenta</a>
 
                         <%} else if (estadoMesa8.equals("pendiente_cobro")) { %>
                         <span class="etiqueta-amarilla">Esperando en Caja....</span>
