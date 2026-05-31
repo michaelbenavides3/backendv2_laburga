@@ -25,7 +25,8 @@
                     <input type="email" name="email" required>
 
                     <label>Telefono:</label>
-                    <input type="tel" name="telefono">
+                    <input type="tel" name="telefono" pattern="[0-9]{0, 10)" title="Solo aceptan Numeros"
+                       maxlength="10" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
 
                     <!-- <label>Rol:</label>
                     <select name="rol">
@@ -41,11 +42,11 @@
                     <input type="password" name="password">
                     <label for="idRol">Asignar Rol:</label>
                     <select name="idRol" id="idRol" required>
-                        <option value="1">-------</option>
-                        <option value="2">Mesero</option>
-                        <option value="3">Cajero</option>
-                        <option value="4">Cocinero</option>
-                        <option value="5">Administrador</option>
+                        <option value="0">-------</option>
+                        <option value="1">Mesero</option>
+                        <option value="2">Cajero</option>
+                        <option value="3">Cocinero</option>
+                        <option value="4">Administrador</option>
                     </select>
                     <div class="form__botones">
                         <button type="submit" class="btn btn-naranja">Registrar</button>

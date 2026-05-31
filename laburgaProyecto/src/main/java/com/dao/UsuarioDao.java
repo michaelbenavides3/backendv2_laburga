@@ -17,63 +17,85 @@ public class UsuarioDao {
     //registrarnuevousuario es el nombre del metodo
     //donde recive un usuario
     //y se almace en una variable llamada nuevousuarioobjeto
-    public boolean registrarNuevoUsuario(Usuario nuevoUsuarioObjeto) {
+    public int registrarNuevoUsuario(Usuario nuevoUsuarioObjeto) {
 
-        //variable para la conexion fisisca y vacia para no generar conflictos
+        // Conexión física con la base de datos
         Connection conexionFisicaBaseDatos = null;
-        //variable para preparar la orden de insercion y tambien se deja null desde el princicipo
+
+        // Sentencia SQL preparada para insertar el usuario
         PreparedStatement sentenciaSqlPreparada = null;
-        //esta variable empieza en false y solo pasara a verdadero si la inserccion funciona
-        boolean operacionRegistroExitosa = false;
 
-        //llamo la instruccion sql exacta tal cuadl como es en mysql 
-        //nota no inserto "id_usuario" porque es autoincremetn, ni el estado ni la fecha porque tiene valores
-        //por defecto lo estoy utilizando con default
-        String consultaInsertarSql = "INSERT INTO usuario (nombre_completo, nombre_usuario, contraseña_usuario, id_rol) VALUES (?, ?, ?, ?)";
+        // ResultSet para capturar el ID generado por MySQL
+        ResultSet resultadoIdGenerado = null;
 
-        //ABRO MI BLOQUE DE CON EL TRY, evitando que es software se rompa
+        // Aquí guardaremos el ID del usuario recién creado
+        int idUsuarioGenerado = -1;
+
+        // Consulta SQL de inserción (NO incluye id_usuario porque es AUTO_INCREMENT)
+        String consultaInsertarUsuarioSql
+                = "INSERT INTO usuario (nombre_completo, nombre_usuario, contraseña_usuario, id_rol) VALUES (?, ?, ?, ?)";
+
         try {
-            //abro la comunicacion llamando al metodo get.conexion de mi claseconexion
+            // Abrimos conexión a la base de datos
             conexionFisicaBaseDatos = claseConexion.getConexion();
-            //veririfios si la conexion realmente fucniona
+
             if (conexionFisicaBaseDatos != null) {
 
-                sentenciaSqlPreparada = conexionFisicaBaseDatos.prepareStatement(consultaInsertarSql);
-                //se reemplaza el primer?
+                // Preparamos la consulta permitiendo obtener el ID generado
+                sentenciaSqlPreparada = conexionFisicaBaseDatos.prepareStatement(
+                        consultaInsertarUsuarioSql,
+                        PreparedStatement.RETURN_GENERATED_KEYS
+                );
+
+                // Asignamos los valores del objeto Usuario
                 sentenciaSqlPreparada.setString(1, nuevoUsuarioObjeto.getNombreCompleto());
                 sentenciaSqlPreparada.setString(2, nuevoUsuarioObjeto.getNombreUsuario());
                 sentenciaSqlPreparada.setString(3, nuevoUsuarioObjeto.getContraseñaUsuario());
                 sentenciaSqlPreparada.setInt(4, nuevoUsuarioObjeto.getIdRol());
 
-                //manda ls instrucciones a mysql para guardar modificar o eliminar datos
-                int cantidadFilasAfectadas = sentenciaSqlPreparada.executeUpdate();
+                // Ejecutamos el INSERT en la base de datos
+                int filasAfectadas = sentenciaSqlPreparada.executeUpdate();
 
-                //comprobamos si es mayor a 0 significa que el usaurio fue crado
-                if (cantidadFilasAfectadas > 0) {
+                // Verificamos si realmente se insertó el usuario
+                if (filasAfectadas > 0) {
 
-                    operacionRegistroExitosa = true;
+                    // Obtenemos el ID generado automáticamente por MySQL
+                    resultadoIdGenerado = sentenciaSqlPreparada.getGeneratedKeys();
 
-                    System.out.println("el nuevo empleado se registro correctamente");
+                    if (resultadoIdGenerado.next()) {
+                        idUsuarioGenerado = resultadoIdGenerado.getInt(1);
+                    }
+
+                    System.out.println("El nuevo empleado se registró correctamente");
+                    System.out.println("ID del usuario generado: " + idUsuarioGenerado);
                 }
             }
-        } catch (SQLException errorbaseDatos) {
-            System.out.println("error al intentar registrar el nuevo usuario en la base de datos: " + errorbaseDatos.getMessage());
+
+        } catch (SQLException errorBaseDatos) {
+            System.out.println("Error al registrar usuario en la base de datos: " + errorBaseDatos.getMessage());
 
         } finally {
             try {
+                if (resultadoIdGenerado != null) {
+                    resultadoIdGenerado.close();
+                }
+
                 if (sentenciaSqlPreparada != null) {
                     sentenciaSqlPreparada.close();
-
                 }
+
                 if (conexionFisicaBaseDatos != null) {
                     conexionFisicaBaseDatos.close();
-                    System.out.println("conexion de registro de usuario cerrada de manera ordenada");
+                    System.out.println("Conexión cerrada correctamente");
                 }
-            } catch (SQLException errorAlCerrar) {
-                System.out.println("error al ceera los canales de datos de usuarios: " + errorAlCerrar.getMessage());
+
+            } catch (SQLException errorCerrar) {
+                System.out.println("Error al cerrar conexiones: " + errorCerrar.getMessage());
             }
         }
-        return operacionRegistroExitosa;
+
+        // Retornamos el ID real del usuario creado
+        return idUsuarioGenerado;
     }
 
     //metodo get para traer la lista de los empleados registrados

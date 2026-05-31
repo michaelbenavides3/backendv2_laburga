@@ -44,22 +44,16 @@ public class UsuarioControlador extends HttpServlet {
         CorreoUsuarioDao cDao = new CorreoUsuarioDao();
 
         // 4. Lógica de inserción múltiple
-        boolean registrado = uDao.registrarNuevoUsuario(u);
+        int idUsuarioCreado = uDao.registrarNuevoUsuario(u);
 
-        if (registrado) {
-            try (Connection con = claseConexion.getConexion()) {
-                // Obtenemos el ID que se acaba de generar para asociar los datos
-                int idRecienCreado = uDao.obtenerUltimoIdInsertado(con);
+        if (idUsuarioCreado > 0) {
 
-                // Registramos en tablas satélite
-                tDao.insertarTelefono(idRecienCreado, telefono);
-                cDao.insertarCorreo(idRecienCreado, email);
+            // 5. INSERTAR DATOS SATÉLITE CON EL ID REAL
+            tDao.insertarTelefono(idUsuarioCreado, telefono);
+            cDao.insertarCorreo(idUsuarioCreado, email);
 
-                response.sendRedirect("html/a-panel-principal-admin.jsp?exito=1");
-            } catch (SQLException e) {
-                System.out.println("Error al registrar datos satélite: " + e.getMessage());
-                response.sendRedirect("html/a-nuevo-usuario.jsp?error=2");
-            }
+            response.sendRedirect("html/a-panel-principal-admin.jsp?exito=1");
+
         } else {
             response.sendRedirect("html/a-nuevo-usuario.jsp?error=1");
         }
