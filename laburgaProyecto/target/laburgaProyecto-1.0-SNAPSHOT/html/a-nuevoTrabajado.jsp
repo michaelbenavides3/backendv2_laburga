@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <title>Labur-Ga | Administrador</title>
+        <link rel="stylesheet" href="../css/style.css">
+        <link rel="stylesheet" href="../css/nuevotrabjador.css">
+        <link rel="stylesheet" href="../css/variables.css">
+    </head>
+    <body class="admin">
+
+        <header class="encabezado">
+            <h1>Panel del Administrador</h1>
+            <p>Gestión de trabajadores y reportes</p>
+        </header>
+
+        <main>
+            <section class="nuevo-trabajador">
+                <h2>Agregar nuevo trabajador</h2>
+                <form action="<%= request.getContextPath() %>/UsuarioControlador" method="POST">
+                    <label>Nombre completo:</label>
+                    <input type="text" name="nombre">
+
+                    <label>Correo electrónico:</label>
+                    <input type="email" name="email" required>
+
+                    <label>Telefono:</label>
+                    <input type="tel" name="telefono">
+
+                    <!-- <label>Rol:</label>
+                    <select name="rol">
+                      <option value="mesero">Mesero</option>
+                      <option value="cajero">Cajero</option>
+                      <option value="cajero">Cocinero</option>
+                      <option value="cajero">Administrador</option>
+                      <option value="admin">Administrador</option>
+                    </select> -->
+                    <label>Usuario:</label>
+                    <input type="text" name="usuario">
+                    <label>Contraseña:</label>
+                    <input type="password" name="password">
+                    <label for="idRol">Asignar Rol:</label>
+                    <select name="idRol" id="idRol" required>
+                        <option value="1">-------</option>
+                        <option value="2">Mesero</option>
+                        <option value="3">Cajero</option>
+                        <option value="4">Cocinero</option>
+                        <option value="5">Administrador</option>
+                    </select>
+                    <div class="form__botones">
+                        <button type="submit" class="btn btn-naranja">Registrar</button>
+                        <button type="reset" class="btn btn-rojo">Cancelar</button>
+                    </div>
+                </form>
+            </section>
+        </main>
+
+        <footer class="footer">
+            <p>&copy; 2025 Labur-Ga. Todos los derechos reservados.</p>
+        </footer>
+
+    </body>
+</html>

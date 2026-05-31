@@ -229,5 +229,15 @@ public class UsuarioDao {
         return usuarioValidadoEncontrado;
     }
 
-}
+    // Agrega esto en tu UsuarioDao.java
+    public int obtenerUltimoIdInsertado(Connection con) throws SQLException {
+        String sql = "SELECT LAST_INSERT_ID()";
+        try (PreparedStatement ps = con.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+        }
+        return 0;
+    }
 
+}

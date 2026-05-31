@@ -1,3 +1,5 @@
+<%@page contentType="text/html" pageEncoding="UTF-8"%>    
+
 <!DOCTYPE html>
 <html lang="es">
 
@@ -11,7 +13,7 @@
 <body>
   <!-- Header -->
   <header class="header">
-    <h1>Gestión del Sistema - Panel Administrador</h1>
+    <h1>GestiÃ³n del Sistema - Panel Administrador</h1>
   </header>
 
   <!-- Layout principal -->
@@ -20,20 +22,20 @@
     <aside class="sidebar">
       <h2>Opciones Administrador</h2>
       <nav>
-        <a href="a-nuevoTrabajado.html" class="btn">Nuevo Usuario</a>
-        <a href="a-actualizar-menu.html" class="btn">Asignar Rol</a>
+        <a href="a-nuevoTrabajado.jsp" class="btn">Nuevo Usuario</a>
+        <!-- <a href="a-actualizar-menu.html" class="btn">Asignar Rol</a> -->
         <a href="a-desactivar-usuario.html" class="btn">Desactivar Usuario</a>
-        <a href="a-gestionar-permisos.html" class="btn">Permisos</a>
-        <a href="a-restablecer-pwss.html" class="btn">Restablecer Contraseña</a>
-        <a href="a-actualizar-menu.html" class="btn">Actualizar Menú</a>
-        <a href="../CerrarSesion" class="btn">Cerrar Sesión</a>
+       <!-- <a href="a-gestionar-permisos.html" class="btn">Permisos</a> -->
+        <!-- <a href="a-restablecer-pwss.html" class="btn">Restablecer ContraseÃ±a</a> -->
+        <!-- <a href="a-actualizar-menu.html" class="btn">Actualizar MenÃº</a> -->
+        <a href="../cerrarSesion" class="btn">Cerrar SesiÃ³n</a>
       </nav>
     </aside>
 
     <!-- Contenido principal -->
     <main class="contenido">
       <div class="logo-container">
-        <img src="../recurso/logo-burguer.png" alt="Logo Hamburguesería">
+        <img src="../recurso/logo-burguer.png" alt="Logo HamburgueserÃ­a">
       </div>
     </main>
   </div>

@@ -1,5 +1,6 @@
 com\dao\DetallePedidoDao.class
 com\dao\ClienteDao.class
+com\controlador\UsuarioControlador.class
 com\modelo\Permisos.class
 com\conexion\PruebaRoles.class
 com\controlador\CambiarEstadoMesa.class
@@ -7,6 +8,7 @@ com\conexion\PruebaProductos.class
 com\dao\ProductosDao.class
 com\modelo\TelefonoUsuarios.class
 com\conexion\PruebaUsuarios.class
+com\dao\TelefonoUsuarioDao.class
 com\conexion\PruebaMesa.class
 com\dao\PedidoDao.class
 com\controlador\cerrarSesion.class
@@ -16,6 +18,7 @@ com\dao\PermisosDAO.class
 com\controlador\CajeroControlador.class
 com\controlador\ClienteControlador.class
 com\controlador\FinalizarCobro.class
+com\dao\CorreoUsuarioDao.class
 com\dao\RolesDao.class
 com\modelo\Mesa.class
 com\dao\MesaDao.class
@@ -39,3 +42,4 @@ com\conexion\PruebaIngresarPermisos.class
 com\controlador\LoginControlador.class
 com\modelo\Roles.class
 com\modelo\Usuario.class
+com\modelo\TelefonoUsuario.class

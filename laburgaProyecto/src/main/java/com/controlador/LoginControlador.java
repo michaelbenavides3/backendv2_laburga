@@ -40,7 +40,7 @@ public class LoginControlador extends HttpServlet {
 
             // Redirecciones
             if (empleadoLogeado.getIdRol() == 4) {
-                respuestaWeb.sendRedirect("html/a-panel-principal-admin.html");
+                respuestaWeb.sendRedirect("html/a-panel-principal-admin.jsp");
             } else if (empleadoLogeado.getIdRol() == 1) {
                 respuestaWeb.sendRedirect("html/m-meserocopy.jsp");
             } else if (empleadoLogeado.getIdRol() == 2) {

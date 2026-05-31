@@ -3,11 +3,13 @@ D:\michael\enzy\backend_v2\backendv2_laburga\laburgaProyecto\src\main\java\com\d
 D:\michael\enzy\backend_v2\backendv2_laburga\laburgaProyecto\src\main\java\com\dao\RolesDao.java
 D:\michael\enzy\backend_v2\backendv2_laburga\laburgaProyecto\src\main\java\com\conexion\PruebaRoles.java
 D:\michael\enzy\backend_v2\backendv2_laburga\laburgaProyecto\src\main\java\com\conexion\Prueba.java
+D:\michael\enzy\backend_v2\backendv2_laburga\laburgaProyecto\src\main\java\com\dao\CorreoUsuarioDao.java
 D:\michael\enzy\backend_v2\backendv2_laburga\laburgaProyecto\src\main\java\com\dao\DetallePedidoDao.java
 D:\michael\enzy\backend_v2\backendv2_laburga\laburgaProyecto\src\main\java\com\dao\UsuarioDao.java
 D:\michael\enzy\backend_v2\backendv2_laburga\laburgaProyecto\src\main\java\com\controlador\CajeroControlador.java
 D:\michael\enzy\backend_v2\backendv2_laburga\laburgaProyecto\src\main\java\com\dao\RolPermisoDao.java
 D:\michael\enzy\backend_v2\backendv2_laburga\laburgaProyecto\src\main\java\com\modelo\CorreoUsuario.java
+D:\michael\enzy\backend_v2\backendv2_laburga\laburgaProyecto\src\main\java\com\modelo\TelefonoUsuario.java
 D:\michael\enzy\backend_v2\backendv2_laburga\laburgaProyecto\src\main\java\com\modelo\Pedido.java
 D:\michael\enzy\backend_v2\backendv2_laburga\laburgaProyecto\src\main\java\com\controlador\CambiarEstadoMesa.java
 D:\michael\enzy\backend_v2\backendv2_laburga\laburgaProyecto\src\main\java\com\modelo\Permisos.java
@@ -26,6 +28,7 @@ D:\michael\enzy\backend_v2\backendv2_laburga\laburgaProyecto\src\main\java\com\c
 D:\michael\enzy\backend_v2\backendv2_laburga\laburgaProyecto\src\main\java\com\modelo\DetallePedido.java
 D:\michael\enzy\backend_v2\backendv2_laburga\laburgaProyecto\src\main\java\com\modelo\Mesa.java
 D:\michael\enzy\backend_v2\backendv2_laburga\laburgaProyecto\src\main\java\com\conexion\claseConexion.java
+D:\michael\enzy\backend_v2\backendv2_laburga\laburgaProyecto\src\main\java\com\controlador\UsuarioControlador.java
 D:\michael\enzy\backend_v2\backendv2_laburga\laburgaProyecto\src\main\java\com\controlador\PedidoControlador.java
 D:\michael\enzy\backend_v2\backendv2_laburga\laburgaProyecto\src\main\java\com\controlador\SolicitarCuenta.java
 D:\michael\enzy\backend_v2\backendv2_laburga\laburgaProyecto\src\main\java\com\modelo\Roles.java
@@ -33,6 +36,7 @@ D:\michael\enzy\backend_v2\backendv2_laburga\laburgaProyecto\src\main\java\com\c
 D:\michael\enzy\backend_v2\backendv2_laburga\laburgaProyecto\src\main\java\com\modelo\Productos.java
 D:\michael\enzy\backend_v2\backendv2_laburga\laburgaProyecto\src\main\java\com\mycompany\laburgaproyecto\resources\JakartaEE10Resource.java
 D:\michael\enzy\backend_v2\backendv2_laburga\laburgaProyecto\src\main\java\com\controlador\cerrarSesion.java
+D:\michael\enzy\backend_v2\backendv2_laburga\laburgaProyecto\src\main\java\com\dao\TelefonoUsuarioDao.java
 D:\michael\enzy\backend_v2\backendv2_laburga\laburgaProyecto\src\main\java\com\dao\PedidoDao.java
 D:\michael\enzy\backend_v2\backendv2_laburga\laburgaProyecto\src\main\java\com\controlador\LoginControlador.java
 D:\michael\enzy\backend_v2\backendv2_laburga\laburgaProyecto\src\main\java\com\dao\MesaDao.java
