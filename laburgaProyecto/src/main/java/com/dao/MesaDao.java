@@ -2,142 +2,75 @@ package com.dao;
 
 import com.conexion.claseConexion;
 import com.modelo.Mesa;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class MesaDao {
 
+    // metodo para crear las mesas si no existen (solo se corre al inicio)
     public void inicializarMesasDefault() {
         Connection accesoBD = claseConexion.getConexion();
-        PreparedStatement verificar = null;
-        PreparedStatement insertar = null;
-        ResultSet rs = null;
-
+        
         try {
+            // primero pregunto si ya hay mesas para no duplicar datos
             String sqlCheck = "SELECT COUNT(*) FROM mesas";
-            verificar = accesoBD.prepareStatement(sqlCheck);
-            rs = verificar.executeQuery();
+            //(select)indicamos que queremos obtener (count) cuenta cada fila sin importar si tiene null
+            PreparedStatement verificar = accesoBD.prepareStatement(sqlCheck);
+            ResultSet rs = verificar.executeQuery();
 
             if (rs.next() && rs.getInt(1) == 0) {
-                // Cambiado 'capacidad_mesa' por 'capcid_mesa' en el String de inserción
+                // si la tabla esta vacia (0), inserto las 8 mesas por defecto
                 String sqlInsert = "INSERT INTO mesas (numero_mesa, capcidad_mesa, estado_mesa) VALUES "
-                        + "(1, 4, 'disponible'), "
-                        + "(2, 4, 'disponible'), "
-                        + "(3, 2, 'disponible'), "
-                        + "(4, 6, 'disponible'), "
-                        + "(5, 4, 'disponible'), "
-                        + "(6, 4, 'disponible'), "
-                        + "(7, 2, 'disponible'), "
-                        + "(8, 8, 'disponible')";
-
-                insertar = accesoBD.prepareStatement(sqlInsert);
+                        + "(1, 4, 'disponible'), (2, 4, 'disponible'), (3, 2, 'disponible'), "
+                        + "(4, 6, 'disponible'), (5, 4, 'disponible'), (6, 4, 'disponible'), "
+                        + "(7, 2, 'disponible'), (8, 8, 'disponible')";
+                
+                PreparedStatement insertar = accesoBD.prepareStatement(sqlInsert);
                 insertar.executeUpdate();
-                System.out.println("=== ¡ÉXITO! 8 Mesas creadas correctamente en MySQL ===");
             }
         } catch (Exception e) {
-            System.out.println("Error al inicializar mesas: " + e.getMessage());
-        } finally {
-            try {
-                if (rs != null) {
-                    rs.close();
-                }
-            } catch (Exception e) {
-            }
-            try {
-                if (verificar != null) {
-                    verificar.close();
-                }
-            } catch (Exception e) {
-            }
-            try {
-                if (insertar != null) {
-                    insertar.close();
-                }
-            } catch (Exception e) {
-            }
+            e.printStackTrace();
         }
     }
 
+    // metodo para traer todas las mesas y ver si estan ocupadas o libres
     public List<Mesa> listarMesas() {
         List<Mesa> lista = new ArrayList<>();
-        Connection accesoBD = claseConexion.getConexion();
-        PreparedStatement operacion = null;
-        ResultSet resultado = null;
+        String sql = "SELECT id_mesas, numero_mesa, capcidad_mesa, estado_mesa FROM mesas";
 
-        // Consutal dinamica si encunetra un pedido en pendiente la marca como ocupada automaticamente
-        // Consulta limpia, plana y segura (Trae los datos directo de la tabla mesas)
-        String sqlQuery = "SELECT id_mesas, numero_mesa, capcidad_mesa, estado_mesa FROM mesas";
+        try (Connection con = claseConexion.getConexion();
+             PreparedStatement ps = con.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
 
-        try {
-            operacion = accesoBD.prepareStatement(sqlQuery);
-            resultado = operacion.executeQuery();
-
-            while (resultado.next()) {
+            while (rs.next()) {
                 Mesa m = new Mesa();
-                m.setIdMesas(resultado.getInt("id_mesas"));
-                m.setNumeroMesa(resultado.getInt("numero_mesa"));
-                // Cambiado para que lea la columna exacta de la BD
-                m.setCapcidadMesa(resultado.getInt("capcidad_mesa"));
-                //aquie se lee la columna calcualada por mysql
-                m.setEstadoMesa(resultado.getString("estado_mesa"));
+                m.setIdMesas(rs.getInt("id_mesas"));
+                m.setNumeroMesa(rs.getInt("numero_mesa"));
+                m.setCapcidadMesa(rs.getInt("capcidad_mesa"));
+                m.setEstadoMesa(rs.getString("estado_mesa"));
                 lista.add(m);
             }
         } catch (Exception e) {
-            System.out.println("Error al listar mesas: " + e.getMessage());
-        } finally {
-            try {
-                if (resultado != null) {
-                    resultado.close();
-                }
-            } catch (Exception e) {
-            }
-            try {
-                if (operacion != null) {
-                    operacion.close();
-                }
-            } catch (Exception e) {
-            }
+            e.printStackTrace();
         }
         return lista;
     }
 
+    // metodo para cambiar el estado (ejemplo: pasar de 'disponible' a 'ocupada')
     public void cambiarEstado(int idMesa, String nuevoEstado) {
+        // el UPDATE cambia solo el estado de la mesa que coincida con el id que le mando
+        String sql = "UPDATE mesas SET estado_mesa = ? WHERE id_mesas = ?";
 
-        //Connection accesoBD = claseConexion.getConexion();
-        //modificar los datos de la tabla mesa ? es el espacio vacia where id_mesas llama solo al id que se le hace el cambio 
-        String sqlConsulta = "UPDATE mesas SET estado_mesa = ? WHERE id_mesas = ?";
+        try (Connection con = claseConexion.getConexion(); 
+             PreparedStatement ps = con.prepareStatement(sql)) {
 
-        try (Connection accesoBD = claseConexion.getConexion(); PreparedStatement operacion = accesoBD.prepareStatement(sqlConsulta)) {
-
-            operacion.setString(1, nuevoEstado);
-            operacion.setInt(2, idMesa);
-
-            operacion.executeUpdate();
-            System.out.println("Estado de mesa " + idMesa + " actualizado a: " + nuevoEstado + " ===");
-
-        } catch (Exception e) {
-            //System.out.println("Error al actualizar estado de mesa: " + e.getMessage());
-            e.printStackTrace();
-        }
-
-    }
-//metodo para listar mesas pendietne de cobro
-
-    public List<Mesa> listarMesasPendientesCobro() {
-        List<Mesa> lista = new ArrayList<>();
-        String sql = "SELECT * FROM mesas WHERE estado_mesa = 'pendiente_cobro'";
-        try {
-            // Conexión y ejecución de tu consulta SQL...
-            // (Usa la misma estructura que ya tienes en listarMesas())
+            ps.setString(1, nuevoEstado); // el nuevo estado (ej. 'ocupada')
+            ps.setInt(2, idMesa);         // la mesa que quiero cambiar
+            ps.executeUpdate();
+            
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return lista;
     }
-
-   
-
 }

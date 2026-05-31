@@ -142,9 +142,24 @@
     background-color: red;
 }
 
+.btn-regresar {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #4CAF50; /* Un verde profesional */
+    color: white;
+    text-decoration: none; /* Quita la línea azul del link */
+    border-radius: 5px; /* Bordes redondeados */
+    font-weight: bold;
+    text-align: center;
+    transition: background-color 0.3s;
+}
+
+.btn-regresar:hover {
+    background-color: #45a049; /* Cambia de color al pasar el mouse */
+}
 /* 
    RESPONSIVE
-*/
+    */
 
 @media (max-width: 768px) {
 

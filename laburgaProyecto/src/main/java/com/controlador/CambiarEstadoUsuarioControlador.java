@@ -31,7 +31,8 @@ public class CambiarEstadoUsuarioControlador extends HttpServlet {
         try {
 
           
-            // RECIBIR LOS DATOS ENVIADOS DESDE EL JSP
+           // atrapo el id del usuario y el estado que quiero poner (activo o inactivo)
+            // los recibo como texto de la url y convierto el id a numero
             
             int identificadorUsuario = Integer.parseInt(peticionWeb.getParameter("idUsuario"));
 
@@ -42,18 +43,18 @@ public class CambiarEstadoUsuarioControlador extends HttpServlet {
             System.out.println("nuevo estado: "+ nuevoEstadoUsuario);
 
             
-            // CREAR EL DAO
+            // creo el da
             
             UsuarioDao administradorUsuarios= new UsuarioDao();
 
             
-            // EJECUTAR LA ACTUALIZACIÓN
+            // se ejcuta la actualizacion
             
             boolean operacionExitosa = administradorUsuarios.actualizarEstadoUsuario(identificadorUsuario,nuevoEstadoUsuario);
 
            
-            // MOSTRAR RESULTADO EN CONSOLA
-           
+            
+           //imprimo por consola para saber que esta funcionando
             if (operacionExitosa) {
                 System.out.println("estado actualizado correctamente");
 
@@ -69,7 +70,8 @@ public class CambiarEstadoUsuarioControlador extends HttpServlet {
         }
 
         
-        // VOLVER A CARGAR EL LISTADO
+        // despues de hacer el cambio, redirecciono al listar usuarios
+        // para que la pagina se refresque y se vea el cambio hecho
        
         respuestaWeb.sendRedirect(peticionWeb.getContextPath()+ "/ListarUsuariosControlador");
     }

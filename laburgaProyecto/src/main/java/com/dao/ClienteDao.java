@@ -101,6 +101,7 @@ public class ClienteDao {
     /**
      * VALIDA SI UN CLIENTE YA EXISTE POR CÉDULA
      * Busca en MySQL si el documento de identidad ya se encuentra registrado.
+     * etse metodo se utiliza en en clientecontrolador, para saber si la cc ya existe no deja registar 
      */
     public boolean existeCliente(String cedula) {
         Connection accesoBD = claseConexion.getConexion();

@@ -23,7 +23,7 @@ public class UsuarioControlador extends HttpServlet {
         System.out.println("Nombre: " + request.getParameter("nombre"));
         System.out.println("Usuario: " + request.getParameter("usuario"));
 
-        // 1. Recibir datos del formulario
+        // Recibir datos del formulario
         String nombre = request.getParameter("nombre");
         String email = request.getParameter("email");
         String telefono = request.getParameter("telefono");
@@ -31,24 +31,24 @@ public class UsuarioControlador extends HttpServlet {
         String password = request.getParameter("password");
         int idRol = Integer.parseInt(request.getParameter("idRol"));
 
-        // 2. Crear objeto Usuario (Modelo correcto)
+        // Crear objeto Usuario (Modelo correcto)
         Usuario u = new Usuario();
         u.setNombreCompleto(nombre);
         u.setNombreUsuario(usuario);
         u.setContraseñaUsuario(password);
         u.setIdRol(idRol);
 
-        // 3. Instanciar los DAOs
+        // nstanciar los DAOs
         UsuarioDao uDao = new UsuarioDao();
         TelefonoUsuarioDao tDao = new TelefonoUsuarioDao();
         CorreoUsuarioDao cDao = new CorreoUsuarioDao();
 
-        // 4. Lógica de inserción múltiple
+        // ógica de inserción múltiple
         int idUsuarioCreado = uDao.registrarNuevoUsuario(u);
 
         if (idUsuarioCreado > 0) {
 
-            // 5. INSERTAR DATOS SATÉLITE CON EL ID REAL
+            // INSERTAR DATOS SATÉLITE CON EL ID REAL
             tDao.insertarTelefono(idUsuarioCreado, telefono);
             cDao.insertarCorreo(idUsuarioCreado, email);
 

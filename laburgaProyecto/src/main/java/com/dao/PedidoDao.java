@@ -16,7 +16,8 @@ public class PedidoDao {
         java.sql.PreparedStatement operacion = null;
         java.sql.PreparedStatement operacionMesa = null;
         java.sql.ResultSet resultadoClave = null;
-
+        //aqui se ingresa el nuevo perodi, cuando se registre el peiddo con e update modificamos mesas estadomesa pasa a ocupada
+        //asi evitamos que 2 meseros usen la misma mesa y registren el pedido encima de una 
         String sqlPedido = "INSERT INTO pedidos (id_mesa, id_mesero, estado_pedido) VALUES (?, ?, ?)";
         String sqlMesa = "UPDATE mesas SET estado_mesa = 'ocupada' WHERE id_mesas = ?";
 
@@ -75,6 +76,7 @@ public class PedidoDao {
         PreparedStatement operacion;
 
         // SQL limpio apuntando a tu tabla de detalles (Ajusta los nombres si cambian en tu BD)
+        //insertameos en detallepedido los valroes, esto lo captura al momento de hacer el pedido
         String sqlQuery = "INSERT INTO detallePedido (id_pedido, id_producto, cantidad_producto, precio_unitarioventa) VALUES (?, ?, ?, ?)";
 
         try {
@@ -91,8 +93,9 @@ public class PedidoDao {
             return false;
         }
     }
-
+    //cambia el estado del pedido (ej. de activo a pendiente_cobro)
     public void actualizarEstadoPedido(int idPedido, String nuevoEstado) {
+        //con el update le dceimos a la bd modificar pedidos, estadopedido, con el where se le aplica el cambio al idpedido
         String sql = "UPDATE pedidos SET estado_pedido = ? WHERE id_pedido = ?";
         try (Connection con = claseConexion.getConexion(); PreparedStatement ps = con.prepareStatement(sql)) {
 
@@ -104,17 +107,18 @@ public class PedidoDao {
             System.out.println("Error al actualizar estado del pedido: " + e.getMessage());
         }
     }
-
+    //lista pedidos pendientes para el cajero
     public List<Pedido> listarPedidosPendientes() {
         List<Pedido> lista = new ArrayList<>();
         // Usamos SUM para calcular el total y GROUP_CONCAT para mostrar los productos
+        //aquie unimos 3 tablas,, es para armar el ticket paa cobrar
         String sql = "SELECT p.id_pedido, p.id_mesa, "
                 + "GROUP_CONCAT(prod.nombre_producto SEPARATOR ', ') as detalle, "
                 + "SUM(dp.cantidad_producto * dp.precio_unitarioventa) as total "
                 + "FROM pedidos p "
-                + "JOIN detallePedido dp ON p.id_pedido = dp.id_pedido "
-                + "JOIN productos prod ON dp.id_producto = prod.id_producto "
-                + "WHERE p.estado_pedido = 'pendiente_cobro' "
+                + "JOIN detallePedido dp ON p.id_pedido = dp.id_pedido " //con el join unimos cada pedido para saber los pedidos qeue se encuenta ordenados
+                + "JOIN productos prod ON dp.id_producto = prod.id_producto "  
+                + "WHERE p.estado_pedido = 'pendiente_cobro' "//con where se filtran para agrupar ls pedidos que ya se encutran listo para para pagar
                 + "GROUP BY p.id_pedido";
 
         try (Connection con = claseConexion.getConexion(); PreparedStatement ps = con.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
@@ -132,9 +136,9 @@ public class PedidoDao {
         }
         return lista;
     }
-
+    //marca el pedido para que el cajero sepa que debe cobrarlo
     public boolean solicitarCuenta(int idPedido) {
-
+        //update es para modificar la tabla pedidos, set cambia la columna estado y se activa como pendietnecobro con el where solo afecta wl idpedido que se llama 
         String sql = "UPDATE pedidos SET estado_pedido='pendiente_cobro' WHERE id_pedido=?";
 
         try (
@@ -150,8 +154,12 @@ public class PedidoDao {
 
         return false;
     }
-
+    //busca el pedido que esta abierto en una mesa
     public int obtenerPedidoActivoPorMesa(int idMesa) {
+        
+        //con select utilizamos para encontrar el pedido activo de una mesa
+        //con where filtraos solo los pedidos activos
+        //order by es para odenar los pedidos del ms nuevo al antiguo
 
         String sql = """
         SELECT id_pedido
@@ -179,7 +187,7 @@ public class PedidoDao {
 
         return 0;
     }
-
+    //obtiene un pedido completo por su ID para mostrar el resumen
     public Pedido obtenerPedidoPorId(int idPedido) {
 
         Pedido p = null;

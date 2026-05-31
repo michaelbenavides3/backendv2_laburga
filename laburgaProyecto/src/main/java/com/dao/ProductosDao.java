@@ -86,6 +86,7 @@ public class ProductosDao {
         ResultSet filasResultadosSql = null; // Aquí se guardará lo que responda MySQL
 
         // La orden para pedirle todos los productos a la base de datos
+        //con select traemos todo los detalle productos de la carta 
         String consultaSeleccionarSql = "SELECT id_producto, nombre_producto, descripcion_producto, precio_base_producto, categoria_producto, disponible_producto FROM productos";
 
         try {

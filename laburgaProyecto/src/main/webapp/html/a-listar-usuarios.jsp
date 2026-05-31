@@ -152,7 +152,11 @@
 
             </div>
 
+                       
+                        <a href="html/a-panel-principal-admin.jsp" class="btn-regresar">Regresar</a>
+                        
         </main>
+                        
 
         <!-- 
              PIE DE PAGINA

@@ -397,7 +397,11 @@ public class UsuarioDao {
         PreparedStatement sentenciaSqlPreparada = null;
 
         boolean operacionActualizacionExitosa = false;
-
+        /*
+        UPDATE usuario:modificar la tabla usuario.
+        SET estado_usuario = ?: el primer ? es el nuevo estado que se quiere poner. Normalmente  valores como 'activo', 'desactivado'.
+        WHERE id_usuario = ?: el segundo ? indica a qué usuario exacto le cambias el estado. Sin el WHERE se cambiaría a todos.
+        */
         String consultaActualizarSql
                 = "UPDATE usuario "
                 + "SET estado_usuario = ? "
