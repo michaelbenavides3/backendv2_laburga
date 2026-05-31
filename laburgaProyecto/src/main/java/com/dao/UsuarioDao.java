@@ -262,4 +262,194 @@ public class UsuarioDao {
         return 0;
     }
 
+    //un metodo para obtener el usaurio con su numero de rol
+    // =====================================================================
+// OPERACIÓN GET:
+// Obtener todos los usuarios junto con el nombre de su rol.
+// =====================================================================
+    public List<Usuario> obtenerListaUsuariosConRol() {
+
+        // Lista vacía donde iré almacenando cada usuario encontrado.
+        List<Usuario> listaDeUsuariosEncontrados = new ArrayList<>();
+
+        // Variable para la conexión física con MySQL.
+        Connection conexionFisicaBaseDatos = null;
+
+        // Variable para preparar la consulta SQL.
+        PreparedStatement sentenciaSqlPreparada = null;
+
+        // Variable que almacenará temporalmente las filas devueltas por MySQL.
+        ResultSet filasResultadosSql = null;
+
+        // Consulta SQL:
+        // Se realiza un INNER JOIN entre la tabla usuario y la tabla roles.
+        //
+        // 
+        // Porque en la tabla usuario solo existe el id_rol.
+        //
+        // 
+        // usuario.id_rol = 2
+        //
+        // Pero el administrador necesita ver:
+        // "cajero"
+        //
+        // Entonces hacemos el JOIN para traer el nombre del rol.
+        String consultaSeleccionarSql
+                = "SELECT "
+                + "usuario.id_usuario, "
+                + "usuario.nombre_completo, "
+                + "usuario.nombre_usuario, "
+                + "usuario.estado_usuario, "
+                + "roles.nombre_rol "
+                + "FROM usuario "
+                + "INNER JOIN roles "
+                + "ON usuario.id_rol = roles.id_rol "
+                + "ORDER BY usuario.id_usuario";
+
+        try {
+
+            // Abrimos la conexión con la base de datos.
+            conexionFisicaBaseDatos = claseConexion.getConexion();
+
+            // Verificamos que la conexión exista.
+            if (conexionFisicaBaseDatos != null) {
+
+                // Preparamos la consulta SQL.
+                sentenciaSqlPreparada
+                        = conexionFisicaBaseDatos.prepareStatement(consultaSeleccionarSql);
+
+                // Ejecutamos la consulta.
+                filasResultadosSql
+                        = sentenciaSqlPreparada.executeQuery();
+
+                // Recorremos una por una todas las filas encontradas.
+                while (filasResultadosSql.next()) {
+
+                    // Creamos un objeto vacío para cargar los datos.
+                    Usuario usuarioTemporalEncontrado = new Usuario();
+
+                    // DATOS DE LA TABLA USUARIO
+                    usuarioTemporalEncontrado.setIdUsuario(
+                            filasResultadosSql.getInt("id_usuario"));
+
+                    usuarioTemporalEncontrado.setNombreCompleto(
+                            filasResultadosSql.getString("nombre_completo"));
+
+                    usuarioTemporalEncontrado.setNombreUsuario(
+                            filasResultadosSql.getString("nombre_usuario"));
+
+                    usuarioTemporalEncontrado.setEstadoUsuario(
+                            filasResultadosSql.getString("estado_usuario"));
+
+                    // DATO DE LA TABLA ROLES
+                    usuarioTemporalEncontrado.setNombreRol(
+                            filasResultadosSql.getString("nombre_rol"));
+
+                    // Agregamos el usuario completamente cargado a la lista.
+                    listaDeUsuariosEncontrados.add(usuarioTemporalEncontrado);
+                }
+            }
+
+        } catch (SQLException errorBaseDatos) {
+
+            System.out.println(
+                    "error al intentar obtener la lista de usuarios con rol: "
+                    + errorBaseDatos.getMessage());
+
+        } finally {
+
+            try {
+
+                if (filasResultadosSql != null) {
+                    filasResultadosSql.close();
+                }
+
+                if (sentenciaSqlPreparada != null) {
+                    sentenciaSqlPreparada.close();
+                }
+
+                if (conexionFisicaBaseDatos != null) {
+
+                    conexionFisicaBaseDatos.close();
+
+                    System.out.println(
+                            "conexion de lectura de usuarios con rol cerrada correctamente");
+                }
+
+            } catch (SQLException errorAlCerrar) {
+
+                System.out.println(
+                        "error al cerrar los recursos de lectura de usuarios: "
+                        + errorAlCerrar.getMessage());
+            }
+        }
+
+        // Devuelvo la lista completa.
+        return listaDeUsuariosEncontrados;
+    }
+
+    // metodo encargado de cambiar el estado de un usuario
+// recibe el id del usuario y el nuevo estado que se desea guardar
+// retorna true si la actualizacion fue exitosa
+    public boolean actualizarEstadoUsuario(int identificadorUsuario,String nuevoEstadoUsuario) {
+
+        Connection conexionFisicaBaseDatos = null;
+        PreparedStatement sentenciaSqlPreparada = null;
+
+        boolean operacionActualizacionExitosa = false;
+
+        String consultaActualizarSql
+                = "UPDATE usuario "
+                + "SET estado_usuario = ? "
+                + "WHERE id_usuario = ?";
+
+        try {
+
+            conexionFisicaBaseDatos = claseConexion.getConexion();
+
+            if (conexionFisicaBaseDatos != null) {
+
+                sentenciaSqlPreparada= conexionFisicaBaseDatos.prepareStatement(consultaActualizarSql);
+
+                // reemplaza el primer ?
+                sentenciaSqlPreparada.setString(1,nuevoEstadoUsuario);
+
+                // reemplaza el segundo ?
+                sentenciaSqlPreparada.setInt(2,identificadorUsuario);
+
+                int cantidadFilasActualizadas= sentenciaSqlPreparada.executeUpdate();
+
+                if (cantidadFilasActualizadas > 0) {operacionActualizacionExitosa = true;
+
+                    System.out.println("estado del usuario actualizado correctamente");
+                }
+            }
+
+        } catch (SQLException errorBaseDatos) {
+
+            System.out.println("error al actualizar estado del usuario: "+ errorBaseDatos.getMessage());
+
+        } finally {
+
+            try {
+
+                if (sentenciaSqlPreparada != null) {
+                    sentenciaSqlPreparada.close();
+                }
+
+                if (conexionFisicaBaseDatos != null) {
+                    conexionFisicaBaseDatos.close();
+
+                    System.out.println("conexion de actualizacion de usuario cerrada");
+                }
+
+            } catch (SQLException errorAlCerrar) {
+
+                System.out.println("error al cerrar actualizacion de usuario: "+ errorAlCerrar.getMessage());
+            }
+        }
+
+        return operacionActualizacionExitosa;
+    }
+
 }

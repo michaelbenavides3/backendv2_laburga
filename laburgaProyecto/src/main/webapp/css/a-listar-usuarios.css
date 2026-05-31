@@ -1,0 +1,160 @@
+@import url(style.css);
+@import url(variables.css);
+
+/* ==========================================
+   CONTENEDOR PRINCIPAL
+========================================== */
+
+.contenedor-principal {
+    width: 95%;
+    max-width: 1200px;
+    margin: 30px auto;
+}
+
+/* ==========================================
+   ENCABEZADO
+========================================== */
+
+.header, .encabezado {
+  width: 100%;
+  margin: 0;
+  padding: 1.5rem ;
+  text-align: center;
+  background-color: var(--crema-claro);
+  border-bottom: 1px solid var(--naranja-medio);
+  margin-right: 0;
+}
+
+.header h2 {
+    font-size: 28px;
+    font-weight: bold;
+}
+
+/* ==========================================
+   CONTENEDOR DE TABLA
+========================================== */
+
+.contenedor-tabla {
+    overflow-x: auto;
+}
+
+/* ==========================================
+   TABLA DE USUARIOS
+========================================== */
+
+.tabla-usuarios {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: white;
+}
+
+/* ==========================================
+   CABECERA DE TABLA
+========================================== */
+
+.tabla-usuarios thead tr {
+    background-color: #222;
+    color: white;
+}
+
+.tabla-usuarios th {
+    padding: 15px;
+    text-align: center;
+}
+
+/* ==========================================
+   FILAS Y COLUMNAS
+========================================== */
+
+.tabla-usuarios td {
+    padding: 12px;
+    text-align: center;
+    border-bottom: 1px solid #dcdcdc;
+}
+
+/* ==========================================
+   EFECTO HOVER
+========================================== */
+
+.tabla-usuarios tbody tr:hover {
+    background-color: #f5f5f5;
+}
+
+/* ==========================================
+   FILAS PARES
+========================================== */
+
+.tabla-usuarios tbody tr:nth-child(even) {
+    background-color: #fafafa;
+}
+
+/* ==========================================
+   ESTADO ACTIVO
+========================================== */
+
+.estado-activo {
+    color: green;
+    font-weight: bold;
+}
+
+/* ==========================================
+   ESTADO INACTIVO
+========================================== */
+
+.estado-inactivo {
+    color: red;
+    font-weight: bold;
+}
+
+/* ==========================================
+   FOOTER
+========================================== */
+
+.footer {
+    margin-top: 40px;
+    text-align: center;
+    padding: 20px;
+}
+
+.footer p {
+    font-size: 14px;
+}
+
+.btn--accion{
+   
+    text-decoration: none;
+    color: white;
+    border: solid 1px black;
+    border-radius: 5px;
+    padding: 10px 10px;
+}
+
+.btn-activar{
+    width: 180px;
+    height: 180px;
+    background-color: green;
+}
+
+.btn-desactivar{
+    width: 180px;
+    height: 180px;
+    background-color: red;
+}
+
+/* ==========================================
+   RESPONSIVE
+========================================== */
+
+@media (max-width: 768px) {
+
+    .tabla-usuarios th,
+    .tabla-usuarios td {
+        padding: 8px;
+        font-size: 12px;
+    }
+
+    .header h2 {
+        font-size: 22px;
+    }
+
+}

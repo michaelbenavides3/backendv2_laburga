@@ -50,7 +50,8 @@
                     </select>
                     <div class="form__botones">
                         <button type="submit" class="btn btn-naranja">Registrar</button>
-                        <button type="reset" class="btn btn-rojo">Cancelar</button>
+                        <!-- <button type="reset" class="btn btn-rojo">Cancelar</button> -->
+                        <button type="reset" class="btn btn-rojo btn--cancelar" onclick="window.location.href = 'a-panel-principal-admin.jsp'">Cancelar Registro</button>
                     </div>
                 </form>
             </section>

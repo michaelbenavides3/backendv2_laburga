@@ -15,6 +15,7 @@ public class Usuario {
     private int idRol;
     private String estadoUsuario;
     private Date fechaCreacionUsuario;
+    private String nombreRol;
     
     //creo mi contructor vacio , para despues poder inyectarle informacion
     
@@ -112,6 +113,12 @@ public class Usuario {
         this.fechaCreacionUsuario = fechaCreacionUsuario;
     }
     
+    public String getNombreRol(){
+        return nombreRol;
+    }
+    public void setNombreRol(String nombreRol){
+        this.nombreRol = nombreRol;
+    }
     
     
     
