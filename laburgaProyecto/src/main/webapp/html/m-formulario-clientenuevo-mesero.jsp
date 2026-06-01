@@ -17,7 +17,7 @@
             <form action="${pageContext.request.contextPath}/registrarCliente" method="post">
                 <!-- Nombre del cliente -->
                 <label for="nombre">Nombre:</label>
-                <input type="text" id="nombre" name="nombre" required>
+                <input type="text" id="nombre" name="nombre" pattern="[A-Za-zÀ-ÿ\s]+" title="Solo se permiten letras y espacios" required>
 
                 <label for="documento">Documento de Identidad (CC):</label>
                 <input type="text" id="documento" name="documento" required pattern="[0-9]{6, 10)" title="Solo aceptan Numeros"

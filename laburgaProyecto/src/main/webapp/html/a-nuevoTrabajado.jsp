@@ -11,7 +11,7 @@
 
         <header class="encabezado">
             <h1>Panel del Administrador</h1>
-            <p>Gesti√≥n de trabajadores y reportes</p>
+            <p>Gestion de trabajadores y reportes</p>
         </header>
 
         <main>
@@ -19,9 +19,9 @@
                 <h2>Agregar nuevo trabajador</h2>
                 <form action="<%= request.getContextPath() %>/UsuarioControlador" method="POST">
                     <label>Nombre completo:</label>
-                    <input type="text" name="nombre">
+                    <input type="text" name="nombre" pattern="[A-Za-z¿-ˇ\s]+" title="Solo se permiten letras y espacios">
 
-                    <label>Correo electr√≥nico:</label>
+                    <label>Correo electronico:</label>
                     <input type="email" name="email" required>
 
                     <label>Telefono:</label>
