@@ -78,7 +78,8 @@ public class PedidoControlador extends HttpServlet {
             // Actualización de mesa
             MesaDao mesaDao = new MesaDao();
             mesaDao.cambiarEstado(idMesa, "ocupada");
-            response.sendRedirect("html/m-meserocopy.jsp");
+            //response.sendRedirect("html/m-meserocopy.jsp");
+            response.sendRedirect("html/m-meserocopy.jsp?pedido=exitoso");
         } else {
             // Aquí idMesa ya existe y puede ser usada en la redirección
             response.sendRedirect("html/m-registrar-pedido.jsp?error=3&idMesa=" + idMesa);

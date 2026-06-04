@@ -6,6 +6,9 @@
 <%
     String estado = request.getParameter("estado");
 %>
+<%
+    String pedido = request.getParameter("pedido");
+%>
 
 <!DOCTYPE html>
 <html lang="es">
@@ -237,8 +240,16 @@
         <script>
             alert("Cliente registrado con éxito");
         </script>
-        
-        <% } %>
+
+        <% }%>
+
+        <% if ("exitoso".equals(pedido)) { %>
+
+        <script>
+            alert("Pedido creado exitosamente");
+        </script>
+
+        <% }%>
 
     </body>
 

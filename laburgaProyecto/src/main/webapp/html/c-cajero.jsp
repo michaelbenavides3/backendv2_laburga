@@ -3,6 +3,10 @@
     com.modelo.Pedido, 
     java.util.List" %>
 
+
+<%
+    String cobro = request.getParameter("cobro");
+%>
 <!DOCTYPE html>
 <html lang="es">
     <head>
@@ -54,6 +58,7 @@
                         </td>
                     </tr>
                     <% }%>
+
                 </tbody>
             </table>
         </section>
@@ -62,6 +67,15 @@
         <footer class="footer">
             <p>&copy; 2025 Labur-Ga. Todos los derechos reservados.</p>
         </footer>
+
+
+        <% if ("exitoso".equals(cobro)) { %>
+
+        <script>
+            alert("Pedido cerrado con éxito");
+        </script>
+
+        <% }%>
 
     </body>
 </html>
