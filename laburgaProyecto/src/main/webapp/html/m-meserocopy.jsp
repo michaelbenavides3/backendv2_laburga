@@ -3,6 +3,9 @@
 <%@ page import="com.modelo.Mesa" %>
 <%@ page import="java.util.List" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%
+    String estado = request.getParameter("estado");
+%>
 
 <!DOCTYPE html>
 <html lang="es">
@@ -20,13 +23,13 @@
         <!-- Encabezado -->
         <header class="encabezado">
             <!-- <h1>Panel del Mesero</h1> -->
-            <p>GestiÃ³n de mesas y pedidos</p>
+            <p>Gestion de mesas y pedidos</p>
         </header>
 
         <div class="layout">
             <!-- Sidebar -->
             <aside class="sidebar">
-                <h2>Panel MenÃº Mesero</h2>
+                <h2>Panel Menu Mesero</h2>
                 <nav>
                     <img src="../recurso/logo-burguer.png" alt="imagen-logo-lagurga">
                     <!-- <a href="m-mesas.jsp" class="btn">Mesas</a> -->                    
@@ -228,6 +231,14 @@
         <footer class="footer">
             <p>&copy; 2025 Labur-Ga. Todos los derechos reservados.</p>
         </footer>
+
+        <% if ("exitoso".equals(estado)) {%>
+
+        <script>
+            alert("Cliente registrado con éxito");
+        </script>
+        
+        <% } %>
 
     </body>
 

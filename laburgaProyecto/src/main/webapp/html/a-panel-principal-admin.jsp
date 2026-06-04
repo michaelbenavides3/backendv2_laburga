@@ -1,5 +1,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>    
-
+<%
+    String exito = request.getParameter("exito");
+%>
 <!DOCTYPE html>
 <html lang="es">
 
@@ -24,7 +26,7 @@
                 <nav>
                     <a href="a-nuevoTrabajado.jsp" class="btn">Nuevo Usuario</a>
                     <!-- <a href="a-actualizar-menu.html" class="btn">Asignar Rol</a> -->
-                   <!-- <a href="../ListarUsuariosControlador" class="btn">Desactivar Usuario</a> -->
+                    <!-- <a href="../ListarUsuariosControlador" class="btn">Desactivar Usuario</a> -->
                     <a href="${pageContext.request.contextPath}/ListarUsuariosControlador" class="btn">Desactivar Usuario</a>
                     <!-- <a href="a-listar-usuarios.jsp" class="btn">Desactivar Usuario</a> -->
                     <!-- <a href="a-gestionar-permisos.html" class="btn">Permisos</a> -->
@@ -46,6 +48,16 @@
         <footer class="footer">
             <p>&copy; 2025 Labur-Ga. Todos los derechos reservados.</p>
         </footer>
+
+
+
+        <% if ("1".equals(exito)) { %>
+
+        <script>
+            alert("Usuario creado con éxito");
+        </script>
+
+        <% }%>
     </body>
 
 </html>
