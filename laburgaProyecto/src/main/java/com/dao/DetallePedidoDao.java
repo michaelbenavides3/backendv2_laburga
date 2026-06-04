@@ -1,3 +1,16 @@
+/*
+responsabilidad administrar todos los productos asociado con cada pedido
+
+
+    - 1. METODO PARA REGISTRAR DETALLES --> se utiliza por si el productos lleva detalles en especifico, sin cebolla
+
+    - 2. METODO PARA LISTA DETALLE POR PEDIDO --> obtener todos los productos de un pedido en especifico
+
+    - 3. METODO PARA LISTAR DETALLES POR MESAS --> obtenemos todos los productos activos de una mesa
+*/
+
+
+
 package com.dao;
 
 import com.conexion.claseConexion;
@@ -7,6 +20,11 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 public class DetallePedidoDao {
+    
+    /*
+    
+    1. METODO PARA REGISTRAR DETALLES
+    */
 
     // metodo para meter un producto nuevo en un pedido
     public boolean registrarDetalle(DetallePedido detalle) {
@@ -34,6 +52,11 @@ public class DetallePedidoDao {
         }
     }
 
+    /*
+    2. METODO PARA LISTA DETALLE POR PEDIDO 
+    
+    
+    */
     // metodo para traer todos los productos de un pedido especifico
     public java.util.List<DetallePedido> listarDetallesPorPedido(int idPedido) {
         java.util.List<DetallePedido> lista = new java.util.ArrayList<>();
@@ -61,6 +84,12 @@ public class DetallePedidoDao {
         return lista;
     }
 
+    
+    /*
+    
+    
+    3. METODO PARA LISTAR DETALLES POR MESAS
+    */
     // este es el importante para las mesas
     //este metodo tambien se utiliza en en solicitarcuentacontrolador
     public java.util.List<DetallePedido> listarDetallesPorMesa(int idMesa) {

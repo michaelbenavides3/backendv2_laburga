@@ -1,3 +1,16 @@
+/*
+   ----METODOS QUE SE ENCUENTRAN EN EL DAO USUARIADAO-----
+  
+   - 1.nombre metodo; REGISTRAR NUEVO USUARIO --> registra empleado
+   - 2. Metodo OBTENER LISTA DE TODOS LOS USUARIOS  --> consulta empleados registrados
+   - 3. METODO VERIFICAR CREDENCIALES DE INGRESO    --> validar inicio de sesion
+   - 4. METODO OBTENER ULTIMO INSERTADO   --> recuperar el id  generado por mysql
+   - 5. METODO OBTENER LISTA DE USUARIOS CON ROL --> consultar usuario junto con su rol
+   - 6. METODO ACTUALIZAR ESTADO USUARIO --> activr o desactivar un usuario
+*/
+
+
+
 package com.dao;
 
 import com.conexion.claseConexion;
@@ -11,6 +24,16 @@ import java.util.List;
 
 //comienza la clase encargada de administrar todos los accesos a la tabla de usuario
 public class UsuarioDao {
+    
+    /*
+    1 metodo; en este metodo vamoa crear un nuevo usuario o trabajar es devido caso. 
+    - lo utiliza el controlador usuariocontrolador.java\
+    - vista quien origina la peticion es a-nuevoTrabajo.jsp
+    - su funcion principal es registrar un nuevo empleado o trabjado en la tabla
+    -su proceso, recibe un usuario nuevo con los datos capturados del formulario, abre la conexion con mysql,
+    inserta; nombre, nombreUsuario, contrase;a, idrol.
+    1.nombre metodo; REGISTRAR NUEVO USUARIO
+    */
 
     //metodo para registrar un nuevo empleado o trabajador
     //es un metodo publico que nos devuelve true o false, 
@@ -97,6 +120,16 @@ public class UsuarioDao {
         // Retornamos el ID real del usuario creado
         return idUsuarioGenerado;
     }
+    
+    /*
+    2. Metodo OBTENER LISTA DE TODOS LOS USUARIOS
+    
+    -controlado que lo utiliza es usuariocontrolador
+    -vista que consume la informacion a-usuarios.jsp
+    -retorna una lista de usuario
+    -su proceso es consultar la tabla usuarios, recorre cada fila encobntrada convierte cada registro sql en un objeto
+    agrega cada objeto a una lista, retorna la lista completa
+    */
 
     //metodo get para traer la lista de los empleados registrados
     public List<Usuario> obtenerListaTodosLosUsuarios() {
@@ -176,7 +209,19 @@ public class UsuarioDao {
         }
         return listaDeUsuariosEncontrados;
     }
-
+    
+    /*
+    3. METODO VERIFICAR CREDENCIALES DE INGRESO
+        -Este metodo lo utiliza logincontrolador para el acceso del personal
+        -vista de origin esta mezcalda con index.html y t-login que es formulario donde se logea los usuarios   
+        -su funcion princpal es es validar el acceso de los empleados al sistema
+        -su proceso, recibe un usuaurio, busca la coincidenciaen la tabla usuarios, verifica que el usuario este activo,
+        si esta acticvo crea un objeto usuario y carga los datos
+        
+    */
+    
+    
+    
     // =========================================================================
     // OPERACIÓN: POST DE VALIDACIÓN (Buscar un Usuario para el Inicio de Sesión)
     // =========================================================================
@@ -250,8 +295,14 @@ public class UsuarioDao {
         // Devuelvo el usuario relleno (éxito) o null (si puso mal la clave o no existe).
         return usuarioValidadoEncontrado;
     }
-
-    // Agrega esto en tu UsuarioDao.java
+    
+    
+    /*
+    4. METODO OBTENER ULTIMO INSERTADO
+        
+        -Llamado desde 
+    */
+    
     public int obtenerUltimoIdInsertado(Connection con) throws SQLException {
         String sql = "SELECT LAST_INSERT_ID()";
         try (PreparedStatement ps = con.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
@@ -262,6 +313,16 @@ public class UsuarioDao {
         return 0;
     }
 
+    
+    /*
+    5. METODO OBTENER LISTA DE USUARIOS CON ROL
+    
+    - LA Vista dodne se utiliza en a-listar-usurios.jsp
+    -funcion principal obtener todos los usuarios registrados junto con el nombre descriptivo de su rol
+    -su proceso consutla la tabla de usuarios relaizar un innner join con la tabla roles, obtiene la informacion combinada
+    y retorna una lista completa
+    
+    */
     //un metodo para obtener el usaurio con su numero de rol
     // =====================================================================
 // OPERACIÓN GET:
@@ -295,15 +356,15 @@ public class UsuarioDao {
         //
         // Entonces hacemos el JOIN para traer el nombre del rol.
         String consultaSeleccionarSql
-                = "SELECT "
-                + "usuario.id_usuario, "
-                + "usuario.nombre_completo, "
-                + "usuario.nombre_usuario, "
-                + "usuario.estado_usuario, "
-                + "roles.nombre_rol "
-                + "FROM usuario "
-                + "INNER JOIN roles "
-                + "ON usuario.id_rol = roles.id_rol "
+                = "SELECT "     //con el select se elige que columnas desea consular 
+                + "usuario.id_usuario, "      // se consultan estos campos
+                + "usuario.nombre_completo, "  // se consultan estos campos
+                + "usuario.nombre_usuario, "    // se consultan estos campos
+                + "usuario.estado_usuario, "    // se consultan estos campos
+                + "roles.nombre_rol "       // se consultan estos campos
+                + "FROM usuario "  // con el from de se le indica que la informacion se encuentra en usuario
+                + "INNER JOIN roles "   //con el inner join de la tabla roles, se treare todo los registros que tengan coincidencia en ambas tablas
+                + "ON usuario.id_rol = roles.id_rol " // se le dice a la busqueda que haga en la tabla roles, aquel id que coincida con el idrol de la tabla guardad en usuario
                 + "ORDER BY usuario.id_usuario";
 
         try {
@@ -388,6 +449,15 @@ public class UsuarioDao {
         return listaDeUsuariosEncontrados;
     }
 
+       
+    /*
+    6. METODO ACTUALIZAR ESTADO USUARIO
+    
+        -llamado desde usauriocontrolador
+        -su funcion es modificar el estado de un usuario de activo o desactivo
+        
+        
+    */
     // metodo encargado de cambiar el estado de un usuario
 // recibe el id del usuario y el nuevo estado que se desea guardar
 // retorna true si la actualizacion fue exitosa

@@ -1,3 +1,9 @@
+
+/*
+    1. METODO INSERTA TELEFONO --> se inserta un telefono para asociar a un usuaroio
+*/
+
+
 package com.dao;
 
 import com.conexion.claseConexion;
@@ -5,6 +11,15 @@ import java.sql.*;
 
 public class TelefonoUsuarioDao {
         // metodo para guardar el numero de telefono de un usuario en la bd
+    
+    
+    /*
+    1. METODO INSERTA TELEFONO
+    
+    -este metodo en un boolean nos permite llevaer el contro del telefono si lo registra es true si no lo regisra es false
+    -su funciion princial es registar un telefono y asociarlo a un usuario
+    -su proeceos es: recibe el id del usuario creado, recibe el numero digitado ejecuta el insetr gurada la relacion usuario-telefono retorna el resultado de la oprecion
+    */
 
     public boolean insertarTelefono(int idUsuario, String numero) {
         /* :

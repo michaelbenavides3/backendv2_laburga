@@ -1,4 +1,11 @@
 
+/*
+    - 1. METODO REGISTRAR NUEVO ROL --> registrar nuevo rol
+    - 2. METODO PARA OBTENER LA LISTA DE TODOS LOS ROLES  --> obtener la lista de los roles registradios en el sistema
+*/
+
+
+
 package com.dao;
 
 //importo las clases de mi conexion y modelos y roles
@@ -15,6 +22,16 @@ import java.util.List;
 
 public class RolesDao {
 
+    
+    
+    
+    /*
+        1. METODO REGISTRAR NUEVO ROL
+    
+        -llamado desde pruebaroles
+        -su funcion princiapl es regitrar un neuvo rol en el sistema, pero para este caso ya los roles los tenemos creado y por alcanzse no creo que se nos permita nuevos roles
+    
+    */
     //crear un nuevo metodo para regitsr un rol nuevo, en la base de datos
     //recibe com paramentro un obejto de tipo roles, con la informacion que envio el nuevo usuario
     //devuelve true si se guardo correctamente o false, si esta si ocurrio algun problemas
@@ -69,6 +86,12 @@ public class RolesDao {
         
         
     }
+    /*
+        2. METODO PARA OBTENER LA LISTA DE TODOS LOS ROLES
+        
+        -llamado desde usuariocontrolador
+        -ontener todos los roles registrados en el sistema, por ahora son 4 roles
+    */
     
     //metodo get (traer las listas)
     public List<Roles> obtenerListaTodosLosRoles(){

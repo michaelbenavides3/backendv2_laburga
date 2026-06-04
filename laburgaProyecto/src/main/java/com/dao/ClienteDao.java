@@ -1,3 +1,17 @@
+
+/*
+
+responsabilidad: administrar el registro y validacion de clientes
+
+
+    - 1. METODO REGISTRAR CLIENTE COMPLETO --> registra cliente telefono  y correo 
+ 
+    - 2. METODO EXISTE CLIENTE  --> verfica si un cc ya existe
+
+
+*/
+
+
 package com.dao;
 
 import com.conexion.claseConexion;
@@ -10,6 +24,10 @@ import java.sql.Statement;
 public class ClienteDao {
 
     /**
+     * 
+     * 1. METODO REGISTRAR CLIENTE COMPLETO
+     * 
+     * 
      * 
      * Inserta en 'clientes', recupera el ID generado, e inserta el teléfono y correo.
      */
@@ -99,6 +117,13 @@ public class ClienteDao {
     }
     
     /**
+     * 
+     * 
+     * 
+     * 2. METODO EXISTE CLIENTE
+     * 
+     * 
+     * 
      * VALIDA SI UN CLIENTE YA EXISTE POR CÉDULA
      * Busca en MySQL si el documento de identidad ya se encuentra registrado.
      * etse metodo se utiliza en en clientecontrolador, para saber si la cc ya existe no deja registar 

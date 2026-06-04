@@ -1,3 +1,16 @@
+
+/*
+    
+responsbailidad: administra el estado y la informacion de las mesas del restaurante
+
+    - 1. METODO PARA INICIALIZAR LA MESA POR DEFAULT    --> crea las mesas iniciales del restaurante por defecto 8
+
+    - 2. METODO PARA LISTAR LAS MESAS --> obtiene todas las mesas registrda con exito
+
+    - 3. METODO PARA CAMBIAR DE ESTADO DE LA MESA --> camibia el estado de una mesa (disponible, ocupada, pendienteCobro)
+*/
+
+
 package com.dao;
 
 import com.conexion.claseConexion;
@@ -7,6 +20,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MesaDao {
+    
+    
+    /*
+    
+    
+    
+    1. METODO PARA INICIALIZAR LA MESA POR DEFAULT
+    */
 
     // metodo para crear las mesas si no existen (solo se corre al inicio)
     public void inicializarMesasDefault() {
@@ -34,6 +55,14 @@ public class MesaDao {
         }
     }
 
+    
+    
+    /*
+    
+    
+    
+     2. METODO PARA LISTAR LAS MESAS
+    */
     // metodo para traer todas las mesas y ver si estan ocupadas o libres
     public List<Mesa> listarMesas() {
         List<Mesa> lista = new ArrayList<>();
@@ -56,6 +85,14 @@ public class MesaDao {
         }
         return lista;
     }
+    
+    
+    
+    /*
+    
+    
+    3. METODO PARA CAMBIAR DE ESTADO DE LA MESA
+    */
 
     // metodo para cambiar el estado (ejemplo: pasar de 'disponible' a 'ocupada')
     public void cambiarEstado(int idMesa, String nuevoEstado) {

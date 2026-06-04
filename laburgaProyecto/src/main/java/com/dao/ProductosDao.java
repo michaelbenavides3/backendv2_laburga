@@ -1,3 +1,10 @@
+
+/*
+    - 1. METODO PARA REGISTRAR NUEVO PRODUCTO --> registrar nuevo producto
+
+    - 2. METODO PARA OBTENER LA LISTA DE LOS PRODUCTOS -->  obtener todos los productos registrados en la base de dats
+*/
+
 package com.dao;
 
 import com.conexion.claseConexion;
@@ -11,6 +18,13 @@ import java.util.List;
 
 public class ProductosDao {
 
+    /*
+        - 1. METODO PARA REGISTRAR NUEVO PRODUCTO
+    
+        - su funcion principal es registrar un nuevo producto dentro del menu (metodo que todavia no esta funcionado, o si funciona pero se utiliza en pruebaprodcutos)
+    */
+    
+    
     
     // GUARDAR UN NUEVO PRODUCTO EN LA BASE DE DATOS
     
@@ -72,7 +86,15 @@ public class ProductosDao {
         // Devolvemos true o false según el resultado
         return operacionRegistroExitosa;
     }
-
+    
+    
+    /*
+        2. METODO PARA OBTENER LA LISTA DE LOS PRODUCTOS
+    
+    
+        - su funcion principal es por medio de una lista obtener todos los productos registrados en la base de dats
+        
+    */
     
     // TRAER LA LISTA DE TODOS LOS PRODUCTOS
     

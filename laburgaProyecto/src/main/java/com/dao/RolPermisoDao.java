@@ -1,3 +1,12 @@
+
+/*
+
+     - 1. METODO PARA ASIGNAR PERMISOS A ROL  --> asignnar un permiso en especifico a un rol
+
+     - 2. METODO PRA CAMBIAR EL ESTADO DEL PERMISO DE UN ROL  --> activar o desactivar un permiso ya asginado a un rol
+*/
+
+
 package com.dao;
 
 //importo la clase de la conexion
@@ -13,6 +22,13 @@ import java.sql.SQLException;
 
 //se define mi clase
 public class RolPermisoDao {
+    
+    /*
+        1. METODO PARA ASIGNAR PERMISOS A ROL
+    
+        -su funcion principal es crear la relacion entre un rol y un permiso. (este metodo solo es utillizado en oruebaingresopermisos)
+        
+    */
 
     //empiezando utiizando el metodo post. que es el encargado de asignar un permiso a un rol
     //ejmplo- administrador -> crear usuario
@@ -73,6 +89,14 @@ public class RolPermisoDao {
         return operacionAsignacionExitosa;
     }
 
+    
+    
+    /*
+        2. METODO PRA CAMBIAR EL ESTADO DEL PERMISO DE UN ROL
+    
+        -este metodo es el encargado de moficial el estado de un permiso
+        ejmeplo ahora el mesero podra cerrar un ticket de venta de una mesa (pero no se esta llamanado en ningun lado)
+    */
     //metodo update o modificar nos sirve para habilitar o inhabilitar un permiso
     public boolean camibiarEstadoPermisoDeRol(int idRolParaModificar, int idPermisoParaModificar, boolean nuevoEstadoHabilitado) {
         //creo una variable para la conexion fisica de la bd y la inicializo vacia 
