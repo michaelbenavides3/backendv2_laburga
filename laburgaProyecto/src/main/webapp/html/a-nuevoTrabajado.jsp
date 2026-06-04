@@ -38,7 +38,7 @@
                     </select> -->
                     <label>Usuario:</label>
                     <input type="text" name="usuario">
-                    <label>ContraseÃ±a:</label>
+                    <label>Contraseña:</label>
                     <input type="password" name="password">
                     <label for="idRol">Asignar Rol:</label>
                     <select name="idRol" id="idRol" required>

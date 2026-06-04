@@ -3,11 +3,16 @@
 <%@ page import="com.modelo.Mesa" %>
 <%@ page import="java.util.List" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@page import="com.modelo.Usuario"%>
+
 <%
     String estado = request.getParameter("estado");
 %>
 <%
     String pedido = request.getParameter("pedido");
+%>
+<%
+    Usuario usuarioSesion = (Usuario) session.getAttribute("usuarioLogeadoObjeto");
 %>
 
 <!DOCTYPE html>
@@ -27,6 +32,10 @@
         <header class="encabezado">
             <!-- <h1>Panel del Mesero</h1> -->
             <p>Gestion de mesas y pedidos</p>
+            <p>
+                Mesero:
+                <strong><%= usuarioSesion.getNombreCompleto()%></strong>
+            </p>
         </header>
 
         <div class="layout">

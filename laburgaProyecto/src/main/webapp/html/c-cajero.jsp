@@ -2,10 +2,14 @@
     import="com.dao.PedidoDao, 
     com.modelo.Pedido, 
     java.util.List" %>
+<%@page import="com.modelo.Usuario"%>
 
 
 <%
     String cobro = request.getParameter("cobro");
+%>
+<%
+    Usuario usuarioSesion = (Usuario) session.getAttribute("usuarioLogeadoObjeto");
 %>
 <!DOCTYPE html>
 <html lang="es">
@@ -25,6 +29,10 @@
         <header class="encabezado">
             <h1>Panel del Cajero</h1>
             <p>Gestiona órdenes y facturas</p>
+            <p>
+                Cajero:
+                <strong><%= usuarioSesion.getNombreCompleto()%></strong>
+            </p>
             <a href="../cerrarSesion" class="btn_cerrar_sesion">Cerrar Sesión</a>
         </header>
 

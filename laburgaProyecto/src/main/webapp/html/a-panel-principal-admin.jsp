@@ -1,6 +1,14 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>    
+
+
+<%@page import="com.modelo.Usuario"%>
+
+
 <%
     String exito = request.getParameter("exito");
+%>
+<%
+    Usuario usuarioSesion = (Usuario) session.getAttribute("usuarioLogeadoObjeto");
 %>
 <!DOCTYPE html>
 <html lang="es">
@@ -15,7 +23,11 @@
     <body>
         <!-- Header -->
         <header class="header">
-            <h1>GestiÃ³n del Sistema - Panel Administrador</h1>
+            <h1>Gestionn del Sistema - Panel Administrador</h1>
+            <p>
+                Administrador:
+                <strong><%= usuarioSesion.getNombreCompleto()%></strong>
+            </p>
         </header>
 
         <!-- Layout principal -->
@@ -32,7 +44,7 @@
                     <!-- <a href="a-gestionar-permisos.html" class="btn">Permisos</a> -->
                     <!-- <a href="a-restablecer-pwss.html" class="btn">Restablecer ContraseÃ±a</a> -->
                     <!-- <a href="a-actualizar-menu.html" class="btn">Actualizar MenÃº</a> -->
-                    <a href="../cerrarSesion" class="btn">Cerrar SesiÃ³n</a>
+                    <a href="../cerrarSesion" class="btn">Cerrar Sesion</a>
                 </nav>
             </aside>
 
