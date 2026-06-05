@@ -1,7 +1,7 @@
 /*
    ----METODOS QUE SE ENCUENTRAN EN EL DAO USUARIADAO-----
   
-   - 1.nombre metodo; REGISTRAR NUEVO USUARIO --> registra empleado
+   - 1. nombre metodo; REGISTRAR NUEVO USUARIO --> registra empleado
    - 2. Metodo OBTENER LISTA DE TODOS LOS USUARIOS  --> consulta empleados registrados
    - 3. METODO VERIFICAR CREDENCIALES DE INGRESO    --> validar inicio de sesion
    - 4. METODO OBTENER ULTIMO INSERTADO   --> recuperar el id  generado por mysql
