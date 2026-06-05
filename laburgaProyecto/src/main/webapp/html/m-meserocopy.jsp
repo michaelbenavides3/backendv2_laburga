@@ -260,6 +260,18 @@
 
         <% }%>
 
+        <script>
+            <%
+                // Obtenemos el parámetro enviado por el controlador
+                String exito = request.getParameter("exito");
+                if ("true".equals(exito)) {
+            %>
+            alert("¡La reserva se ha realizado con éxito!");
+            <%
+                }
+            %>
+        </script>
+
     </body>
 
 </html>

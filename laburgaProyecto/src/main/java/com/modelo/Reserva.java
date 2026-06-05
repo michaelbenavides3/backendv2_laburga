@@ -16,7 +16,7 @@ public class Reserva {
     private int idCliente;
 
     // fecha para la cual se solicita la reserva
-    private Date fechaReserva;
+    private Date fehcaReserva;
 
     // hora programada para la reserva
     private Time horaReserva;
@@ -70,11 +70,11 @@ public class Reserva {
     }
 
     public Date getFechaReserva() {
-        return fechaReserva;
+        return fehcaReserva;
     }
 
-    public void setFechaReserva(Date fechaReserva) {
-        this.fechaReserva = fechaReserva;
+    public void setFechaReserva(Date fehcaReserva) {
+        this.fehcaReserva = fehcaReserva;
     }
 
     public Time getHoraReserva() {
