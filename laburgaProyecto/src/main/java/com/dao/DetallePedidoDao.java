@@ -92,7 +92,7 @@ public class DetallePedidoDao {
     // este es el importante para las mesas
     //este metodo tambien se utiliza en en solicitarcuentacontrolador
     public java.util.List<DetallePedido> listarDetallesPorMesa(int idMesa) {
-        java.util.List<DetallePedido> lista = new java.util.ArrayList<>();
+        java.util.List<DetallePedido> listaDesatallePedidosMesas = new java.util.ArrayList<>();
 
         /* explicacion del join:
          * como el detalle no sabe en que mesa esta, tengo que unir (INNER JOIN) con la tabla 'pedidos'.
@@ -106,9 +106,22 @@ public class DetallePedidoDao {
         d.id_pedido = p.id_pedido: unes ambas tablas por esa columna.
         p.id_mesa = ?: aquí aparece el comodín. Ese ? es el único parámetro que tienes que llenar desde Java, y corresponde al id de la mesa.
          */
-        String sql = "SELECT d.* FROM detallepedido d "
-                + "INNER JOIN pedidos p ON d.id_pedido = p.id_pedido "
-                + "WHERE p.id_mesa = ? AND p.estado_pedido = 'activo'";
+        String sql
+                = "SELECT "
+                + "detallePedido.id_detallepedido, "
+                + "detallePedido.id_pedido, "
+                + "detallePedido.id_producto, "
+                + "detallePedido.cantidad_producto, "
+                + "detallePedido.precio_unitarioventa, "
+                + "detallePedido.observaciones, "
+                + "productos.nombre_producto "
+                + "FROM detallePedido "
+                + "INNER JOIN pedidos "
+                + "ON detallePedido.id_pedido = pedidos.id_pedido "
+                + "INNER JOIN productos "
+                + "ON detallePedido.id_producto = productos.id_producto "
+                + "WHERE pedidos.id_mesa = ? "
+                + "AND pedidos.estado_pedido = 'activo'";
 
         try (java.sql.Connection con = com.conexion.claseConexion.getConexion(); java.sql.PreparedStatement ps = con.prepareStatement(sql)) {
 
@@ -117,18 +130,40 @@ public class DetallePedidoDao {
 
             //d vinee de la viarble detalle asi se le coloc en la consutla sql
             while (rs.next()) {
-                DetallePedido d = new DetallePedido();
-                d.setIdDetalle(rs.getInt("id_detallepedido"));
-                d.setIdPedido(rs.getInt("id_pedido"));
-                d.setIdProducto(rs.getInt("id_producto"));
-                d.setCantidad(rs.getInt("cantidad_producto"));
-                d.setPrecioVenta(rs.getDouble("precio_unitarioventa"));
-                lista.add(d);
+
+                DetallePedido detallePedidoActual = new DetallePedido();
+
+                detallePedidoActual.setIdDetalle(rs.getInt("id_detallepedido"));
+
+                detallePedidoActual.setIdPedido(rs.getInt("id_pedido"));
+
+                detallePedidoActual.setIdProducto(rs.getInt("id_producto"));
+
+                detallePedidoActual.setCantidad(rs.getInt("cantidad_producto"));
+
+                detallePedidoActual.setPrecioVenta(rs.getDouble("precio_unitarioventa"));
+
+                detallePedidoActual.setObservaciones(rs.getString("observaciones"));
+
+                detallePedidoActual.setNombreProducto(rs.getString("nombre_producto"));
+
+                /*
+                    subtotal de la línea.
+
+                    ejemplo: hamburguesa x 3 20.000 * 3 = 60.000
+                
+                 */
+                double subtotalLineaCalculado = detallePedidoActual.getCantidad() * detallePedidoActual.getPrecioVenta();
+
+                detallePedidoActual.setSubtotalLinea( subtotalLineaCalculado);
+
+                listaDesatallePedidosMesas.add(detallePedidoActual);
+                
             }
         } catch (java.sql.SQLException e) {
             System.out.println("error al listar por mesa: " + e.getMessage());
         }
-        return lista;
+        return listaDesatallePedidosMesas;
     }
 
     /*
@@ -240,7 +275,6 @@ public class DetallePedidoDao {
         
          */
         String consultaEliminarSql
-                
                 = "DELETE FROM detallePedido "
                 + "WHERE id_detallepedido = ?";
 
@@ -252,7 +286,7 @@ public class DetallePedidoDao {
 
                 sentenciaSqlPreparada = conexionFisicaBaseDatos.prepareStatement(consultaEliminarSql);
 
-                sentenciaSqlPreparada.setInt( 1, identificadorDetallePedido);
+                sentenciaSqlPreparada.setInt(1, identificadorDetallePedido);
 
                 int cantidadFilasEliminadas = sentenciaSqlPreparada.executeUpdate();
 
@@ -260,13 +294,13 @@ public class DetallePedidoDao {
 
                     operacionEliminacionExitosa = true;
 
-                    System.out.println( "detalle eliminado correctamente");
+                    System.out.println("detalle eliminado correctamente");
                 }
             }
 
         } catch (SQLException errorBaseDatos) {
 
-            System.out.println( "error al eliminar detalle del pedido: " + errorBaseDatos.getMessage());
+            System.out.println("error al eliminar detalle del pedido: " + errorBaseDatos.getMessage());
 
         } finally {
 
