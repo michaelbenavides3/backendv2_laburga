@@ -1,0 +1,147 @@
+@import url(variables.css);
+@import url(style.css);
+
+/* 
+   CONTENEDOR PRINCIPAL
+ */
+
+.contenedor-principal {
+    width: 95%;
+    max-width: 1200px;
+    margin: 30px auto;
+}
+
+/* 
+   TITULO
+ */
+
+.contenedor-tabla h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: var(--color-principal);
+}
+
+/* 
+   TABLA
+ */
+
+.tabla-pedidos {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: white;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+/* encabezados */
+
+.tabla-pedidos thead {
+    background-color: var(--color-principal);
+    color: white;
+}
+
+.tabla-pedidos th {
+    padding: 15px;
+    text-align: center;
+}
+
+/* filas */
+
+.tabla-pedidos td {
+    padding: 12px;
+    text-align: center;
+    border-bottom: 1px solid #e5e5e5;
+}
+
+/* efecto hover */
+
+.tabla-pedidos tbody tr:hover {
+    background-color: #f5f5f5;
+}
+
+/* 
+   TOTAL PEDIDO
+*/
+
+.tabla-pedidos tfoot {
+    background-color: #f0f0f0;
+    font-size: 1.1rem;
+}
+
+.tabla-pedidos tfoot td {
+    padding: 15px;
+    font-weight: bold;
+}
+
+/* 
+   BOTON EDITAR
+ */
+
+.btn-editar {
+    background-color: #f39c12;
+    color: white;
+    border: none;
+    padding: 8px 14px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-right: 5px;
+    text-decoration: none;
+}
+
+.btn-editar:hover {
+    opacity: 0.9;
+}
+
+/* 
+   BOTON ELIMINAR
+ */
+
+.btn-eliminar {
+    background-color: #e74c3c;
+    color: white;
+    border: none;
+    padding: 8px 14px;
+    border-radius: 5px;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.btn-eliminar:hover {
+    opacity: 0.9;
+}
+
+.btn-regresar {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #4CAF50; /* Un verde profesional */
+    color: white;
+    text-decoration: none; /* Quita la línea azul del link */
+    border-radius: 5px; /* Bordes redondeados */
+    font-weight: bold;
+    text-align: center;
+    transition: background-color 0.3s;
+    margin: 50px 550px;
+}
+
+.btn-regresar:hover {
+    background-color: #45a049; /* Cambia de color al pasar el mouse */
+}
+
+/*
+   RESPONSIVE
+ */
+
+@media (max-width: 768px) {
+
+    .tabla-pedidos {
+        font-size: 0.85rem;
+    }
+
+    .btn-editar,
+    .btn-eliminar {
+        display: block;
+        width: 100%;
+        margin: 5px 0;
+    }
+}

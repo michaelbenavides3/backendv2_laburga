@@ -18,8 +18,10 @@ responsabilidad; administar todas las operaciones rekacuibasd cib oedudism detal
 
     - METODO 7. OBTENER PEDIDOS POR ID --> obtiene el resumen completo de un pedido
 
-*/
+    - METODO 8. OBTENER ID MESA POR ID PEDIDO -->  lo usamos cuando el pedido queda vacio y necesitamos liberar la mesa
 
+
+ */
 package com.dao;
 
 import com.conexion.claseConexion; // Tu clase oficial de conectar a MySQL
@@ -115,10 +117,10 @@ public class PedidoDao {
             return false;
         }
     }
-    
+
     /*
     METODO 3. ACTUALIZAR EL ESTADO DEL PEDIDO
-    */
+     */
     //cambia el estado del pedido (ej. de activo a pendiente_cobro)
     public void actualizarEstadoPedido(int idPedido, String nuevoEstado) {
         //con el update le dceimos a la bd modificar pedidos, estadopedido, con el where se le aplica el cambio al idpedido
@@ -133,11 +135,11 @@ public class PedidoDao {
             System.out.println("Error al actualizar estado del pedido: " + e.getMessage());
         }
     }
-    
+
     /*
     METODO 4. LISTAR PEDIDOS PENDIENTES
     
-    */
+     */
     //lista pedidos pendientes para el cajero
     public List<Pedido> listarPedidosPendientes() {
         List<Pedido> lista = new ArrayList<>();
@@ -148,7 +150,7 @@ public class PedidoDao {
                 + "SUM(dp.cantidad_producto * dp.precio_unitarioventa) as total "
                 + "FROM pedidos p "
                 + "JOIN detallePedido dp ON p.id_pedido = dp.id_pedido " //con el join unimos cada pedido para saber los pedidos qeue se encuenta ordenados
-                + "JOIN productos prod ON dp.id_producto = prod.id_producto "  
+                + "JOIN productos prod ON dp.id_producto = prod.id_producto "
                 + "WHERE p.estado_pedido = 'pendiente_cobro' "//con where se filtran para agrupar ls pedidos que ya se encutran listo para para pagar
                 + "GROUP BY p.id_pedido";
 
@@ -167,12 +169,11 @@ public class PedidoDao {
         }
         return lista;
     }
-    
-    
+
     /*
     
     METODO 5. SOLICITAR CUENTA
-    */
+     */
     //marca el pedido para que el cajero sepa que debe cobrarlo
     public boolean solicitarCuenta(int idPedido) {
         //update es para modificar la tabla pedidos, set cambia la columna estado y se activa como pendietnecobro con el where solo afecta wl idpedido que se llama 
@@ -191,20 +192,18 @@ public class PedidoDao {
 
         return false;
     }
-    
-    
+
     /*
     
     
     METODO 6. OBTENER PEDIDOS ACTIVOS POR MESA
-    */
+     */
     //busca el pedido que esta abierto en una mesa
     public int obtenerPedidoActivoPorMesa(int idMesa) {
-        
+
         //con select utilizamos para encontrar el pedido activo de una mesa
         //con where filtraos solo los pedidos activos
         //order by es para odenar los pedidos del ms nuevo al antiguo
-
         String sql = """
         SELECT id_pedido
         FROM pedidos
@@ -231,14 +230,12 @@ public class PedidoDao {
 
         return 0;
     }
-    
-    
-    
+
     /*
     
     METODO 7. OBTENER PEDIDOS POR ID
     
-    */
+     */
     //obtiene un pedido completo por su ID para mostrar el resumen
     public Pedido obtenerPedidoPorId(int idPedido) {
 
@@ -275,6 +272,42 @@ public class PedidoDao {
         }
 
         return p;
+    }
+
+    /*
+--------------------------------------------------------
+METODO 8. OBTENER ID MESA POR ID PEDIDO
+--------------------------------------------------------
+OBJETIVO:
+Obtener la mesa asociada a un pedido.
+Se usa cuando el pedido quedó vacío y necesitamos
+liberar la mesa.
+     */
+    public int obtenerMesaPorPedido(int identificadorPedido) {
+
+        String consultaSql
+                = "SELECT id_mesa "
+                + "FROM pedidos "
+                + "WHERE id_pedido = ?";
+
+        try (
+                Connection conexion = claseConexion.getConexion(); PreparedStatement sentencia = conexion.prepareStatement(consultaSql)) {
+
+            sentencia.setInt(1, identificadorPedido);
+
+            ResultSet resultado = sentencia.executeQuery();
+
+            if (resultado.next()) {
+
+                return resultado.getInt("id_mesa");
+            }
+
+        } catch (Exception error) {
+
+            System.out.println( "Error al obtener mesa del pedido: " + error.getMessage());
+        }
+
+        return 0;
     }
 
 }

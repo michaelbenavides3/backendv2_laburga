@@ -14,6 +14,9 @@
 <%
     Usuario usuarioSesion = (Usuario) session.getAttribute("usuarioLogeadoObjeto");
 %>
+<%
+    String mensaje = request.getParameter("mensaje");
+%>
 
 <!DOCTYPE html>
 <html lang="es">
@@ -206,7 +209,7 @@
                     %>
                     <div class="mesa <%= estadoMesa7%>">
                         <h3>Mesa 7</h3>
-                        <p class="estado--mesa">Estado: <%= estadoMesa1.toUpperCase()%> </p>
+                        <p class="estado--mesa">Estado: <%= estadoMesa7.toUpperCase()%> </p>
                         <%if (estadoMesa7.equals("ocupada")) { %>
                         <a href="../CambiarEstadoMesa?idMesa=7&estado=pendiente_cobro" class=" btn-amarillo pendiente_cobro">Solicitar Cuenta</a>
 
@@ -229,7 +232,7 @@
                     %>
                     <div class="mesa <%= estadoMesa8%>">
                         <h3>Mesa 8</h3>
-                        <p class="estado--mesa">Estado: <%= estadoMesa1.toUpperCase()%> </p>
+                        <p class="estado--mesa">Estado: <%= estadoMesa8.toUpperCase()%> </p>
                         <%if (estadoMesa8.equals("ocupada")) { %>
                         <a href="../CambiarEstadoMesa?idMesa=8&estado=pendiente_cobro" class=" btn-amarillo pendiente_cobro">Solicitar Cuenta</a>
 
@@ -244,7 +247,7 @@
                         <a href="m-editar-pedido.jsp?idMesa=8" class="btn btn--agregar-producto btn-verde">Editar Pedido</a>
                         <% } %>
                     </div>
-                </section>
+                </section>         
             </main>
         </div>
         <!-- Pie de pÃ¡gina -->
@@ -279,6 +282,17 @@
                 }
             %>
         </script>
+        <%
+            String pedidoCerrado = request.getParameter("pedidoCerrado");
+        %>
+
+        <% if ("true".equals(pedidoCerrado)) { %>
+
+        <script>
+            alert("Pedido cerrado correctamente. La mesa quedó disponible nuevamente.");
+        </script>
+
+        <% }%>
 
     </body>
 

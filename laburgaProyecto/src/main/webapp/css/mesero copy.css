@@ -239,3 +239,20 @@ mesa:hover{
     z-index: 1; /* igual que encabezado, debajo del aside */
 
 }
+
+.mensaje-exito{
+    width: 90%;
+    max-width: 700px;
+    margin: 20px auto;
+
+    padding: 15px;
+
+    background-color: #d4edda;
+    color: #155724;
+
+    border: 1px solid #c3e6cb;
+    border-radius: 8px;
+
+    text-align: center;
+    font-weight: bold;
+}

@@ -104,7 +104,9 @@ public class MesaDao {
 
             ps.setString(1, nuevoEstado); // el nuevo estado (ej. 'ocupada')
             ps.setInt(2, idMesa);         // la mesa que quiero cambiar
-            ps.executeUpdate();
+            System.out.println("Actualizando mesa "+ idMesa+ " a estado "+ nuevoEstado);
+            int filasActualizadas = ps.executeUpdate();
+            System.out.println("Filas actualizadas mesa: " + filasActualizadas);
             
         } catch (Exception e) {
             e.printStackTrace();

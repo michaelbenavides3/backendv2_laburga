@@ -11,6 +11,10 @@ responsabilidad administrar todos los productos asociado con cada pedido
     - 4. METODO ACTUALIZAR CANTIDAD DETALLE --> permite modificar la cantidad de un producto ya registrado dentro de un pedido
 
     - 5. METODO ELIMINAR DETALLE PEDIDO  --> permite elminar un producto al pedido asociado
+
+    - 6. MEOTODO OBTENER DETALLE POR ID --> obtener toda la informacion de una linea especifica del pedido para poder editarla.
+
+    - 7.  MRTODO CONTAR DETALLES POR PEDIDO -->  este metodo se utiliza con el fin que si el pedido se queda sin proeuctos se cierre autocatimanete y pase a cerrado
  */
 package com.dao;
 
@@ -19,6 +23,7 @@ import com.modelo.DetallePedido;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.sql.ResultSet;
 
 public class DetallePedidoDao {
 
@@ -155,10 +160,10 @@ public class DetallePedidoDao {
                  */
                 double subtotalLineaCalculado = detallePedidoActual.getCantidad() * detallePedidoActual.getPrecioVenta();
 
-                detallePedidoActual.setSubtotalLinea( subtotalLineaCalculado);
+                detallePedidoActual.setSubtotalLinea(subtotalLineaCalculado);
 
                 listaDesatallePedidosMesas.add(detallePedidoActual);
-                
+
             }
         } catch (java.sql.SQLException e) {
             System.out.println("error al listar por mesa: " + e.getMessage());
@@ -321,6 +326,192 @@ public class DetallePedidoDao {
         }
 
         return operacionEliminacionExitosa;
+    }
+
+    /*
+    
+    6. METODO OBTENER DETALLE POR ID
+    
+        - utilizado desde EditarDetallePedidoControlador
+        
+        OBJETIVO: obtener toda la informacion de una linea especifica del pedido para poder editarla.
+        
+     */
+    public DetallePedido obtenerDetallePorId(int identificadorDetallePedido) {
+
+        Connection conexionFisicaBaseDatos = null;
+
+        PreparedStatement sentenciaSqlPreparada = null;
+
+        ResultSet resultadoConsulta = null;
+
+        DetallePedido detallePedidoEncontrado = null;
+
+        /*
+    
+             buscamos una unica linea del pedido usando su llave primaria
+    
+         */
+        String consultaBuscarSql
+                = "SELECT " /*seeccionar o consultar*/
+                + "detallePedido.id_detallepedido, "
+                + "detallePedido.id_pedido, "
+                + "detallePedido.id_producto, "
+                + "detallePedido.cantidad_producto, "
+                + "detallePedido.precio_unitarioventa, "
+                + "detallePedido.observaciones, "
+                + "productos.nombre_producto " /*trae el nombre dle producto esto evita que se trabaia el idproducto*/
+                + "FROM detallePedido " /*mi tabla  principal donde se realiza la consulta, nobre de la vairable detallepeido*/
+                + "INNER JOIN productos " /*con el inner join se le dice quiero fusionar o conectar con la tabla productos*/
+                + "ON detallePedido.id_producto = productos.id_producto " /*se conecta solo cuando el idproducto en el detalle coincida con idproducto de tabla producto*/
+                + "WHERE detallePedido.id_detallepedido = ?";
+        /*con el where, es el filtro, le estamos diciiendo bsqueme el registro, que coincida con el id que se envia atrabavez del ?*/
+
+        try {
+
+            conexionFisicaBaseDatos
+                    = claseConexion.getConexion();
+
+            if (conexionFisicaBaseDatos != null) {
+
+                sentenciaSqlPreparada = conexionFisicaBaseDatos.prepareStatement(consultaBuscarSql);
+
+                sentenciaSqlPreparada.setInt(1, identificadorDetallePedido);
+
+                resultadoConsulta = sentenciaSqlPreparada.executeQuery();
+
+                if (resultadoConsulta.next()) {
+
+                    detallePedidoEncontrado = new DetallePedido();
+
+                    detallePedidoEncontrado.setIdDetalle(resultadoConsulta.getInt("id_detallepedido"));
+
+                    detallePedidoEncontrado.setIdPedido(resultadoConsulta.getInt("id_pedido"));
+
+                    detallePedidoEncontrado.setIdProducto(resultadoConsulta.getInt("id_producto"));
+
+                    detallePedidoEncontrado.setCantidad(resultadoConsulta.getInt("cantidad_producto"));
+
+                    detallePedidoEncontrado.setPrecioVenta(resultadoConsulta.getDouble("precio_unitarioventa"));
+
+                    detallePedidoEncontrado.setObservaciones(resultadoConsulta.getString("observaciones"));
+
+                    detallePedidoEncontrado.setNombreProducto(resultadoConsulta.getString("nombre_producto"));
+
+                    /*
+                
+                calculamos subtotal de la linea
+                
+                     */
+                    double subtotalLineaCalculado = detallePedidoEncontrado.getCantidad() * detallePedidoEncontrado.getPrecioVenta();
+
+                    detallePedidoEncontrado.setSubtotalLinea(subtotalLineaCalculado);
+                }
+            }
+
+        } catch (SQLException errorBaseDatos) {
+
+            System.out.println("error al obtener detalle por id: " + errorBaseDatos.getMessage());
+
+        } finally {
+
+            try {
+
+                if (resultadoConsulta != null) {
+                    resultadoConsulta.close();
+                }
+
+                if (sentenciaSqlPreparada != null) {
+                    sentenciaSqlPreparada.close();
+                }
+
+                if (conexionFisicaBaseDatos != null) {
+                    conexionFisicaBaseDatos.close();
+                }
+
+            } catch (SQLException errorCerrarRecursos) {
+
+                System.out.println("error al cerrar recursos: " + errorCerrarRecursos.getMessage());
+            }
+        }
+
+        return detallePedidoEncontrado;
+    }
+
+    /*
+    
+        7. METODO CONTAR DETALLES POR PEDIDO
+    
+        - utilizado despues de eliminar productos
+        - permite verificar si el pedido aun tiene productos
+        - si devuelve 0, el pedido puede cerrarse automaticamente
+
+     */
+    public int contarDetallesPorPedido(int identificadorPedido) {
+
+        Connection conexionFisicaBaseDatos = null;
+
+        PreparedStatement sentenciaSqlPreparada = null;
+
+        ResultSet resultadoConsulta = null;
+
+        int cantidadDetallesPedido = 0;
+
+        /*
+    
+            COUNT(*) cuenta cuantas filas existen del pedido recibido
+    
+         */
+        String consultaConteoSql
+                = "SELECT COUNT(*) AS cantidad_detalles " /*con select count nos dice cuanto registros cumplen la condicion*/
+                + "FROM detallePedido " /*busaca dentro de la tabla detallepedido*/
+                + "WHERE id_pedido = ?";
+
+        try {
+
+            conexionFisicaBaseDatos = claseConexion.getConexion();
+
+            if (conexionFisicaBaseDatos != null) {
+
+                sentenciaSqlPreparada = conexionFisicaBaseDatos.prepareStatement( consultaConteoSql);
+
+                sentenciaSqlPreparada.setInt( 1, identificadorPedido);
+
+                resultadoConsulta = sentenciaSqlPreparada.executeQuery();
+
+                if (resultadoConsulta.next()) {
+
+                    cantidadDetallesPedido = resultadoConsulta.getInt( "cantidad_detalles");
+                }
+            }
+
+        } catch (SQLException errorBaseDatos) {
+
+            System.out.println("error al contar detalles del pedido: " + errorBaseDatos.getMessage());
+
+        } finally {
+
+            try {
+
+                if (resultadoConsulta != null) {
+                    resultadoConsulta.close();
+                }
+
+                if (sentenciaSqlPreparada != null) {
+                    sentenciaSqlPreparada.close();
+                }
+
+                if (conexionFisicaBaseDatos != null) {
+                    conexionFisicaBaseDatos.close();
+                }
+
+            } catch (SQLException errorCerrarRecursos) {
+
+                System.out.println("error al cerrar recursos: " + errorCerrarRecursos.getMessage());
+            }
+        }
+
+        return cantidadDetallesPedido;
     }
 
 }
