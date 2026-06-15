@@ -21,6 +21,10 @@ public class EditarProductoControlador extends HttpServlet {
         ProductosDao productosDao = new ProductosDao();
 
         String accion = request.getParameter("accion");
+        
+        /*
+        guardar cambios del producto
+        */
 
         if ("guardar".equals(accion)) {
 
@@ -44,9 +48,15 @@ public class EditarProductoControlador extends HttpServlet {
 
             productosDao.actualizarProducto(productoActualizado);
 
-            response.sendRedirect("html/a-listar-productos.jsp?producto=editado");
+            /*response.sendRedirect("html/a-listar-productos.jsp?producto=editado");*/
+            response.sendRedirect(request.getContextPath() + "/ListarProductosControlador?producto=editado");
 
         } else {
+            
+            /*
+            
+            cargar datos del producto
+            */
 
             int idProducto = Integer.parseInt( request.getParameter("idProducto"));
 
