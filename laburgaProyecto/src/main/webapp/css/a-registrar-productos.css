@@ -1,0 +1,75 @@
+@import url("variables.css");
+@import url("style.css");
+
+.contenedor-formulario{
+    max-width: 700px;
+    margin: 30px auto;
+    background-color: white;
+    padding: 25px;
+    border-radius: 10px;
+    box-shadow: 0px 2px 10px rgba(0,0,0,0.1);
+}
+
+.contenedor-formulario h2{
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.grupo-campo{
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 15px;
+}
+
+.grupo-campo label{
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.grupo-campo input,
+.grupo-campo textarea{
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+}
+
+.contenedor-botones{
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.btn-guardar{
+    background-color: #28a745;
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.btn-cancelar{
+    background-color: #dc3545;
+    color: white;
+    padding: 12px 20px;
+    border-radius: 8px;
+    text-decoration: none;
+}
+
+.btn-regresar {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #4CAF50; /* Un verde profesional */
+    color: white;
+    text-decoration: none; /* Quita la línea azul del link */
+    border-radius: 5px; /* Bordes redondeados */
+    font-weight: bold;
+    text-align: center;
+    transition: background-color 0.3s;
+    margin: 50px 900px;
+}
+
+.btn-regresar:hover {
+    background-color: #45a049; /* Cambia de color al pasar el mouse */
+}

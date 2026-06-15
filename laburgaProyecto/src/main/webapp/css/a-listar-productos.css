@@ -1,0 +1,73 @@
+@import url("variables.css");
+@import url("style.css");
+
+.contenedor-productos{
+    width: 95%;
+    margin: 20px auto;
+}
+
+.contenedor-productos h2{
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.btn-nuevo-producto{
+    display: inline-block;
+    margin-bottom: 20px;
+    background-color: #28a745;
+    color: white;
+    text-decoration: none;
+    padding: 10px 15px;
+    border-radius: 8px;
+}
+
+.tabla-productos{
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.tabla-productos th{
+    background-color: #343a40;
+    color: white;
+    padding: 12px;
+}
+
+.tabla-productos td{
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: center;
+}
+
+.btn-editar{
+    background-color: #ffc107;
+    color: black;
+    text-decoration: none;
+    padding: 8px 12px;
+    border-radius: 6px;
+}
+
+.btn-estado{
+    background-color: #17a2b8;
+    color: white;
+    text-decoration: none;
+    padding: 8px 12px;
+    border-radius: 6px;
+    margin-left: 5px;
+}
+
+.btn-regresar {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #4CAF50; /* Un verde profesional */
+    color: white;
+    text-decoration: none; /* Quita la línea azul del link */
+    border-radius: 5px; /* Bordes redondeados */
+    font-weight: bold;
+    text-align: center;
+    transition: background-color 0.3s;
+    margin: 50px 900px;
+}
+
+.btn-regresar:hover {
+    background-color: #45a049; /* Cambia de color al pasar el mouse */
+}
