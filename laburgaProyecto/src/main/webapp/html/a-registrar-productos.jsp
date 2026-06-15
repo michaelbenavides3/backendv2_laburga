@@ -51,7 +51,7 @@
 
                 <h2>Registrar Nuevo Producto</h2>
 
-                <form action="../RegistrarProductoControlador"method="post">
+                <form action="../RegistrarProductoControlador"method="post" enctype="multipart/form-data">
 
                     <div class="grupo-campo">
 
@@ -85,6 +85,16 @@
 
                     </div>
 
+                    <div class="grupo-campo">
+
+                        <label>
+                            Imagen Producto
+                        </label>
+
+                        <input type="file" name="imagenProducto"accept=".jpg,.jpeg,.png, image/*" required>
+
+                    </div>
+
                     <div class="contenedor-botones">
 
                         <button type="submit" class="btn-guardar">
@@ -104,8 +114,8 @@
                 </form>
 
             </section>
-            
-            <a href="html/a-panel-principal-admin.jsp" class="btn-regresar">Regresar</a>
+
+            <a href="html/a-listar-productos.jsp" class="btn-regresar">Regresar</a>
 
         </main>
 

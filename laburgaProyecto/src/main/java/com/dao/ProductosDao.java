@@ -9,6 +9,8 @@
     - 4. MERODO ACTUALIZAR PRODUCTO  --> permite modificar los datos de un productos existente
 
     - 5. MERODO CAMBIAR DISPONIBILIDAD PRODUCTO  --> permite activar o desactivar un producto
+
+    - METODO 6. REGISTRAR PRODUCTO RETORNANDO UN ID
  */
 package com.dao;
 
@@ -290,11 +292,11 @@ public class ProductosDao {
                 + "WHERE id_producto = ?";
 
         try (
-                Connection conexionFisicaBaseDatos = claseConexion.getConexion(); PreparedStatement sentenciaSqlPreparada = conexionFisicaBaseDatos.prepareStatement( consultaActualizarDisponibilidad)) {
+                Connection conexionFisicaBaseDatos = claseConexion.getConexion(); PreparedStatement sentenciaSqlPreparada = conexionFisicaBaseDatos.prepareStatement(consultaActualizarDisponibilidad)) {
 
-            sentenciaSqlPreparada.setBoolean( 1, nuevoEstadoDisponibilidad);
+            sentenciaSqlPreparada.setBoolean(1, nuevoEstadoDisponibilidad);
 
-            sentenciaSqlPreparada.setInt( 2,identificadorProducto);
+            sentenciaSqlPreparada.setInt(2, identificadorProducto);
 
             int cantidadFilasActualizadas = sentenciaSqlPreparada.executeUpdate();
 
@@ -302,14 +304,70 @@ public class ProductosDao {
 
                 operacionExitosa = true;
 
-                System.out.println( "Disponibilidad del producto actualizada correctamente");
+                System.out.println("Disponibilidad del producto actualizada correctamente");
             }
 
         } catch (SQLException errorBaseDatos) {
 
-            System.out.println( "Error al cambiar disponibilidad del producto: " + errorBaseDatos.getMessage());
+            System.out.println("Error al cambiar disponibilidad del producto: " + errorBaseDatos.getMessage());
         }
 
         return operacionExitosa;
     }
+
+    
+    
+    /*
+        METODO 6 REGISTRAR PRODCUTO RETONANDO ID
+    
+    */
+    public int registrarProductoRetornandoId(Productos nuevoProductoObjeto) {
+
+        String consultaInsertarSql
+                = """
+        INSERT INTO productos
+        (
+            nombre_producto,
+            descripcion_producto,
+            precio_baseproducto,
+            categoria_producot,
+            disponible_producto
+        )
+        VALUES (?, ?, ?, ?, ?)
+        """;
+
+        try (
+                Connection conexion = claseConexion.getConexion(); PreparedStatement sentenciaSql = conexion.prepareStatement(consultaInsertarSql, PreparedStatement.RETURN_GENERATED_KEYS);) {
+
+            sentenciaSql.setString(1, nuevoProductoObjeto.getNombreProducto());
+
+            sentenciaSql.setString(2, nuevoProductoObjeto.getDescripcionProducto());
+
+            sentenciaSql.setDouble(3, nuevoProductoObjeto.getPrecioBaseProducto());
+
+            sentenciaSql.setString(4, nuevoProductoObjeto.getCategoriaProducto());
+
+            sentenciaSql.setBoolean(5, nuevoProductoObjeto.isDisponibleProducto());
+
+            int filasAfectadas
+                    = sentenciaSql.executeUpdate();
+
+            if (filasAfectadas > 0) {
+
+                ResultSet resultadoIdGenerado = sentenciaSql.getGeneratedKeys();
+
+                if (resultadoIdGenerado.next()) {
+
+                    return resultadoIdGenerado.getInt(1);
+                }
+            }
+
+        } catch (Exception e) {
+
+            System.out.println("Error registrando producto: " + e.getMessage());
+        }
+
+        return 0;
+    }
+
 }

@@ -1,21 +1,28 @@
 <%@page import="com.modelo.Usuario"%>
 <%@page import="java.util.List"%>
 <%@page import="com.modelo.Productos"%>
+<%@page import="com.dao.ProductoImagenDao"%>
+
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
-
 <%
-    Usuario usuarioSesion = (Usuario) session.getAttribute("usuarioLogeadoObjeto");
+    Usuario usuarioSesion
+            = (Usuario) session.getAttribute("usuarioLogeadoObjeto");
 
-    List<Productos> listaProductos = (List<Productos>) request.getAttribute("listaProductos");
+    List<Productos> listaProductos
+            = (List<Productos>) request.getAttribute("listaProductos");
 %>
 
-
 <!DOCTYPE html>
+
 <html>
+
     <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Gestion productos</title>
+
+        <meta charset="UTF-8">
+
+        <title>Gestión Productos</title>
+
         <link rel="stylesheet"
               href="${pageContext.request.contextPath}/css/variables.css">
 
@@ -24,8 +31,11 @@
 
         <link rel="stylesheet"
               href="${pageContext.request.contextPath}/css/a-listar-productos.css">
+
     </head>
+
     <body>
+
         <!-- ENCABEZADO -->
 
         <header class="encabezado">
@@ -69,10 +79,17 @@
                         <tr>
 
                             <th>ID</th>
+
+                            <th>Imagen</th>
+
                             <th>Nombre</th>
+
                             <th>Categoría</th>
+
                             <th>Precio</th>
+
                             <th>Disponible</th>
+
                             <th>Acciones</th>
 
                         </tr>
@@ -85,26 +102,56 @@
 
                             if (listaProductos != null) {
 
-                                for (Productos productoActual
-                                        : listaProductos) {
+                                ProductoImagenDao productoImagenDao
+                                        = new ProductoImagenDao();
+
+                                for (Productos productoActual : listaProductos) {
+
+                                    String rutaImagen
+                                            = productoImagenDao.obtenerRutaImagenProducto(
+                                                    productoActual.getIdProducto());
+
+                                    if (rutaImagen == null
+                                            || rutaImagen.isEmpty()) {
+
+                                        rutaImagen
+                                                = "img/productos/sin-imagen.png";
+                                    }
                         %>
 
                         <tr>
 
                             <td>
+
                                 <%= productoActual.getIdProducto()%>
+
                             </td>
 
                             <td>
+
+                                <img src="${pageContext.request.contextPath}/<%= rutaImagen%>"
+                                     width="80"
+                                     height="80"
+                                     alt="Imagen producto">
+
+                            </td>
+
+                            <td>
+
                                 <%= productoActual.getNombreProducto()%>
+
                             </td>
 
                             <td>
+
                                 <%= productoActual.getCategoriaProducto()%>
+
                             </td>
 
                             <td>
+
                                 $ <%= productoActual.getPrecioBaseProducto()%>
+
                             </td>
 
                             <td>
@@ -173,15 +220,24 @@
                 </table>
 
             </section>
-                        
-                        <a href="html/a-panel-principal-admin.jsp" class="btn-regresar">Regresar</a>
+
+            <a href="a-panel-principal-admin.jsp"
+               class="btn-regresar">
+
+                Regresar
+
+            </a>
 
         </main>
 
         <!-- FOOTER -->
 
         <footer class="footer">
-            <p>&copy; 2025 Labur-Ga. Todos los derechos reservados.</p>
+
+            <p>
+                &copy; 2025 Labur-Ga. Todos los derechos reservados.
+            </p>
+
         </footer>
 
     </body>
