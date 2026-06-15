@@ -1,3 +1,14 @@
+<%
+    // Capturamos el rol que viene desde la página anterior (mesero, cajero o administrador)
+    String rolDesdeBotones = request.getParameter("rol");
+%>
+<%
+    // Obtenemos el parámetro de forma segura
+    String rolEnviado = request.getParameter("rol");
+    if(rolEnviado == null) rolEnviado = ""; // Evitamos que sea null
+%>
+
+
 <!DOCTYPE html>
 <html lang="es">
     <head>
@@ -18,6 +29,10 @@
         <!-- Formulario de login -->
         <section class="form-login">
             <form action="../LoginControlador" method="POST">
+
+                <!--<input type="hidden" name="rolSeleccionado" value="<%= rolDesdeBotones%>"> -->
+                <input type="hidden" name="rolSeleccionado" value="<%= rolEnviado %>">
+
                 <div class="campo">
                     <label for="usuario">Usuario</label>
                     <input type="text" id="usuario" name="txtUsuario" required>
@@ -45,14 +60,13 @@
 
         <%
             String error = request.getParameter("error");
-
             if ("1".equals(error)) {
         %>
-
-        <script>
-            alert("Usuario o contraseña incorrectos");
-        </script>
-
+            <script>alert("Usuario o contraseña incorrectos.");</script>
+        <%
+            } else if ("2".equals(error)) {
+        %>
+            <script>alert("¡Acceso denegado! Tu usuario no tiene permiso para este rol.");</script>
         <%
             }
         %>

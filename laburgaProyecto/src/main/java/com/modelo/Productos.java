@@ -1,5 +1,5 @@
 
-package com.conexion;
+package com.modelo;
 
 
 public class Productos {

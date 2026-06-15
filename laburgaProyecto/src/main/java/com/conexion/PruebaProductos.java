@@ -2,6 +2,7 @@
 package com.conexion;
 
 import com.dao.ProductosDao;
+import com.modelo.Productos;
 import java.util.List;
 
 public class PruebaProductos {
