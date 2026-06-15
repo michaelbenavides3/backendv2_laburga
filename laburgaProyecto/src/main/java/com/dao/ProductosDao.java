@@ -10,7 +10,7 @@
 
     - 5. MERODO CAMBIAR DISPONIBILIDAD PRODUCTO  --> permite activar o desactivar un producto
 
-    - METODO 6. REGISTRAR PRODUCTO RETORNANDO UN ID
+    - 6. metodo REGISTRAR PRODUCTO RETORNANDO UN ID
  */
 package com.dao;
 
