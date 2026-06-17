@@ -60,11 +60,11 @@ public class CobrarPedidoControlador extends HttpServlet {
             PASO 3  CALCULAR FACTURA
             */
             
-            double subtotal = pedidoEncontrado.getTotal();
+            double total = pedidoEncontrado.getTotal();
 
-            double iva = subtotal * 0.19;
+            double subtotal = Math.round(total / 0.19);
 
-            double total = subtotal + iva;
+            double iva = total - subtotal;
 
             /*
             
