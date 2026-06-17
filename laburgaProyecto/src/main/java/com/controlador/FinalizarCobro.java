@@ -2,9 +2,12 @@ package com.controlador;
 
 import com.dao.MesaDao;
 import com.dao.PedidoDao;
+
 import java.io.IOException;
+
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
+
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -12,28 +15,88 @@ import jakarta.servlet.http.HttpServletResponse;
 @WebServlet("/FinalizarCobro")
 public class FinalizarCobro extends HttpServlet {
 
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+   
+@Override
+
+    protected void doGet(HttpServletRequest request,HttpServletResponse response)
             throws ServletException, IOException {
 
-        // Obtenemos los IDs enviados desde el botón en c-cajero.jsp
-        String idPedido = request.getParameter("idPedido");
-        String idMesa = request.getParameter("idMesa");
-        // verifico que los datos hayan llegado bien
-        if (idPedido != null && idMesa != null) {
+        /*
+    
+            RESPONSABILIDAD:
+
+            1. VALIDAR DATOS RECIBIDOS
+            2. CERRAR PEDIDO
+            3. LIBERAR MESA
+            4. REDIRECCIONAR AL CAJERO
+    
+         */
+        String parametroIdPedido= request.getParameter("idPedido");
+
+        String parametroIdMesa = request.getParameter("idMesa");
+
+        /*
+    
+            VALIDAR QUE LOS PARAMETROS EXISTAN
+    
+         */
+        if (parametroIdPedido == null || parametroIdMesa == null) {
+
+            response.sendRedirect( "html/c-cajero.jsp?error=datos");
+
+            return;
+        }
+
+        try {
+
+            int idPedido = Integer.parseInt(parametroIdPedido);
+
+            int idMesa= Integer.parseInt(parametroIdMesa);
+
             PedidoDao pedidoDao = new PedidoDao();
+
             MesaDao mesaDao = new MesaDao();
 
-            // 1. Cerramos el pedido en la base de datos
-            pedidoDao.actualizarEstadoPedido(Integer.parseInt(idPedido), "cerrada");
+            /*
+        
+                PASO 1. CERRAR PEDIDO
+        
+             */
+            pedidoDao.actualizarEstadoPedido( idPedido, "cerrada");
 
-            // 2. Liberamos la mesa (la ponemos disponible de nuevo)
-            mesaDao.cambiarEstado(Integer.parseInt(idMesa), "disponible");
+            /*
+        
+                 PASO 2. LIBERAR MESA
+        
+             */
+            mesaDao.cambiarEstado(idMesa,"disponible");
 
-            System.out.println("DEBUG: Pedido " + idPedido + " cerrado. Mesa " + idMesa + " liberada.");
+            System.out.println(
+                    "Pedido cerrado correctamente. "
+                    + "ID Pedido: "
+                    + idPedido
+                    + " | Mesa liberada: "
+                    + idMesa);
+
+            /*
+        
+                PASO 3. VOLVER AL PANEL DEL CAJERO
+        
+             */
+            response.sendRedirect( "html/c-cajero.jsp?cobro=exitoso");
+
+        } catch (NumberFormatException errorConversion) {
+
+            System.out.println( "Error convirtiendo IDs: " + errorConversion.getMessage());
+
+            response.sendRedirect( "html/c-cajero.jsp?error=formato");
+
+        } catch (Exception errorGeneral) {
+
+            System.out.println( "Error finalizando cobro: "+ errorGeneral.getMessage());
+
+            response.sendRedirect("html/c-cajero.jsp?error=sistema");
         }
-        // mando al cajero de regreso a la pagina de caja para ver la lista al dia
-        // Redirigimos de vuelta al panel de caja para que el cajero vea la lista actualizada
-        //response.sendRedirect("html/c-cajero.jsp");
-        response.sendRedirect("html/c-cajero.jsp?cobro=exitoso");
     }
+
 }

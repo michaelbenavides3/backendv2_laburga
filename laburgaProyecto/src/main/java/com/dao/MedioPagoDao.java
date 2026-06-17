@@ -40,6 +40,12 @@ public class MedioPagoDao {
 
 public boolean registrarMedioPago(MedioPago nuevoMetodoPagoObjeto) {
 
+    /*
+        con el insert se ingresar o guarde informacion dentro de la tabla llamada mediosdepago
+    
+    */
+    
+    
         String consultaSql = """
         INSERT INTO mediospagos
         (
@@ -80,6 +86,12 @@ public boolean registrarMedioPago(MedioPago nuevoMetodoPagoObjeto) {
      */
     public List<MedioPago> listarMediosPago() {
         List<MedioPago> listaMediosPago = new ArrayList<>();
+        
+        
+        /*
+        se le indica que se le quiere con el select * traer todas las columnas disponibles en mediosdepago
+        
+        */
 
         String consultaSql = """
         SELECT *
@@ -125,6 +137,13 @@ public boolean registrarMedioPago(MedioPago nuevoMetodoPagoObjeto) {
     public MedioPago obtenerMedioPagoPorId( int idMetodoPago) {
 
         MedioPago metodoPago = null;
+        
+        /*
+            con el select * quiero traer todas las columnas de la tabla mediosdepago
+            con where es como el filtro, solamente id_meddiodepago
+        
+        
+        */
 
         String consultaSql = """
         SELECT *
@@ -169,6 +188,15 @@ public boolean registrarMedioPago(MedioPago nuevoMetodoPagoObjeto) {
 
      */
     public boolean cambiarEstadoMedioPago(int idMetodoPago, boolean nuevoEstado) {
+        
+        
+        /*
+            update es que se va modificar, los datos dentro de la tabla, 
+            set activo define el camvbio que se realiza a nuevo estado 1true 0false
+            where idmediopago, es al que se le realiza el cambio,, si no llevara el where afectaria todos los campos
+        
+        
+        */
 
         String consultaSql = """
         UPDATE mediospagos

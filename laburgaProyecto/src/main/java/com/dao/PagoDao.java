@@ -29,6 +29,15 @@ public class PagoDao {
         Guarda un nuevo pago asociado a una factura.
      */
     public boolean registrarPago( Pago nuevoPagoObjeto) {
+        
+        /*
+            insert into idica que vamos a ingresar o guardar nuevo registros
+            idfactura y idmediopago son las columnas donde se guardara la informacion
+            los ?? son lo sparametros donde recibiran los datos reales
+        
+        
+        
+        */
 
         String consultaSql = """
         INSERT INTO pagos
@@ -64,6 +73,15 @@ public class PagoDao {
     public Pago obtenerPagoPorId( int idPago) {
 
         Pago pagoEncontrado = null;
+        
+        
+        /*
+        
+            select * from indica que quiere traer todas la columnas y detalles guardadps en la tabla pagos
+            where idpago filtra la busqueda para que la base de datos devuelva unicamente la fila donde la columna idpago coidnicda
+        
+        
+        */
 
         String consultaSql = """
         SELECT *
@@ -107,6 +125,13 @@ public class PagoDao {
     public Pago obtenerPagoPorFactura(int idFactura) {
 
         Pago pagoEncontrado = null;
+        
+        /*
+        
+            limit1, limita el resultado solo 1 resultado por consulta\, regresa el primero que ecnuentre, si esa factura tiene varios pagos reistrados
+        
+        
+        */
 
         String consultaSql = """
         SELECT *
