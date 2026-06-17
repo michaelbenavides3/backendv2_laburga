@@ -62,7 +62,9 @@
                         <td>$<%= p.getTotal()%></td>
                         <td>
                             <a href="ticket.jsp?idPedido=<%= p.getIdPedido()%>" class="btn btn-verde">Ver Ticket</a>
-                            <a href="../FinalizarCobro?idPedido=<%= p.getIdPedido()%>&idMesa=<%= p.getIdMesa()%>" class="btn btn-naranja">Cerrar Cuenta</a>
+                            <!-- <a href="../FinalizarCobro?idPedido=<%= p.getIdPedido()%>&idMesa=<%= p.getIdMesa()%>" class="btn btn-naranja">Cerrar Cuenta</a> -->
+                            <!--<a href="../RegistrarCobroControlador?idPedido=<%= p.getIdPedido()%>&idMesa=<%= p.getIdMesa()%>"class="btn btn-naranja">Cobrar Pedido</a>-->
+                            <a href="../CobrarPedidoControlador?idPedido=<%= p.getIdPedido()%>&idMesa=<%= p.getIdMesa()%>"class="btn btn-naranja">Cobrar Pedido</a>
                         </td>
                     </tr>
                     <% }%>

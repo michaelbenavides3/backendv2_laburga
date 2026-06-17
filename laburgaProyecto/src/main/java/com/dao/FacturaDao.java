@@ -257,6 +257,14 @@ METODO 2. OBTENER FACTURA POR ID
         return false;
     }
 
+    
+    /*
+    
+            METODO 6 REGISTRAR FACRURA RETORNADNO ID
+            
+    */
+    
+    
     public int registrarFacturaRetornandoId( Factura nuevaFacturaObjeto) {
 
         /*
