@@ -62,9 +62,9 @@ public class CobrarPedidoControlador extends HttpServlet {
             
             double total = pedidoEncontrado.getTotal();
 
-            double subtotal = total / 1.19;
+            double subtotal = Math.round((total / 1.19) * 100.0) / 100.0;
 
-            double iva = total - subtotal;
+            double iva = Math.round((total - subtotal) * 100.0) / 100.0;
 
             /*
             
