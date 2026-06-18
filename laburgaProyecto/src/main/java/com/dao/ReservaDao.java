@@ -45,82 +45,182 @@ public class ReservaDao {
     
      */
     public boolean registrarNuevaReserva(Reserva nuevaReservaObjeto) {
+       
         Connection conexionFisicaBaseDatos = null;
+
         PreparedStatement sentenciaReserva = null;
-        PreparedStatement sentenciaMesa = null;
+
+        PreparedStatement sentenciaDetalleReserva = null;
+
+        ResultSet resultadoIdGenerado = null;
+
         boolean operacionRegistroExitosa = false;
 
-        // CORRECCIÓN: Cambié 'fehca_reserva' por 'fecha_reserva'
-        String consultaInsertarSql = "INSERT INTO reservas "
-                + "(id_mesas, id_clientes, fehca_reserva, hora_reserva, "
-                + "persona_reserva, observaciones_reserva, estado_reserva) "
-                + "VALUES (?, ?, ?, ?, ?, ?, ?)";
+        /*
 
-        // SQL para actualizar el estado de la mesa (ajusta 'estado' al nombre real de tu columna)
-        String consultaActualizarMesa = "UPDATE mesas SET estado_mesa = 'reservada' WHERE id_mesas = ?";
+            INSERT DE LA RESERVA.
+
+         */
+        String consultaInsertarReserva = """
+            INSERT INTO reservas
+            (
+                id_clientes,
+                fehca_reserva,
+                hora_reserva,
+                persona_reserva,
+                observaciones_reserva,
+                estado_reserva
+            )
+                VALUES (?, ?, ?, ?, ?, ?)
+            """;
+
+        /*
+
+            INSERT EN DETALLERESERVAMESA
+
+            Guarda qué mesa pertenece a la reserva.
+
+         */
+        String consultaInsertarDetalle = """
+            INSERT INTO detalleReservaMesa
+            (
+                id_reserva,
+                id_mesa
+            )
+            VALUES (?, ?)
+            """;
 
         try {
+
             conexionFisicaBaseDatos = claseConexion.getConexion();
+
             if (conexionFisicaBaseDatos != null) {
 
-                // Iniciamos transacción
                 conexionFisicaBaseDatos.setAutoCommit(false);
 
-                // 1. Registrar la reserva
-                sentenciaReserva = conexionFisicaBaseDatos.prepareStatement(consultaInsertarSql);
-                sentenciaReserva.setInt(1, nuevaReservaObjeto.getIdMesa());
-                sentenciaReserva.setInt(2, nuevaReservaObjeto.getIdCliente());
-                sentenciaReserva.setDate(3, nuevaReservaObjeto.getFechaReserva());
-                sentenciaReserva.setTime(4, nuevaReservaObjeto.getHoraReserva());
-                sentenciaReserva.setInt(5, nuevaReservaObjeto.getPersonasReserva());
-                sentenciaReserva.setString(6, nuevaReservaObjeto.getObservacionesReserva());
-                sentenciaReserva.setString(7, nuevaReservaObjeto.getEstadoReserva());
+                /*
+        
+                    PASO 1. REGISTRAR RESERVA
+        
+                 */
+                sentenciaReserva = conexionFisicaBaseDatos.prepareStatement(consultaInsertarReserva, PreparedStatement.RETURN_GENERATED_KEYS
+                );
+
+                sentenciaReserva.setInt(  1,       nuevaReservaObjeto.getIdCliente()
+                );
+
+                sentenciaReserva.setDate( 2, nuevaReservaObjeto.getFechaReserva()
+                );
+
+                sentenciaReserva.setTime(  3, nuevaReservaObjeto.getHoraReserva()
+                );
+
+                sentenciaReserva.setInt(  4, nuevaReservaObjeto.getPersonasReserva()
+                );
+
+                sentenciaReserva.setString( 5, nuevaReservaObjeto.getObservacionesReserva()
+                );
+
+                sentenciaReserva.setString(  6, nuevaReservaObjeto.getEstadoReserva()
+                );
+
                 sentenciaReserva.executeUpdate();
 
-                // 2. Actualizar la mesa
-                sentenciaMesa = conexionFisicaBaseDatos.prepareStatement(consultaActualizarMesa);
-                sentenciaMesa.setInt(1, nuevaReservaObjeto.getIdMesa());
-                sentenciaMesa.executeUpdate();
+                /*
+        
+                     PASO 2.OBTENER ID DE LA RESERVA GENERADA
+        
+                 */
+                resultadoIdGenerado = sentenciaReserva.getGeneratedKeys();
 
-                // Confirmar cambios en ambas tablas
+                int idReservaGenerada = 0;
+
+                if (resultadoIdGenerado.next()) {
+
+                    idReservaGenerada = resultadoIdGenerado.getInt(1);
+                }
+
+                /*
+        
+                    PASO 3. GUARDAR RELACION RESERVA - MESA
+        
+                 */
+                sentenciaDetalleReserva  = conexionFisicaBaseDatos.prepareStatement(  consultaInsertarDetalle );
+
+                sentenciaDetalleReserva.setInt(  1, idReservaGenerada );
+
+                sentenciaDetalleReserva.setInt( 2, nuevaReservaObjeto.getIdMesa() );
+
+                sentenciaDetalleReserva.executeUpdate();
+
+                /*
+        
+                     CONFIRMAR TRANSACCION
+        
+                 */
                 conexionFisicaBaseDatos.commit();
+
                 operacionRegistroExitosa = true;
-                System.out.println("La reserva fue registrada y la mesa actualizada correctamente.");
+
+                System.out.println("Reserva registrada correctamente."
+                );
             }
+
         } catch (SQLException errorBaseDatos) {
+
             try {
+
                 if (conexionFisicaBaseDatos != null) {
+
                     conexionFisicaBaseDatos.rollback();
                 }
+
             } catch (SQLException e) {
+
                 e.printStackTrace();
             }
-            System.out.println("Error al registrar la reserva en mysql: " + errorBaseDatos.getMessage());
+
+            System.out.println( "Error al registrar la reserva: " + errorBaseDatos.getMessage()
+            );
+
         } finally {
+
             try {
+
+                if (resultadoIdGenerado != null) {
+                    resultadoIdGenerado.close();
+                }
+
+                if (sentenciaDetalleReserva != null) {
+                    sentenciaDetalleReserva.close();
+                }
 
                 if (sentenciaReserva != null) {
                     sentenciaReserva.close();
-
                 }
 
                 if (conexionFisicaBaseDatos != null) {
 
                     conexionFisicaBaseDatos.close();
 
-                    System.out.println("conexion de registro de reservas cerrada correctamente");
-
+                    System.out.println( "Conexion de reservas cerrada correctamente."
+                    );
                 }
 
             } catch (SQLException errorAlCerrar) {
 
-                System.out.println("error al cerrar recursos de reservas: " + errorAlCerrar.getMessage());
-
+                System.out.println("Error al cerrar recursos: "+ errorAlCerrar.getMessage()
+                );
             }
-
         }
+
         return operacionRegistroExitosa;
-    }
+    
+
+   
+
+}
+
 
     /*
     
