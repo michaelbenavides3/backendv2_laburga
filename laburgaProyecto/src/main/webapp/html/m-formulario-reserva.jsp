@@ -48,7 +48,8 @@
         </select>
   
         <button type="submit" class="btn--envio">Confirmar Reserva</button>
-        <button type="reset" class="btn--cancelar onclick="window.location.href = 'm-meserocopy.jsp'">Cancelar Reserva</button>
+        <button type="button" class="btn--cancelar" onclick="window.location.href = 'm-meserocopy.jsp'">Cancelar Reserva</button>
+        <!-- <button type="reset" class="btn--cancelar onclick=" window.location.href = 'm-meserocopy.jsp'">Cancelar Reserva</button> -->
       </form>
     </section>
   </main>

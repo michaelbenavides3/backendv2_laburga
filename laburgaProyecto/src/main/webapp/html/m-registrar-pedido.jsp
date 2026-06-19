@@ -40,6 +40,7 @@
                     <a href="separar-mesas.jsp" class="btn">Separar Mesas</a>
                     <a href="enviar-cuenta.jsp" class="btn">Enviar cuenta</a> -->
                    <!--<a href="verificarcuenta.jsp" class="btn">Verificar cuenta</a>-->
+                    <a href="m-listar-reservas.jsp" class="btn">Ver reservas</a>
                     <a href="m-formulario-reserva.jsp" class="btn">Realizar Reserva</a>
                     <a href="m-formulario-clientenuevo-mesero.jsp" class="btn">Nuevo Cliente</a>
                     <a href="../cerrarSesion" class="btn">Cerrar Sesión</a>

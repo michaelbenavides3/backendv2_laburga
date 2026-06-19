@@ -22,7 +22,7 @@ package com.dao;
 
 import com.conexion.claseConexion;
 import com.modelo.Mesa;
-import com.modelo.Reserva;
+import com.modelo.Reserva;  
 
 import java.sql.Connection;
 import java.sql.Date;
@@ -103,26 +103,19 @@ public class ReservaDao {
                     PASO 1. REGISTRAR RESERVA
         
                  */
-                sentenciaReserva = conexionFisicaBaseDatos.prepareStatement(consultaInsertarReserva, PreparedStatement.RETURN_GENERATED_KEYS
-                );
+                sentenciaReserva = conexionFisicaBaseDatos.prepareStatement(consultaInsertarReserva, PreparedStatement.RETURN_GENERATED_KEYS );
 
-                sentenciaReserva.setInt(  1,       nuevaReservaObjeto.getIdCliente()
-                );
+                sentenciaReserva.setInt(  1,       nuevaReservaObjeto.getIdCliente() );
 
-                sentenciaReserva.setDate( 2, nuevaReservaObjeto.getFechaReserva()
-                );
+                sentenciaReserva.setDate( 2, nuevaReservaObjeto.getFechaReserva());
 
-                sentenciaReserva.setTime(  3, nuevaReservaObjeto.getHoraReserva()
-                );
+                sentenciaReserva.setTime(  3, nuevaReservaObjeto.getHoraReserva() );
 
-                sentenciaReserva.setInt(  4, nuevaReservaObjeto.getPersonasReserva()
-                );
+                sentenciaReserva.setInt(  4, nuevaReservaObjeto.getPersonasReserva() );
 
-                sentenciaReserva.setString( 5, nuevaReservaObjeto.getObservacionesReserva()
-                );
+                sentenciaReserva.setString( 5, nuevaReservaObjeto.getObservacionesReserva() );
 
-                sentenciaReserva.setString(  6, nuevaReservaObjeto.getEstadoReserva()
-                );
+                sentenciaReserva.setString(  6, nuevaReservaObjeto.getEstadoReserva() );
 
                 sentenciaReserva.executeUpdate();
 
@@ -252,7 +245,7 @@ public class ReservaDao {
                  */
                 = "SELECT "
                 + "reservas.id_reservas, "
-                + "reservas.id_mesas, "
+                + "detalleReservaMesa.id_mesa, "
                 + "reservas.id_clientes, "
                 + "reservas.fehca_reserva, "
                 + "reservas.hora_reserva, "
@@ -263,11 +256,13 @@ public class ReservaDao {
                 + "clientes.nombrecompleto_cliente, "
                 + "mesas.numero_mesa "
                 + "FROM reservas " //tabla base donde se hace la cunsulta
+                + "INNER JOIN detalleReservaMesa "
+                + "ON reservas.id_reservas = detalleReservaMesa.id_reserva "
                 + "INNER JOIN clientes " //vinculamos con la tabla clientes
                 + "ON reservas.id_clientes = clientes.id_clientes " // Condición de unión: coincide el ID del cliente
                 + "INNER JOIN mesas " // Vinculación con tabla de mesas
-                + "ON reservas.id_mesas = mesas.id_mesas " // Condición de unión: coincide el ID de la mesa
-                + "ORDER BY reservas.fecha_reserva, reservas.hora_reserva";     // Orden cronológico de las reservas
+                + "ON detalleReservaMesa.id_mesa = mesas.id_mesas " // Condición de unión: coincide el ID de la mesa
+                + "ORDER BY reservas.fehca_reserva, reservas.hora_reserva";     // Orden cronológico de las reservas
 
         try {
 
@@ -288,6 +283,10 @@ public class ReservaDao {
 
                 Cada fila representa una reserva distinta.
                  */
+                
+                System.out.println("Consultando reservas...");
+                
+                
                 while (filasResultadoConsultaSql.next()) {
 
                     // crear objeto temporal vacío
@@ -296,11 +295,11 @@ public class ReservaDao {
                     // DATOS DE LA TABLA RESERVAS
                     reservaTemporalEncontrada.setIdReserva(filasResultadoConsultaSql.getInt("id_reservas"));
 
-                    reservaTemporalEncontrada.setIdMesa(filasResultadoConsultaSql.getInt("id_mesas"));
+                    reservaTemporalEncontrada.setIdMesa(filasResultadoConsultaSql.getInt("id_mesa"));
 
                     reservaTemporalEncontrada.setIdCliente(filasResultadoConsultaSql.getInt("id_clientes"));
 
-                    reservaTemporalEncontrada.setFechaReserva(filasResultadoConsultaSql.getDate("fecha_reserva"));
+                    reservaTemporalEncontrada.setFechaReserva(filasResultadoConsultaSql.getDate("fehca_reserva"));
 
                     reservaTemporalEncontrada.setHoraReserva(filasResultadoConsultaSql.getTime("hora_reserva"));
 
@@ -324,6 +323,8 @@ public class ReservaDao {
 
                     // agregar la reserva cargada completamente a la lista
                     listaReservasEncontradas.add(reservaTemporalEncontrada);
+                    
+                    System.out.println("Reserva encontrada: " + filasResultadoConsultaSql.getInt("id_reservas"));
                 }
             }
 
@@ -376,10 +377,7 @@ public class ReservaDao {
             horaReserva
                 -> hora para la cual se desea realizar la reserva.
      */
-    public boolean validarMesaReservada(
-            int identificadorMesa,
-            Date fechaReserva,
-            Time horaReserva) {
+    public boolean validarMesaReservada( int identificadorMesa, Date fechaReserva,Time horaReserva) {
 
         // variable para abrir la conexión física con MySQL
         Connection conexionFisicaBaseDatos = null;
@@ -401,10 +399,12 @@ public class ReservaDao {
         String consultaValidacionSql
                 = "SELECT id_reservas "
                 + "FROM reservas "
-                + "WHERE id_mesas = ? " //filtramos el id de la mesa seleccioanda
-                + "AND fehca_reserva = ? " //  filtramos por fecha de servas
-                + "AND hora_reserva = ? " // por hora de reserva
-                + "AND estado_reserva = 'reservada'";  // y si el estado sale reservada
+                + "INNER JOIN detalleReservaMesa "
+                + "ON reservas.id_reservas = detalleReservaMesa.id_reserva "
+                + "WHERE detalleReservaMesa.id_mesa = ? " //filtramos el id de la mesa seleccioanda
+                + "AND reservas.fehca_reserva = ? " //  filtramos por fecha de servas
+                + "AND reservas.hora_reserva = ? " // por hora de reserva
+                + "AND reservas.estado_reserva = 'reservada' ";  // y si el estado sale reservada
 
         try {
 

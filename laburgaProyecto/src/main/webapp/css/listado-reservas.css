@@ -1,0 +1,173 @@
+@import url(variables.css);
+@import url(style.css);
+
+/* ==========================
+   CONTENEDOR GENERAL
+========================== */
+
+.contenedor-principal{
+    width: 95%;
+    max-width: 1400px;
+    margin: 30px auto;
+    display: flex;
+    gap: 25px;
+}
+
+/* ==========================
+   SIDEBAR
+========================== */
+
+.sidebar{
+    width: 260px;
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0px 3px 10px rgba(0,0,0,.1);
+}
+
+.sidebar h2{
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.sidebar nav{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.sidebar img{
+    width: 120px;
+    margin: auto;
+    display: block;
+    margin-bottom: 20px;
+}
+
+.sidebar .btn{
+    text-decoration: none;
+    text-align: center;
+    padding: 12px;
+    border-radius: 8px;
+    background: #ff9800;
+    color: white;
+    font-weight: bold;
+    transition: .3s;
+}
+
+.sidebar .btn:hover{
+    background: #e68900;
+}
+
+/* ==========================
+   CONTENIDO
+========================== */
+
+.contenido{
+    flex: 1;
+    background: white;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0px 3px 10px rgba(0,0,0,.1);
+}
+
+.contenido h2{
+    margin-bottom: 20px;
+}
+
+/* ==========================
+   TABLA
+========================== */
+
+table{
+    width: 100%;
+    border-collapse: collapse;
+}
+
+thead{
+    background: #222;
+    color: white;
+}
+
+thead th{
+    padding: 14px;
+}
+
+tbody td{
+    padding: 12px;
+    border-bottom: 1px solid #ddd;
+    text-align: center;
+}
+
+tbody tr:hover{
+    background: #f8f8f8;
+}
+
+/* ==========================
+   BOTON FINALIZAR
+========================== */
+
+.btn-finalizar{
+    display: inline-block;
+    text-decoration: none;
+    background: #28a745;
+    color: white;
+    padding: 8px 15px;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.btn-finalizar:hover{
+    background: #218838;
+}
+
+/* ==========================
+   ESTADOS
+========================== */
+
+.estado-reservada{
+    color: #dc3545;
+    font-weight: bold;
+}
+
+.estado-finalizada{
+    color: #28a745;
+    font-weight: bold;
+}
+
+.btn-regresar {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #4CAF50; /* Un verde profesional */
+    color: white;
+    text-decoration: none; /* Quita la línea azul del link */
+    border-radius: 5px; /* Bordes redondeados */
+    font-weight: bold;
+    text-align: center;
+    transition: background-color 0.3s;
+    margin: 50px 450px;
+}
+
+.btn-regresar:hover {
+    background-color: #45a049; /* Cambia de color al pasar el mouse */
+}
+
+/* ==========================
+   RESPONSIVE
+========================== */
+
+@media(max-width:900px){
+
+    .contenedor-principal{
+        flex-direction: column;
+    }
+
+    .sidebar{
+        width: 100%;
+    }
+
+    table{
+        display: block;
+        overflow-x: auto;
+    }
+}
