@@ -221,8 +221,8 @@
 
             </section>
 
-            <a href="a-panel-principal-admin.jsp"
-               class="btn-regresar">
+            <a href="a-panel-principal-admin.jsp" class="btn-regresar">
+            <button type="button" class="btn--cancelar btn-regresar" onclick="window.location.href = 'a-panel-principal-admin.jsp'">Regresar</button>
 
                 Regresar
 

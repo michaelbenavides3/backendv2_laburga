@@ -123,7 +123,7 @@
 
                 </table>
                     
-                    <a href="html/m-meserocopy.jsp" class="btn-regresar">Regresar</a>
+                    
                     
                     <button type="button" class="btn--cancelar btn-regresar" onclick="window.location.href = 'm-meserocopy.jsp'">Regresar</button>
 
