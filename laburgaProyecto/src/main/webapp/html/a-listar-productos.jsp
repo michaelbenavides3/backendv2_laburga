@@ -213,14 +213,10 @@
 
             </section>
 
-
-            <button type="button" class="btn--cancelar btn-regresar" onclick="window.location.href = 'a-panel-principal-admin.jsp'">Regresar</button>
+            <button type="button" class="btn-regresar"onclick="window.location.href='${pageContext.request.contextPath}/html/a-panel-principal-admin.jsp'">Regresar</button>
             
-            <button type="button"onclick="window.location.href='${pageContext.request.contextPath}/html/a-panel-principal-admin.jsp'">Regresar</button>
 
-
-
-        </a>
+       <!-- </a> -->
 
     </main>
 
@@ -235,19 +231,23 @@
     </footer>
 
 
-                <%
-            String msg = (String) request.getAttribute("msg");
+             <%
+             String producto = request.getParameter("producto");
+             %>
 
-            if (msg != null) {
-                %>
+             <% if ("activado".equals(producto)) { %>
 
-            <p class="mensaje-exito">
-                Producto <%= msg %> correctamente
-            </p>
+             <script>
+                 alert("Producto activado correctamente.");
+             </script>
 
-            <%
-            }
-            %>
+             <% } else if ("desactivado".equals(producto)) { %>
+
+             <script>
+                 alert("Producto desactivado correctamente.");
+             </script>
+
+             <% } %>
 
 </body>
 
