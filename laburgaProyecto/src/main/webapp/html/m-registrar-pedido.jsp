@@ -33,7 +33,7 @@
             </aside>
 
             <main class="contenido">
-                <form action="../PedidoControlador" method="POST">
+                <form action="${pageContext.request.contextPath}/PedidoControlador" method="POST">
                     <input type="hidden" name="txtIdMesa" value="${idMesa}">
 
                     <div class="productos-grid">
@@ -48,10 +48,18 @@
                             <c:forEach var="producto" items="${entrada.value}">
                                 <div class="producto-card">
 
-                                    <%-- Imagen del producto --%>
-                                    <img src="${pageContext.request.contextPath}/img-productos/hamburguesa-clasica.png" 
-                                         alt="${producto.nombreProducto}"
-                                         class="producto-img">
+                                    <c:choose>
+                                        <c:when test="${not empty imagenesProductos[producto.idProducto]}">
+                                            <img src="${pageContext.request.contextPath}/${imagenesProductos[producto.idProducto]}"
+                                                 alt="${producto.nombreProducto}"
+                                                 class="producto-img">
+                                        </c:when>
+                                        <c:otherwise>
+                                            <img src="${pageContext.request.contextPath}/img-productos/sin-imagen.png"
+                                                 alt="${producto.nombreProducto}"
+                                                 class="producto-img">
+                                        </c:otherwise>
+                                    </c:choose>
 
                                     <h3 class="producto-nombre">${producto.nombreProducto}</h3>
                                     <p class="producto-descripcion">${producto.descripcionProducto}</p>
@@ -90,7 +98,7 @@
                                 class="btn--cancelar pedido__boton pedido__boton--cancelar"
                                 onclick="window.location.href = '${pageContext.request.contextPath}/html/m-meserocopy.jsp'">
                             Cancelar Pedido
-                        </button>
+                        </button>   
                     </div>
                 </form>
             </main>

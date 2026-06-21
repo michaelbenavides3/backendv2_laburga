@@ -30,7 +30,7 @@ public class ProductosControlador extends HttpServlet {
                        .forward(request, response);
                 break;
 
-            // ✅ ACCIÓN NUEVA — activa o desactiva un producto
+            // ACCIÓN NUEVA — activa o desactiva un producto
             case "cambiarDisponibilidad":
                 String idParam     = request.getParameter("idProducto");
                 String estadoParam = request.getParameter("disponible");

@@ -1,6 +1,7 @@
 package com.controlador;
 
 import com.dao.ProductosDao;
+import com.dao.ProductoImagenDao;
 import com.modelo.Productos;
 import java.io.IOException;
 import java.util.List;
@@ -21,22 +22,29 @@ public class MenuMeseroControlador extends HttpServlet {
 
         String idMesa = request.getParameter("idMesa");
 
-        // Traemos solo los productos disponibles desde la BD
-        ProductosDao dao = new ProductosDao();
-        List<Productos> productosDisponibles = dao.obtenerProductosDisponibles();
+        ProductosDao productosDao       = new ProductosDao();
+        ProductoImagenDao imagenDao     = new ProductoImagenDao();
 
-        // Agrupamos por categoría para mostrarlos en secciones
+        List<Productos> productosDisponibles = productosDao.obtenerProductosDisponibles();
+
+        // Agrupamos por categoría
         Map<String, List<Productos>> menuPorCategoria = new LinkedHashMap<>();
         for (Productos p : productosDisponibles) {
             String cat = p.getCategoriaProducto();
             menuPorCategoria.computeIfAbsent(cat, k -> new java.util.ArrayList<>()).add(p);
         }
 
-        // Mandamos los datos al JSP
+        // ✅ Mapa idProducto → ruta de imagen
+        Map<Integer, String> imagenesProductos = new LinkedHashMap<>();
+        for (Productos p : productosDisponibles) {
+            String ruta = imagenDao.obtenerRutaImagenProducto(p.getIdProducto());
+            imagenesProductos.put(p.getIdProducto(), ruta);
+        }
+
         request.setAttribute("menuPorCategoria", menuPorCategoria);
+        request.setAttribute("imagenesProductos", imagenesProductos);
         request.setAttribute("idMesa", idMesa);
 
-        request.getRequestDispatcher("/html/m-registrar-pedido.jsp")
-               .forward(request, response);
+        request.getRequestDispatcher("/html/m-registrar-pedido.jsp").forward(request, response);
     }
 }
