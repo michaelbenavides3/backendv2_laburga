@@ -11,6 +11,8 @@
     - 5. MERODO CAMBIAR DISPONIBILIDAD PRODUCTO  --> permite activar o desactivar un producto
 
     - 6. metodo REGISTRAR PRODUCTO RETORNANDO UN ID
+
+    - 7. METODO PARA LISTAR PRODUCTOS DISPONIBLES --> CON ESTE METODO CONSULTAMOS EN LA BASE DE DATOS PRODUCTOS DISPONIBLES PARA QUE LOS VEA EL MESERO
  */
 package com.dao;
 
@@ -315,12 +317,10 @@ public class ProductosDao {
         return operacionExitosa;
     }
 
-    
-    
     /*
         METODO 6 REGISTRAR PRODCUTO RETONANDO ID
     
-    */
+     */
     public int registrarProductoRetornandoId(Productos nuevoProductoObjeto) {
 
         String consultaInsertarSql
@@ -368,6 +368,43 @@ public class ProductosDao {
         }
 
         return 0;
+    }
+
+    /*
+    
+    
+       METODO 7. OBTENER PRODUCTOS DISPONIBLES
+     */
+    public List<Productos> obtenerProductosDisponibles() {
+
+        List<Productos> productosDisponibles = new ArrayList<>();
+
+        String consultaSeleccionarDisponibles
+                = "SELECT id_producto, nombre_producto, descripcion_producto, "
+                + "precio_baseproducto, categoria_producot, disponible_producto "
+                + "FROM productos "
+                + "WHERE disponible_producto = true";
+
+        try (Connection conexionBaseDatos = claseConexion.getConexion(); PreparedStatement declaracionPreparada = conexionBaseDatos.prepareStatement(consultaSeleccionarDisponibles); ResultSet resultadoConsulta = declaracionPreparada.executeQuery()) {
+
+            while (resultadoConsulta.next()) {
+
+                // Agregamos directamente a la lista creando el objeto con su constructor
+                productosDisponibles.add(new Productos(
+                        resultadoConsulta.getInt("id_producto"),
+                        resultadoConsulta.getString("nombre_producto"),
+                        resultadoConsulta.getString("descripcion_producto"),
+                        resultadoConsulta.getDouble("precio_baseproducto"),
+                        resultadoConsulta.getString("categoria_producot"),
+                        resultadoConsulta.getBoolean("disponible_producto")
+                ));
+            }
+
+        } catch (Exception error) {
+            System.out.println("Error al listar productos disponibles: " + error.getMessage());
+        }
+
+        return productosDisponibles;
     }
 
 }
