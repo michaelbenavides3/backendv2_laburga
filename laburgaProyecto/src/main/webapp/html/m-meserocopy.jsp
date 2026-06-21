@@ -80,7 +80,9 @@
                         <span class="etiqueta-amarilla">Esperando en Caja....</span>
 
                         <% } else { %>
-                        <a href="m-registrar-pedido.jsp?idMesa=1" class="btn btn--registrar-pedido btn-naranja">Registrar pedido</a>
+                       <!-- <a href="m-registrar-pedido.jsp?idMesa=1" class="btn btn--registrar-pedido btn-naranja">Registrar pedido</a>-->
+                        <a href="../MenuMeseroControlador?idMesa=1" class="btn btn--registrar-pedido btn-naranja">Registrar pedido</a>
+                        
                         <% } %>
                         <% if (estadoMesa1.equals("ocupada")) { %>
                         <a href="m-agregar-producto.jsp?idMesa=1" class="btn btn--agregar-producto btn-verde">Agregar producto</a>
@@ -103,7 +105,7 @@
                         <span class="etiqueta-amarilla">Esperando en Caja....</span>
 
                         <% } else { %>
-                        <a href="m-registrar-pedido.jsp?idMesa=2" class="btn btn--registrar-pedido btn-naranja">Registrar pedido</a>
+                        <a href="../MenuMeseroControlador?idMesa=2" class="btn btn--registrar-pedido btn-naranja">Registrar pedido</a>
                         <% } %>
                         <% if (estadoMesa2.equals("ocupada")) { %>
                         <a href="m-agregar-producto.jsp?idMesa=2" class="btn btn--agregar-producto btn-verde">Agregar producto</a>
@@ -126,7 +128,7 @@
                         <span class="etiqueta-amarilla">Esperando en Caja....</span>
 
                         <% } else { %>
-                        <a href="m-registrar-pedido.jsp?idMesa=3" class="btn btn--registrar-pedido btn-naranja">Registrar pedido</a>
+                        <a href="../MenuMeseroControlador?idMesa=3" class="btn btn--registrar-pedido btn-naranja">Registrar pedido</a>
                         <% } %>
                         <% if (estadoMesa3.equals("ocupada")) { %>
                         <a href="m-agregar-producto.jsp?idMesa=3" class="btn btn--agregar-producto btn-verde">Agregar producto</a>
@@ -149,7 +151,7 @@
                         <span class="etiqueta-amarilla">Esperando en Caja....</span>
 
                         <% } else { %>
-                        <a href="m-registrar-pedido.jsp?idMesa=4" class="btn btn--registrar-pedido btn-naranja">Registrar pedido</a>
+                        <a href="../MenuMeseroControlador?idMesa=4" class="btn btn--registrar-pedido btn-naranja">Registrar pedido</a>
                         <% } %>
                         <% if (estadoMesa4.equals("ocupada")) { %>
                         <a href="m-agregar-producto.jsp?idMesa=4" class="btn btn--agregar-producto btn-verde">Agregar producto</a>
@@ -172,7 +174,7 @@
                         <span class="etiqueta-amarilla">Esperando en Caja....</span>
 
                         <% } else { %>
-                        <a href="m-registrar-pedido.jsp?idMesa=5" class="btn btn--registrar-pedido btn-naranja">Registrar pedido</a>
+                        <a href="../MenuMeseroControlador?idMesa=5" class="btn btn--registrar-pedido btn-naranja">Registrar pedido</a>
                         <% } %>
                         <% if (estadoMesa5.equals("ocupada")) { %>
                         <a href="m-agregar-producto.jsp?idMesa=5" class="btn btn--agregar-producto btn-verde">Agregar producto</a>
@@ -195,7 +197,7 @@
                         <span class="etiqueta-amarilla">Esperando en Caja....</span>
 
                         <% } else { %>
-                        <a href="m-registrar-pedido.jsp?idMesa=6" class="btn btn--registrar-pedido btn-naranja">Registrar pedido</a>
+                        <a href="../MenuMeseroControlador?idMesa=6" class="btn btn--registrar-pedido btn-naranja">Registrar pedido</a>
                         <% } %>
                         <% if (estadoMesa6.equals("ocupada")) { %>
                         <a href="m-agregar-producto.jsp?idMesa=6" class="btn btn--agregar-producto btn-verde">Agregar producto</a>
@@ -218,7 +220,7 @@
                         <span class="etiqueta-amarilla">Esperando en Caja....</span>
 
                         <% } else { %>
-                        <a href="m-registrar-pedido.jsp?idMesa=7" class="btn btn--registrar-pedido btn-naranja">Registrar pedido</a>
+                        <a href="../MenuMeseroControlador?idMesa=7" class="btn btn--registrar-pedido btn-naranja">Registrar pedido</a>
                         <% } %>
                         <% if (estadoMesa7.equals("ocupada")) { %>
                         <a href="m-agregar-producto.jsp?idMesa=7" class="btn btn--agregar-producto btn-verde">Agregar producto</a>
@@ -241,7 +243,7 @@
                         <span class="etiqueta-amarilla">Esperando en Caja....</span>
 
                         <% } else { %>
-                        <a href="m-registrar-pedido.jsp?idMesa=8" class="btn btn--registrar-pedido btn-naranja">Registrar pedido</a>
+                        <a href="../MenuMeseroControlador?idMesa=8" class="btn btn--registrar-pedido btn-naranja">Registrar pedido</a>
                         <% } %>
                         <% if (estadoMesa8.equals("ocupada")) { %>
                         <a href="m-agregar-producto.jsp?idMesa=8" class="btn btn--agregar-producto btn-verde">Agregar producto</a>
