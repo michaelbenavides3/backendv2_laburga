@@ -54,26 +54,26 @@
                 </form>
             </section>
         </main>
+        
+        
+         <%
+            String finalizado = request.getParameter("finalizado");
+        %>
 
+        <% if ("true".equals(finalizado)) { %>
+
+        <script>
+            alert("Reserva creada correctamente");
+        </script>
+
+        <% }%>
 
         
-        <div id="modalExito" class="modal">
-            <div class="modal-contenido">
-                <h2>Reserva creada exitosamente</h2>
-                <p>La reserva fue registrada correctamente en el sistema.</p>
-                <button onclick="cerrarModal()" class="btn-modal">Aceptar</button>
-            </div>
-        </div>
+        
         
         
                 
-        <div id="modalClienteNoExiste" class="modal-error">
-          <div class="modal-contenido-error">
-            <h2> Cliente no registrado</h2>
-            <p>El cliente no existe en el sistema. Debe registrarlo primero antes de realizar la reserva.</p>
-            <button onclick="cerrarModalError()" class="btn-modal-error">Entendido</button>
-          </div>
-        </div>
+       
                 
                 
         <footer class="footer">

@@ -109,7 +109,9 @@
 
                             <% if (reserva.getEstadoReserva().equals("reservada")) {%>
 
-                            <a href="../finalizarReserva?idReserva=<%= reserva.getIdReserva()%>"class="btn-finalizar">Finalizar</a>
+                            <a href="<%= request.getContextPath()%>/finalizarReserva?id=<%= reserva.getIdReserva()%>"> <button type="button" class="btn btn-success btn-finalizar"> Finalizar </button> </a>
+
+
 
                             <% } %>
 
@@ -122,14 +124,26 @@
                     </tbody>
 
                 </table>
-                    
-                    
-                    
-                    <button type="button" class="btn--cancelar btn-regresar" onclick="window.location.href = 'm-meserocopy.jsp'">Regresar</button>
+
+
+
+                <button type="button" class="btn--cancelar btn-regresar" onclick="window.location.href = 'm-meserocopy.jsp'">Regresar</button>
 
             </section>
 
         </main>
+
+        <%
+            String finalizado = request.getParameter("finalizado");
+        %>
+
+        <% if ("true".equals(finalizado)) { %>
+
+        <script>
+            alert("Reserva finalizada correctamente.");
+        </script>
+
+        <% }%>
 
         <footer class="footer">
 

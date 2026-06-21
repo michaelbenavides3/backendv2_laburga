@@ -10,6 +10,8 @@ responsabilidad: administrar el registro y validacion de clientes
 
     - 3. METODO OBTENER ID CLIENTE POR TELEFONO --> obtener clinete por el numero del telefono 
 
+    - 4. METODO REGISTRAR CLIENTE Y RETORNAAR ID --> este metodo se utiliza para cuando un clinente no esta registrado en la base de datos, se crea automatico y me deja registrar en reservas
+
 
  */
 package com.dao;
@@ -267,55 +269,154 @@ public class ClienteDao {
         return -1;
     }
 
+    /*
+        
+        METODO 4 REGISTAR CLIENTE Y RETORNAR ID
+    
+     */
     public int registrarClienteYRetornarId(String nombre, String telefono) {
 
+        /*
+        CONEXIÓN A BASE DE DATOS
+
+        - Abre la conexión con MySQL
+        - Permite ejecutar sentencias SQL
+         */
         Connection conexionBaseDatos = claseConexion.getConexion();
 
+        /*
+        PREPARED STATEMENT CLIENTE
+
+        - Ejecuta el INSERT en la tabla clientes
+        - Se usa PreparedStatement para evitar inyección SQL
+         */
         PreparedStatement sentenciaCliente = null;
+
+        /*
+        PREPARED STATEMENT TELÉFONO
+
+        - Inserta el teléfono en la tabla relacional clientetelefono
+        - Relaciona cliente ↔ teléfono
+         */
         PreparedStatement sentenciaTelefono = null;
 
+        /*
+        RESULTSET CLAVES GENERADAS
+
+        - Guarda el ID que MySQL genera automáticamente
+        - Ejemplo: si el cliente es ID 5, aquí se obtiene ese valor
+         */
         ResultSet clavesGeneradas = null;
 
+        /*
+        SQL 1: INSERTAR CLIENTE
+
+        Solo guardamos el nombre porque:
+        - El teléfono va en otra tabla (normalización)
+         */
         String sqlCliente = """
                 INSERT INTO clientes (nombrecompleto_cliente)
                 VALUES (?)
             """;
 
+        /*
+        SQL 2: INSERTAR TELÉFONO
+
+        - Relaciona el cliente con su número
+        - Usa el id_cliente generado en el paso anterior
+         */
         String sqlTelefono = """
-                 INSERT INTO clientetelefono (id_cliente, cliente_telefono)
+                INSERT INTO clientetelefono (id_cliente, cliente_telefono)
                 VALUES (?, ?)
             """;
 
         try {
 
-            // 1. Insertar cliente (solo nombre)
-            sentenciaCliente = conexionBaseDatos.prepareStatement(sqlCliente, Statement.RETURN_GENERATED_KEYS);
+            /*
+            PASO 1: INSERTAR CLIENTE
+             */
+            sentenciaCliente = conexionBaseDatos.prepareStatement(sqlCliente,Statement.RETURN_GENERATED_KEYS );
 
+            /*
+            Reemplaza el "?" con el nombre del cliente
+             */
             sentenciaCliente.setString(1, nombre);
 
+            /*
+            Ejecuta el INSERT en la tabla clientes
+             */
             sentenciaCliente.executeUpdate();
 
+            /*
+            PASO 2: OBTENER EL ID GENERADO
+
+            - MySQL genera automáticamente el id_cliente (AUTO_INCREMENT)
+            - Ejemplo: 1, 2, 3, 4...
+             */
             clavesGeneradas = sentenciaCliente.getGeneratedKeys();
 
+            /*
+            Verifica si se generó un ID correctamente
+             */
             if (clavesGeneradas.next()) {
 
+                /*
+                Guardamos el ID generado por la base de datos
+                 */
                 int idCliente = clavesGeneradas.getInt(1);
 
-                // 2. Insertar teléfono relacionado
+                /*
+                PASO 3: INSERTAR TELÉFONO RELACIONADO
+                 */
                 sentenciaTelefono = conexionBaseDatos.prepareStatement(sqlTelefono);
 
+                /*
+                Reemplaza el primer "?" → id del cliente
+                 */
                 sentenciaTelefono.setInt(1, idCliente);
+
+                /*
+                Reemplaza el segundo "?" → número de teléfono
+                 */
                 sentenciaTelefono.setString(2, telefono);
 
+                /*
+                Ejecuta el INSERT en clientetelefono
+                 */
                 sentenciaTelefono.executeUpdate();
 
+                /*
+                RETURN EXITOSO
+
+                - Devuelve el ID del cliente creado
+                - Esto permite usarlo en la reserva inmediatamente
+                 */
                 return idCliente;
             }
 
         } catch (Exception e) {
+
+            /*
+            ERROR GENERAL
+
+            Si algo falla:
+            - conexión
+            - SQL
+            - inserción
+             */
             System.out.println("Error creando cliente: " + e.getMessage());
         }
 
+        /*
+        RETURN -1 = ERROR o FALLA no se pudo crear ni obtener el cliente”
+
+
+        Porque el método debe devolver un int sí o sí, pero cuando falla NO hay ID válido.
+
+        Entonces:
+        - ID real: 1, 2, 3, 4...
+        - Error: -1
+         */
         return -1;
     }
 

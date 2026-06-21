@@ -24,26 +24,41 @@ public class ReservaControlador extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        // 1. Captura de datos del formulario
-        String telefono = request.getParameter("telefono"); // 
+        
+        // 1. CAPTURA DEL FORMULARIO
+       
+        String nombre = request.getParameter("nombre");
+        String telefono = request.getParameter("telefono");
         String fechaStr = request.getParameter("fecha");
         String horaStr = request.getParameter("hora") + ":00";
         int personas = Integer.parseInt(request.getParameter("personas"));
         int idMesa = Integer.parseInt(request.getParameter("mesa"));
         String observacion = request.getParameter("ocasion");
 
-        // 2. Buscar el cliente real en la base de datos
+        
+        // 2. BUSCAR CLIENTE
+        
         int idCliente = clienteDao.obtenerIdClientePorTelefono(telefono);
 
-        // 3. Validar si el cliente existe
+        
+        // 3. SI NO EXISTE → CREARLO
+      
         if (idCliente == -1) {
-            response.getWriter().println("Error: el cliente no existe. Regístrelo primero.");
-            return;
+
+            idCliente = clienteDao.registrarClienteYRetornarId(nombre, telefono);
+
+            // validación extra por seguridad
+            if (idCliente == -1) {
+                response.getWriter().println("Error: no se pudo crear el cliente.");
+                return;
+            }
         }
 
-        // 4. Crear objeto reserva
+      
+        // 4. CREAR OBJETO RESERVA
+        
         Reserva nuevaReserva = new Reserva();
-        nuevaReserva.setIdCliente(idCliente); //
+        nuevaReserva.setIdCliente(idCliente);
         nuevaReserva.setIdMesa(idMesa);
         nuevaReserva.setFechaReserva(Date.valueOf(fechaStr));
         nuevaReserva.setHoraReserva(Time.valueOf(horaStr));
@@ -51,12 +66,16 @@ public class ReservaControlador extends HttpServlet {
         nuevaReserva.setObservacionesReserva(observacion);
         nuevaReserva.setEstadoReserva("reservada");
 
-        // 5. Validaciones
-        boolean existeReserva = reservaDao.validarMesaReservada( idMesa, nuevaReserva.getFechaReserva(),nuevaReserva.getHoraReserva() );
+       
+        // 5. VALIDACIONES NEGOCIO
+        
+        boolean existeReserva = reservaDao.validarMesaReservada(idMesa, nuevaReserva.getFechaReserva(), nuevaReserva.getHoraReserva() );
 
         int capacidad = reservaDao.obtenerCapacidadMesa(idMesa);
 
-        // 6. Reglas del negocio
+        
+        // 6. REGLAS DEL SISTEMA
+       
         if (existeReserva) {
 
             response.getWriter().println("Error: La mesa ya está reservada.");
@@ -70,9 +89,12 @@ public class ReservaControlador extends HttpServlet {
             boolean registrado = reservaDao.registrarNuevaReserva(nuevaReserva);
 
             if (registrado) {
+
                 response.sendRedirect("html/m-meserocopy.jsp?exito=true");
+
             } else {
-                response.getWriter().println("Error al registrar en la base de datos.");
+
+                response.getWriter().println("Error al registrar la reserva.");
             }
         }
     }

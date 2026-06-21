@@ -129,10 +129,7 @@
 
                             <td>
 
-                                <img src="${pageContext.request.contextPath}/<%= rutaImagen%>"
-                                     width="80"
-                                     height="80"
-                                     alt="Imagen producto">
+                                <img src="${pageContext.request.contextPath}/<%= rutaImagen%>" width="80" height="80"alt="Imagen producto">
 
                             </td>
 
@@ -177,15 +174,10 @@
 
                             <td>
 
-                                <a href="../EditarProductoControlador?idProducto=<%= productoActual.getIdProducto()%>"
-                                   class="btn-editar">
+                                <a href="../EditarProductoControlador?idProducto=<%= productoActual.getIdProducto()%>"class="btn-editar">Editar</a>
 
-                                    Editar
+                                <a href="${pageContext.request.contextPath}/CambiarDisponibilidadProductoControlador?idProducto=<%= productoActual.getIdProducto()%>&estado=<%= !productoActual.isDisponibleProducto()%>"class="btn-estado">
 
-                                </a>
-
-                                <a href="../CambiarDisponibilidadProductoControlador?idProducto=<%= productoActual.getIdProducto()%>"
-                                   class="btn-estado">
 
                                     <%
 
@@ -221,25 +213,42 @@
 
             </section>
 
-            <a href="a-panel-principal-admin.jsp" class="btn-regresar">
+
             <button type="button" class="btn--cancelar btn-regresar" onclick="window.location.href = 'a-panel-principal-admin.jsp'">Regresar</button>
+            
+            <button type="button"onclick="window.location.href='${pageContext.request.contextPath}/html/a-panel-principal-admin.jsp'">Regresar</button>
 
-                Regresar
 
-            </a>
 
-        </main>
+        </a>
 
-        <!-- FOOTER -->
+    </main>
 
-        <footer class="footer">
+    <!-- FOOTER -->
 
-            <p>
-                &copy; 2025 Labur-Ga. Todos los derechos reservados.
+    <footer class="footer">
+
+        <p>
+            &copy; 2025 Labur-Ga. Todos los derechos reservados.
+        </p>
+
+    </footer>
+
+
+                <%
+            String msg = (String) request.getAttribute("msg");
+
+            if (msg != null) {
+                %>
+
+            <p class="mensaje-exito">
+                Producto <%= msg %> correctamente
             </p>
 
-        </footer>
+            <%
+            }
+            %>
 
-    </body>
+</body>
 
 </html>

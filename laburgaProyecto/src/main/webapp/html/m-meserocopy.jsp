@@ -294,6 +294,18 @@
         </script>
 
         <% }%>
+        
+          <%
+            String finalizado = request.getParameter("finalizado");
+        %>
+
+        <% if ("true".equals(finalizado)) { %>
+
+        <script>
+            alert("Reserva finalizada correctamente.");
+        </script>
+
+        <% }%>
 
     </body>
 
