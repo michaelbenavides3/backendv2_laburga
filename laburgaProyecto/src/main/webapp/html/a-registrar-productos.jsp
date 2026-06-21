@@ -97,17 +97,8 @@
 
                     <div class="contenedor-botones">
 
-                        <button type="submit" class="btn-guardar">
-
-                            Registrar Producto
-
-                        </button>
-
-                        <a href="a-listar-productos.jsp" class="btn-cancelar">
-
-                            Cancelar
-
-                        </a>
+                        <button type="submit" class="btn-guardar"> Registrar Producto</button>
+                        <a href="${pageContext.request.contextPath}/ProductosControlador?accion=listar" class="btn-cancelar">Cancelar</a>
 
                     </div>
 
@@ -115,7 +106,8 @@
 
             </section>
 
-            <a href="html/a-listar-productos.jsp" class="btn-regresar">Regresar</a>
+            
+            <a href="${pageContext.request.contextPath}/ProductosControlador?accion=listar" class="btn-regresar">Regresar</a>
 
         </main>
 

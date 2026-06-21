@@ -66,11 +66,8 @@
                     Lista de Productos
                 </h2>
 
-                <a href="a-registrar-productos.jsp" class="btn-nuevo-producto">
-
-                    Nuevo Producto
-
-                </a>
+                
+                <a href="${pageContext.request.contextPath}/html/a-registrar-productos.jsp" class="btn-nuevo-producto">Nuevo Producto</a>
 
                 <table class="tabla-productos">
 
@@ -214,7 +211,7 @@
             </section>
 
             <button type="button" class="btn-regresar"onclick="window.location.href='${pageContext.request.contextPath}/html/a-panel-principal-admin.jsp'">Regresar</button>
-            
+             
 
        <!-- </a> -->
 

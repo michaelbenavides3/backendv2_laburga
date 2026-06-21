@@ -68,7 +68,6 @@
     text-align: center;
     transition: background-color 0.3s;
     margin: 50px 900px;
-}
 
 .btn-regresar:hover {
     background-color: #45a049; /* Cambia de color al pasar el mouse */
