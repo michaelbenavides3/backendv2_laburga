@@ -1,3 +1,20 @@
+/*
+
+    Identifica quién es el cliente, creándolo si es la primera vez que visita el restaurante (evita duplicados).
+
+    pregunta si la mesa está disponible y si tiene la capacidad necesaria.
+
+    Solo si las reglas se cumplen, procede al registro final.
+
+
+    ClienteDao->	obtenerIdClientePorTelefono
+    ClienteDao->	registrarClienteYRetornarId
+    ReservaDao->	validarMesaReservada
+    ReservaDao->	obtenerCapacidadMesa
+    ReservaDao-> 	registrarNuevaReserva
+
+
+*/
 package com.controlador;
 
 import com.dao.ClienteDao;
