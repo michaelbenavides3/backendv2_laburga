@@ -178,12 +178,13 @@ public class PedidoDao {
     public boolean solicitarCuenta(int idPedido) {
         //update es para modificar la tabla pedidos, set cambia la columna estado y se activa como pendietnecobro con el where solo afecta wl idpedido que se llama 
         String sql = "UPDATE pedidos SET estado_pedido='pendiente_cobro' WHERE id_pedido=?";
-
+        
+        //// Uso de try-with-resources para asegurar el cierre automático de la conexión y el statement
         try (
                 Connection con = claseConexion.getConexion(); PreparedStatement ps = con.prepareStatement(sql);) {
-
+            // Vinculación del parámetro ID al placeholder '?'
             ps.setInt(1, idPedido);
-
+            // executeUpdate devuelve el número de filas afectadas; si es > 0, la operación fue un éxito
             return ps.executeUpdate() > 0;
 
         } catch (Exception e) {

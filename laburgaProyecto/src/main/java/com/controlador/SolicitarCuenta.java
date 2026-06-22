@@ -1,4 +1,16 @@
+/*
 
+    Mueve el pedido del estado "activo" (donde el mesero agrega productos) a "pendiente_cobro".
+
+    Notificación al Cajero: Al cambiar el estado, el cajero puede filtrar su vista para ver solo los pedidos que están listos para ser pagados.
+
+    Al recargar la página del mesero, el pedido "desaparece" de la lista de pedidos activos, indicándole al mesero que ya delegó la responsabilidad al cajero.
+
+    METODOS PEDIDODAO-> solicitarCuenta
+
+
+
+*/
 package com.controlador;
 import com.dao.PedidoDao;
 
