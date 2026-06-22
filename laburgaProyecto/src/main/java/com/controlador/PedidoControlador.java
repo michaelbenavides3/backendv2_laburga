@@ -1,3 +1,14 @@
+/*
+    Su función es crear una orden de compra completa. Recibe la solicitud de la mesa, la vincula con el mesero que inició sesión y desglosa una lista variable de productos
+    (cantidad y precio real) para guardarlos en la base de datos de una sola vez.
+
+    PedidoDao-> registrarNuevoPedido
+    PedidoDao->	registrarDetallePedido
+    ProductosDao->	obtenerProductoPorId
+    MesaDao->	cambiarEstado
+
+*/
+
 package com.controlador;
 
 import com.dao.PedidoDao;
