@@ -1,3 +1,20 @@
+/*
+
+    METODOS DAO UTILIZADOS:
+
+    1. actualizarEstadoUsuario -> Permite activar o desactivar un usuario del sistema.
+
+    RESPONSABILIDAD:
+
+        - Activar usuarios.
+        - Desactivar usuarios.
+        - Actualizar el estado en la base de datos.
+        - Recargar el listado de usuarios.
+
+*/
+
+
+
 package com.controlador;
 
 import com.dao.UsuarioDao;
