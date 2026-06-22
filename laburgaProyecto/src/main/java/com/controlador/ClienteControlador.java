@@ -1,3 +1,17 @@
+/*
+     METODOS 
+
+     dao.existeCliente  -> Propósito: Evitar colisiones de datos y errores de llave primaria/única en la base de datos.
+     
+     dao.registrarClienteCompleto -> (si falla el correo, no se debe guardar el cliente, manteniendo la integridad de tus tablas).
+
+
+
+*/
+
+
+
+
 package com.controlador;
 
 // Importamos el DAO y el Modelo de Labur-GA correspondientes
