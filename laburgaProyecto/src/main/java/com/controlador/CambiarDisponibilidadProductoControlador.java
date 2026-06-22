@@ -1,3 +1,22 @@
+/*
+
+    - Activar productos.
+    - Desactivar productos.
+    - Actualizar el estado en la base de datos.
+    - Recargar el listado de productos.
+
+        METODOS DAO UTILIZADOS:
+
+            1. cambiarDisponibilidadProducto() -> Permite activar o desactivar un producto del menú.
+
+
+*/
+
+
+
+
+
+
 package com.controlador;
 
 import com.dao.ProductosDao;
