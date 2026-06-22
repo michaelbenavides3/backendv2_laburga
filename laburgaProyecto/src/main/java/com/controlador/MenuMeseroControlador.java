@@ -1,3 +1,15 @@
+/*
+
+    el mesero pueda tomar un pedido rápidamente. Su complejidad radica en que no solo trae una lista plana de productos, 
+    sino que organiza la información para que la vista sea más profesional y eficiente.
+
+
+    ProductosDao-> obtenerProductosDisponibles
+    ProductoImagenDao->	obtenerRutaImagenProducto
+
+
+*/
+
 package com.controlador;
 
 import com.dao.ProductosDao;
