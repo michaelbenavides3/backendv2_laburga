@@ -1,3 +1,28 @@
+/*
+    OBJETIVO DEL CONTROLADOR
+
+    Permitir que el mesero modifique la cantidad de productos dentro de un pedido abierto sin necesidad de eliminar el pedido completo, 
+    manteniendo actualizada la información almacenada en la base de datos.
+
+
+    DetallePedidoDao: Métodos utilizados: actualizarCantidadDetalle(int idDetallePedido, int nuevaCantidad)
+
+    FLUJO DE FUNCIONAMIENTO:
+
+        Recibir los datos enviados por el formulario.
+        Obtener el ID del detalle del pedido.
+        Obtener la nueva cantidad ingresada por el usuario.
+        Crear una instancia de DetallePedidoDao.
+        Ejecutar la actualización en la base de datos.
+        Validar el resultado de la operación.
+        Redireccionar al panel del mesero mostrando el resultado.
+*/
+
+
+
+
+
+
 package com.controlador;
 
 import com.dao.DetallePedidoDao;
