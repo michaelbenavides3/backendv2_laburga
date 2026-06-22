@@ -1,3 +1,15 @@
+/*
+
+        METODOS
+            
+        PRODUCTODAO
+
+        obtenerListaTodosLosProductos():  para traer el inventario completo.
+
+        cambiarDisponibilidadProducto(id, estado):  para activar o desactivar ítems.
+
+*/
+
 package com.controlador;
 
 import com.dao.ProductosDao;
