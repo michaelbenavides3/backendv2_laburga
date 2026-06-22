@@ -207,6 +207,24 @@ body {
 
 }
 
+
+/* TÍTULO CATEGORÍA DINÁMICO */
+.titulo__categoria {
+  grid-column: 1 / -1;
+  margin-top: 28px;
+  margin-bottom: 4px;
+  font-size: 20px;
+  font-weight: bold;
+  color: var(--naranja-oscuro);
+  border-bottom: 2px solid var(--naranja-medio);
+  padding-bottom: 6px;
+  text-transform: capitalize;
+}
+
+.titulo__categoria:first-child {
+  margin-top: 0;
+}
+
 /* RESPONSIVE */
 @media (max-width: 768px) {
   .layout {
