@@ -1,3 +1,13 @@
+/*
+
+ProductosDao-> registrarProductoRetornandoId
+ProductoImagenDao-> registrarImagenProducto
+
+    OBJETIVO, ES CREAR UN PRODUCTO NUEVO, Y AGREGAR O ASGINARLE UNA IMAGEN COMO REFERENCIA DEL PRODUCTO
+
+
+
+*/
 package com.controlador;
 
 import com.dao.ProductosDao;
@@ -23,7 +33,7 @@ import jakarta.servlet.http.Part;
 @WebServlet(
         name = "RegistrarProductoControlador",
         urlPatterns = {"/RegistrarProductoControlador"})
-@MultipartConfig
+@MultipartConfig /*EL CONTROLADOR PUEDE LEER ARCHIVOS SUBIDOS*/
 public class RegistrarProductoControlador extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
