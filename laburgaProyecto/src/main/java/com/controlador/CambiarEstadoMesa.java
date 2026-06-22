@@ -1,3 +1,30 @@
+/*
+
+    RESPONSABILIDAD:
+
+        - Modificar el estado de una mesa.
+        - Detectar cuando una mesa solicita cuenta.
+        - Buscar el pedido activo asociado a la mesa.
+        - Enviar el pedido a caja.
+        - Regresar al panel principal del mesero.
+
+
+    METODOS DAO UTILIZADOS:
+
+    1. cambiarEstado -> Actualiza el estado actual de una mesa.
+
+    2. obtenerPedidoActivoPorMesa -> Busca el pedido que se encuentra activo en la mesa seleccionada.
+
+    3. solicitarCuenta -> Cambia el estado del pedido para indicar que fue enviado a caja.
+
+
+
+
+*/
+
+
+
+
 package com.controlador;
 
 import com.dao.PedidoDao;
