@@ -78,7 +78,7 @@ public class EditarProductoControlador extends HttpServlet {
 
             request.setAttribute( "productoSeleccionado",producto);
 
-            request.getRequestDispatcher(  "html/a-editar-producto.jsp") .forward(request, response);
+            request.getRequestDispatcher(  "/html/a-editar-productos.jsp") .forward(request, response);
         }
     }
 

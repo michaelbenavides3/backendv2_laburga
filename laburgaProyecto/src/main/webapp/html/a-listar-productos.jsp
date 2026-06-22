@@ -170,8 +170,7 @@
                             </td>
 
                             <td>
-
-                                <a href="../EditarProductoControlador?idProducto=<%= productoActual.getIdProducto()%>"class="btn-editar">Editar</a>
+                                <a href="${pageContext.request.contextPath}/EditarProductoControlador?idProducto=<%= productoActual.getIdProducto()%>" class="btn-editar">Editar</a>
 
                                 <a href="${pageContext.request.contextPath}/CambiarDisponibilidadProductoControlador?idProducto=<%= productoActual.getIdProducto()%>&estado=<%= !productoActual.isDisponibleProducto()%>"class="btn-estado">
 

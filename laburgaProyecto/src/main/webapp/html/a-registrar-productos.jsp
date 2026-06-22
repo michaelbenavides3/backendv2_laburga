@@ -1,5 +1,9 @@
 <%@page import="com.modelo.Usuario"%>
 
+
+
+
+
 <%
     Usuario usuarioSesion
             = (Usuario) session.getAttribute("usuarioLogeadoObjeto");
@@ -50,6 +54,25 @@
             <section class="contenedor-formulario formulario-producto">
 
                 <h2>Registrar Nuevo Producto</h2>
+
+
+
+                <%
+                    String error = request.getParameter("error");
+                %>
+                <% if ("nombre".equals(error)) { %>
+                <p class="mensaje-error"> El nombre solo puede contener letras, sin números.</p>
+                <% } else if ("nombreCorto".equals(error)) { %>
+                <p class="mensaje-error"> El nombre debe tener al menos 3 caracteres.</p>
+                <% } else if ("descripcion".equals(error)) { %>
+                <p class="mensaje-error"> La descripción debe contener al menos una letra.</p>
+                <% } else if ("categoria".equals(error)) { %>
+                <p class="mensaje-error"> La categoría solo puede contener letras, sin números.</p>
+                <% } else if ("imagen".equals(error)) { %>
+                <p class="mensaje-error"> Debe seleccionar una imagen para el producto.</p>
+                <% } else if ("registro".equals(error)) { %>
+                <p class="mensaje-error"> Error al guardar el producto. Intente de nuevo.</p>
+                <% }%>
 
                 <form action="../RegistrarProductoControlador"method="post" enctype="multipart/form-data">
 
@@ -106,7 +129,7 @@
 
             </section>
 
-            
+
             <a href="${pageContext.request.contextPath}/ProductosControlador?accion=listar" class="btn-regresar">Regresar</a>
 
         </main>

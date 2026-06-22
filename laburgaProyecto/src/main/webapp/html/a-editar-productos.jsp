@@ -31,7 +31,7 @@
               href="${pageContext.request.contextPath}/css/style.css">
 
         <link rel="stylesheet"
-              href="${pageContext.request.contextPath}/css/a-editar-producto.css">
+              href="${pageContext.request.contextPath}/css/a-editar-productos.css">
 
     </head>
 
@@ -62,17 +62,11 @@
                     Editar Producto
                 </h2>
 
-                <form action="../EditarProductoControlador"
-                      method="post"
-                      class="formulario-producto">
+                <form action="${pageContext.request.contextPath}/EditarProductoControlador" method="post">
 
-                    <input type="hidden"
-                           name="accion"
-                           value="guardar">
+                    <input type="hidden"name="accion" value="guardar">
 
-                    <input type="hidden"
-                           name="idProducto"
-                           value="<%= productoSeleccionado.getIdProducto()%>">
+                    <input type="hidden" name="idProducto" value="<%= productoSeleccionado.getIdProducto()%>">
 
                     <div class="grupo-campo">
 
@@ -80,10 +74,7 @@
                             Nombre Producto
                         </label>
 
-                        <input type="text"
-                               name="nombreProducto"
-                               value="<%= productoSeleccionado.getNombreProducto()%>"
-                               required>
+                        <input type="text" name="nombreProducto" value="<%= productoSeleccionado.getNombreProducto()%>"required>
 
                     </div>
 
@@ -93,8 +84,7 @@
                             Descripción
                         </label>
 
-                        <textarea name="descripcionProducto"
-                                  rows="4"><%= productoSeleccionado.getDescripcionProducto()%></textarea>
+                        <textarea name="descripcionProducto" rows="4"><%= productoSeleccionado.getDescripcionProducto()%></textarea>
 
                     </div>
 
@@ -104,12 +94,7 @@
                             Precio Base
                         </label>
 
-                        <input type="number"
-                               step="0.01"
-                               min="1"
-                               name="precioProducto"
-                               value="<%= productoSeleccionado.getPrecioBaseProducto()%>"
-                               required>
+                        <input type="number" step="0.01" min="1" name="precioProducto"value="<%= productoSeleccionado.getPrecioBaseProducto()%>" required>
 
                     </div>
 
@@ -119,10 +104,7 @@
                             Categoría
                         </label>
 
-                        <input type="text"
-                               name="categoriaProducto"
-                               value="<%= productoSeleccionado.getCategoriaProducto()%>"
-                               required>
+                        <input type="text" name="categoriaProducto"value="<%= productoSeleccionado.getCategoriaProducto()%>" required>
 
                     </div>
 
@@ -132,27 +114,16 @@
                             Disponible
                         </label>
 
-                        <input type="text"
-                               value="<%= productoSeleccionado.isDisponibleProducto() ? "SI" : "NO"%>"
-                               readonly>
+                        <input type="text"value="<%= productoSeleccionado.isDisponibleProducto() ? "SI" : "NO"%>" readonly>
 
                     </div>
 
                     <div class="contenedor-botones">
 
-                        <button type="submit"
-                                class="btn-guardar">
-
-                            Guardar Cambios
-
-                        </button>
-
-                        <a href="a-listar-productos.jsp"
-                           class="btn-cancelar">
-
-                            Cancelar
-
-                        </a>
+                        <button type="submit"class="btn-guardar"> Guardar Cambios </button>
+                        
+                        <a href="${pageContext.request.contextPath}/ListarProductosControlador" class="btn-cancelar">Cancelar</a>
+                        
 
                     </div>
 
@@ -160,7 +131,7 @@
 
             </section
 
-            <a href="html/a-panel-principal-admin.jsp" class="btn-regresar">Regresar</a>
+            
 
         </main>
 
