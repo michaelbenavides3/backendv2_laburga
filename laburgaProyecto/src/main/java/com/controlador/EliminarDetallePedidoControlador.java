@@ -1,3 +1,18 @@
+/*
+    actúa como un limpiador automático. Su propósito no es solo eliminar un registro en la tabla detalle_pedido, 
+    sino mantener la integridad del estado de las mesas. Si un mesero borra el último producto de un pedido, 
+    el sistema automáticamente cierra el pedido y libera la mesa para nuevos clientes, evitando errores humanos.
+
+    DetallePedidoDao-> eliminarDetallePedido
+    DetallePedidoDao-> contarDetallesPorPedido
+    PedidoDao-> obtenerMesaPorPedido
+    PedidoDao-> actualizarEstadoPedido
+    MesaDao-> cambiarEstado
+
+
+
+
+*/
 package com.controlador;
 
 import com.dao.DetallePedidoDao;
