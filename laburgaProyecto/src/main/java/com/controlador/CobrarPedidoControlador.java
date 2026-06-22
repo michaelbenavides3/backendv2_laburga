@@ -1,3 +1,18 @@
+/*
+
+
+
+PedidoDao -> obtenerPedidoPorId->	Recupera el objeto Pedido completo con su total.
+PedidoDao -> actualizarEstadoPedido->	Cambia el estado del pedido a 'cerrada'.
+FacturaDao -> registrarFacturaRetornandoId->	Inserta la factura y devuelve el id generado para vincularlo al pago.
+FacturaDao -> actualizarEstadoFactura->	Cambia el estado de la factura a 'pagada'.
+PagoDao	-> registrarPago ->	Registra el movimiento financiero del pago.
+MesaDao-> cambiarEstado ->	Cambia el estado de la mesa a 'disponible'.
+
+*/
+
+
+
 package com.controlador;
 
 import com.dao.FacturaDao;
