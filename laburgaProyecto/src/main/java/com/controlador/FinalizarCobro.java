@@ -1,3 +1,15 @@
+/*
+
+    Cerrar el ciclo de venta: Marcando el pedido como "cerrada" para que no aparezca en listados de pedidos activos.
+
+    Habilitar el servicio: Liberando la mesa para que el siguiente cliente pueda ser atendido.
+
+    PedidoDao->	actualizarEstadoPedido
+    MesaDao->	cambiarEstado
+
+
+*/
+
 package com.controlador;
 
 import com.dao.MesaDao;
