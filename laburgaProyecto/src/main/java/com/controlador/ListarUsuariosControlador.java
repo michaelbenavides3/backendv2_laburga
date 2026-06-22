@@ -1,3 +1,11 @@
+/*
+    encargado de traer la lista de personas que trabajan en el restaurante (o que tienen acceso al sistema).
+
+    Metodo Usuariodao-> obtenerListaUsuariosConRol
+
+
+*/
+
 package com.controlador;
 
 import com.dao.UsuarioDao;
