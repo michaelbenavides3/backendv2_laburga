@@ -4,6 +4,17 @@
     java.util.List" %>
 <%@page import="com.modelo.Usuario"%>
 
+<%
+    // Verifica si la sesión existe. Si no, manda al usuario al login inmediatamente
+    if (session.getAttribute("usuarioLogeadoObjeto") == null) {
+        response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+        response.setHeader("Pragma", "no-cache");
+        response.setDateHeader("Expires", 0);
+        response.sendRedirect(request.getContextPath() + "/index.html");
+        return; // Detiene la ejecución del JSP
+    }
+%>
+
 
 <%
     String cobro = request.getParameter("cobro");

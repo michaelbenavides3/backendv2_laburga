@@ -1,3 +1,13 @@
+/*
+    Su propósito es gestionar el registro de nuevos usuarios, 
+
+    Crear Usuario->	usuarioDao.registrarNuevoUsuario
+    Vincular Teléfono->	telefonousuarioDao.insertarTelefono
+    Vincular Correo->	correousuarioDao.insertarCorreo
+
+*/
+
+
 package com.controlador;
 
 import com.dao.UsuarioDao;

@@ -1,3 +1,8 @@
+/*
+
+    Este es el controlador encargado de finalizar la sesión del usuario. 
+
+*/
 package com.controlador;
 
 import java.io.IOException;
@@ -21,6 +26,9 @@ public class cerrarSesion extends HttpServlet {
         if (sesion != null) {
             sesion.invalidate();
         }
+        response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate"); // HTTP 1.1
+        response.setHeader("Pragma", "no-cache"); // HTTP 1.0
+        response.setDateHeader("Expires", 0); // Proxies    
 
         response.sendRedirect("index.html");
     }
