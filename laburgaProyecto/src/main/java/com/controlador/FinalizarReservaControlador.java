@@ -1,3 +1,9 @@
+/*
+    es el encargado de gestionar el ciclo de vida final de una reserva.
+
+    Método en ReservaDao-> finalizarReserva
+
+*/
 package com.controlador;
 
 import com.dao.ReservaDao;
