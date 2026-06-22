@@ -1,3 +1,13 @@
+/*
+    Autenticación: Comprobar que el usuario es quien dice ser (el usuario y la contraseña existen en la base de datos).
+
+    Autorización: Comprobar si el usuario tiene permiso para entrar por el "rol" que seleccionó (por ejemplo, evitar que un mesero intente entrar al panel de administrador).
+
+    Método en UsuarioDao-> verificarCredencialesIngreso
+
+
+*/
+
 package com.controlador;
 
 import com.dao.UsuarioDao;
