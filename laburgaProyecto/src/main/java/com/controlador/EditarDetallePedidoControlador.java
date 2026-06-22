@@ -2,7 +2,9 @@
 
 /*
 
-Buscar la información del detalle seleccionado y enviarla a la vista para mostrarla.
+        Buscar la información del detalle seleccionado y enviarla a la vista para mostrarla.
+
+        METODO DetallePedidoDao-> obtenerDetallePorId
 
  */
 package com.controlador;
