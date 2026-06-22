@@ -1,3 +1,17 @@
+/*
+
+Busca en la base de datos el producto actual usando su ID y "inyecta" esos datos en el JSP de edición para que el mesero o administrador no tenga que escribir todo de nuevo.
+
+Recibe los nuevos valores del formulario, actualiza el objeto modelo y solicita al DAO que sobreescriba los datos antiguos en MySQL.
+
+Método en ProductosDao
+
+obtenerProductoPorId	
+actualizarProducto
+
+
+
+*/
 package com.controlador;
 
 import com.dao.ProductosDao;
