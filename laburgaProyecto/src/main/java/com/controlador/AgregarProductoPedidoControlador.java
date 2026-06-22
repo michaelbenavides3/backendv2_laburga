@@ -2,7 +2,9 @@ package com.controlador;
 
 import com.dao.DetallePedidoDao;
 import com.dao.PedidoDao;
+import com.dao.ProductosDao;
 import com.modelo.DetallePedido;
+import com.modelo.Productos;
 
 import java.io.IOException;
 import java.util.Enumeration;
@@ -19,62 +21,32 @@ import jakarta.servlet.http.HttpServletResponse;
 )
 public class AgregarProductoPedidoControlador extends HttpServlet {
 
-    protected void processRequest( HttpServletRequest request,HttpServletResponse response) throws ServletException, IOException {
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
 
         /*
-        
         1. RECUPERAR LA MESA
-        
          */
         int identificadorMesa = Integer.parseInt(request.getParameter("txtIdMesa"));
 
         /*
-        
         2. BUSCAR EL PEDIDO ACTIVO DE ESA MESA
-        
-           si la mesa ya tiene una orden abierta, obtenemos el id del pedido.
-        
          */
         PedidoDao pedidoDao = new PedidoDao();
-
-        int identificadorPedido = pedidoDao.obtenerPedidoActivoPorMesa( identificadorMesa);
+        int identificadorPedido = pedidoDao.obtenerPedidoActivoPorMesa(identificadorMesa);
 
         /*
-        
         3. VALIDAR QUE EXISTA UN PEDIDO ACTIVO
-        
          */
         if (identificadorPedido > 0) {
 
             DetallePedidoDao detallePedidoDao = new DetallePedidoDao();
 
-            /*
-            
-            PRECIOS DE LOS PRODUCTOS
-            
-             */
-            double[] preciosProductos = {
-                0.0,
-                19000.0,
-                25000.0,
-                22000.0,
-                35000.0,
-                19000.0,
-                19000.0,
-                19000.0,
-                19000.0,
-                25000.0,
-                40000.0,
-                5000.0,
-                5000.0,
-                7000.0,
-                12000.0
-            };
+            // ✅ Precio real desde BD, ya no hay array hardcodeado
+            ProductosDao productosDao = new ProductosDao();
 
             /*
-            
             4. RECORRER TODOS LOS CAMPOS DEL FORMULARIO
-            
              */
             Enumeration<String> nombresCampos = request.getParameterNames();
 
@@ -83,82 +55,80 @@ public class AgregarProductoPedidoControlador extends HttpServlet {
                 String nombreCampo = nombresCampos.nextElement();
 
                 /*
-                
                 SOLO PROCESAMOS LOS CAMPOS prod_
-                
                  */
                 if (nombreCampo.startsWith("prod_")) {
 
-                    String valorCantidad = request.getParameter( nombreCampo);
+                    String valorCantidad = request.getParameter(nombreCampo);
 
-                    if (valorCantidad != null&& !valorCantidad.isEmpty()) {
+                    if (valorCantidad != null && !valorCantidad.isEmpty()) {
 
-                        int cantidadProducto = Integer.parseInt( valorCantidad);
+                        int cantidadProducto = Integer.parseInt(valorCantidad);
 
                         /*
-                        
                         SOLO GUARDAMOS SI LA CANTIDAD ES MAYOR A 0
-                        
                          */
                         if (cantidadProducto > 0) {
 
-                            int identificadorProducto = Integer.parseInt( nombreCampo.replace( "prod_", ""));
+                            int identificadorProducto = Integer.parseInt(
+                                    nombreCampo.replace("prod_", ""));
 
                             /*
-                            
-                            5. CREAR OBJETO DETALLEPEDIDO
-                            
+                            5. CONSULTAR PRECIO REAL DESDE BD
                              */
-                            DetallePedido detallePedidoNuevo = new DetallePedido();
+                            Productos producto = productosDao.obtenerProductoPorId(identificadorProducto);
 
-                            detallePedidoNuevo.setIdPedido(identificadorPedido);
+                            if (producto != null) {
 
-                            detallePedidoNuevo.setIdProducto( identificadorProducto);
+                                /*
+                                6. CREAR OBJETO DETALLEPEDIDO
+                                 */
+                                DetallePedido detallePedidoNuevo = new DetallePedido();
+                                detallePedidoNuevo.setIdPedido(identificadorPedido);
+                                detallePedidoNuevo.setIdProducto(identificadorProducto);
+                                detallePedidoNuevo.setCantidad(cantidadProducto);
+                                detallePedidoNuevo.setPrecioVenta(producto.getPrecioBaseProducto());
+                                detallePedidoNuevo.setObservaciones("");
 
-                            detallePedidoNuevo.setCantidad(cantidadProducto);
+                                /*
+                                7. GUARDAR EL PRODUCTO
+                                 */
+                                detallePedidoDao.registrarDetalle(detallePedidoNuevo);
 
-                            detallePedidoNuevo.setPrecioVenta( preciosProductos[ identificadorProducto]);
-
-                            detallePedidoNuevo.setObservaciones("");
-
-                            /*
-                            
-                            6. GUARDAR EL PRODUCTO
-                            
-                             */
-                            detallePedidoDao.registrarDetalle( detallePedidoNuevo);
+                                System.out.println("DEBUG: Agregado " + producto.getNombreProducto()
+                                        + " x" + cantidadProducto
+                                        + " a $" + producto.getPrecioBaseProducto());
+                            } else {
+                                System.out.println("WARN: Producto id=" + identificadorProducto + " no encontrado.");
+                            }
                         }
                     }
                 }
             }
 
             /*
-            
-            7. REDIRECCIONAR AL PANEL
-            
+            8. REDIRECCIONAR AL PANEL
              */
-            response.sendRedirect( "html/m-meserocopy.jsp?productoAgregado=true");
+            response.sendRedirect("html/m-meserocopy.jsp?productoAgregado=true");
 
         } else {
 
             /*
-            
             SI NO EXISTE PEDIDO ACTIVO
-            
              */
             response.sendRedirect("html/m-meserocopy.jsp?error=noPedido");
         }
     }
 
     @Override
-    protected void doPost(HttpServletRequest request,HttpServletResponse response) throws ServletException, IOException {
-
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
         processRequest(request, response);
     }
 
     @Override
-    protected void doGet( HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
         processRequest(request, response);
     }
 }

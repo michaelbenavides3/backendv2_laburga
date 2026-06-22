@@ -85,6 +85,7 @@
                         
                         <% } %>
                         <% if (estadoMesa1.equals("ocupada")) { %>
+                        <a href="../AgregarProductoMeseroControlador?idMesa=1" ...>Agregar producto</a>
                         <a href="m-agregar-producto.jsp?idMesa=1" class="btn btn--agregar-producto btn-verde">Agregar producto</a>
                         <a href="m-editar-pedido.jsp?idMesa=1" class="btn btn--agregar-producto btn-verde">Editar Pedido</a>
                         <% } %>    
