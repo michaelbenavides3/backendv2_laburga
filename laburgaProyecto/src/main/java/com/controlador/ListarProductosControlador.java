@@ -1,3 +1,12 @@
+/*
+    
+    ProductosDao-> obtenerListaTodosLosProductos
+
+    el objetovio es listar todos lo productos qe se encuntra disponibles
+
+
+*/
+
 package com.controlador;
 
 import com.dao.ProductosDao;
