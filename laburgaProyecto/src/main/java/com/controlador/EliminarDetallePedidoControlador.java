@@ -53,6 +53,8 @@ public class EliminarDetallePedidoControlador extends HttpServlet {
         DetallePedidoDao detallePedidoDao = new DetallePedidoDao();
 
         boolean detalleEliminadoCorrectamente = detallePedidoDao.eliminarDetallePedido(identificadorDetallePedido);
+        
+        
 
         if (detalleEliminadoCorrectamente) {
 

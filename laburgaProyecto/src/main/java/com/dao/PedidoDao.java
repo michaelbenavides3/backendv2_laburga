@@ -20,6 +20,8 @@ responsabilidad; administar todas las operaciones rekacuibasd cib oedudism detal
 
     - METODO 8. OBTENER ID MESA POR ID PEDIDO -->  lo usamos cuando el pedido queda vacio y necesitamos liberar la mesa
 
+    - METODO 9. CERRAR PEDIDOS ACTIVOS ANTERIORES POR MESA
+
 
  */
 package com.dao;
@@ -29,6 +31,7 @@ import com.modelo.Pedido;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.ArrayList;
 
@@ -178,7 +181,7 @@ public class PedidoDao {
     public boolean solicitarCuenta(int idPedido) {
         //update es para modificar la tabla pedidos, set cambia la columna estado y se activa como pendietnecobro con el where solo afecta wl idpedido que se llama 
         String sql = "UPDATE pedidos SET estado_pedido='pendiente_cobro' WHERE id_pedido=?";
-        
+
         //// Uso de try-with-resources para asegurar el cierre automático de la conexión y el statement
         try (
                 Connection con = claseConexion.getConexion(); PreparedStatement ps = con.prepareStatement(sql);) {
@@ -305,10 +308,43 @@ liberar la mesa.
 
         } catch (Exception error) {
 
-            System.out.println( "Error al obtener mesa del pedido: " + error.getMessage());
+            System.out.println("Error al obtener mesa del pedido: " + error.getMessage());
         }
 
         return 0;
+    }
+
+    /*
+    METODO 9 CERRAR PEDIDOS ACTIVOS ANTERIORES POR MESA
+    - se llama antes de crear un pedido nuevo
+    - evita que queden pedidos activos huérfanos
+     */
+    public void cerrarPedidosActivosPorMesa(int identificadorMesa) {
+
+        // cerramos cualquier pedido que este activo en esa mesa antes de crear uno nuevo
+        String consultaCerrarPedidosAnteriores
+                = "UPDATE pedidos "
+                + "SET estado_pedido = 'cerrada' "
+                + "WHERE id_mesa = ? "
+                + "AND estado_pedido = 'activo'";
+
+        try (
+                Connection conexionFisicaBaseDatos = claseConexion.getConexion(); PreparedStatement sentenciaSqlPreparada = conexionFisicaBaseDatos
+                .prepareStatement(consultaCerrarPedidosAnteriores)) {
+
+            // le indicamos de cual mesa queremos cerrar los pedidos activos
+            sentenciaSqlPreparada.setInt(1, identificadorMesa);
+
+            int filasActualizadas = sentenciaSqlPreparada.executeUpdate();
+
+            System.out.println("Pedidos activos anteriores cerrados para mesa "
+                    + identificadorMesa + " → filas afectadas: " + filasActualizadas);
+
+        } catch (SQLException errorBaseDatos) {
+
+            System.out.println("Error cerrando pedidos anteriores de mesa "
+                    + identificadorMesa + ": " + errorBaseDatos.getMessage());
+        }
     }
 
 }

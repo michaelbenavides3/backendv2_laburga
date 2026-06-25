@@ -56,24 +56,6 @@
                 <h2>Registrar Nuevo Producto</h2>
 
 
-
-                <%
-                    String error = request.getParameter("error");
-                %>
-                <% if ("nombre".equals(error)) { %>
-                <p class="mensaje-error"> El nombre solo puede contener letras, sin números.</p>
-                <% } else if ("nombreCorto".equals(error)) { %>
-                <p class="mensaje-error"> El nombre debe tener al menos 3 caracteres.</p>
-                <% } else if ("descripcion".equals(error)) { %>
-                <p class="mensaje-error"> La descripción debe contener al menos una letra.</p>
-                <% } else if ("categoria".equals(error)) { %>
-                <p class="mensaje-error"> La categoría solo puede contener letras, sin números.</p>
-                <% } else if ("imagen".equals(error)) { %>
-                <p class="mensaje-error"> Debe seleccionar una imagen para el producto.</p>
-                <% } else if ("registro".equals(error)) { %>
-                <p class="mensaje-error"> Error al guardar el producto. Intente de nuevo.</p>
-                <% }%>
-
                 <form action="../RegistrarProductoControlador"method="post" enctype="multipart/form-data">
 
                     <div class="grupo-campo">
@@ -139,6 +121,25 @@
         <footer class="footer">
             <p>&copy; 2025 Labur-Ga. Todos los derechos reservados.</p>
         </footer>
+        
+        
+                    <%
+                String error = request.getParameter("error");
+            %>
+
+            <% if ("nombre".equals(error)) { %>
+                <script>alert("El nombre solo puede contener letras, sin números.");</script>
+            <% } else if ("nombreCorto".equals(error)) { %>
+                <script>alert("El nombre debe tener al menos 3 caracteres.");</script>
+            <% } else if ("descripcion".equals(error)) { %>
+                <script>alert("La descripción debe contener al menos una letra.");</script>
+            <% } else if ("categoria".equals(error)) { %>
+                <script>alert("La categoría solo puede contener letras, sin números.");</script>
+            <% } else if ("imagen".equals(error)) { %>
+                <script>alert("Debe seleccionar una imagen para el producto.");</script>
+            <% } else if ("registro".equals(error)) { %>
+                <script>alert("Error al guardar el producto. Intente de nuevo.");</script>
+            <% } %>
 
     </body>
 </html>
