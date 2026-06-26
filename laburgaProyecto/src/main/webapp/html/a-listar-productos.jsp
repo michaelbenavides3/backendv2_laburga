@@ -13,6 +13,7 @@
             = (List<Productos>) request.getAttribute("listaProductos");
 %>
 
+
 <!DOCTYPE html>
 
 <html>
@@ -66,7 +67,7 @@
                     Lista de Productos
                 </h2>
 
-                
+
                 <a href="${pageContext.request.contextPath}/html/a-registrar-productos.jsp" class="btn-nuevo-producto">Nuevo Producto</a>
 
                 <table class="tabla-productos">
@@ -209,42 +210,50 @@
 
             </section>
 
-            <button type="button" class="btn-regresar"onclick="window.location.href='${pageContext.request.contextPath}/html/a-panel-principal-admin.jsp'">Regresar</button>
-             
-
-       <!-- </a> -->
-
-    </main>
-
-    <!-- FOOTER -->
-
-    <footer class="footer">
-
-        <p>
-            &copy; 2025 Labur-Ga. Todos los derechos reservados.
-        </p>
-
-    </footer>
+            <button type="button" class="btn-regresar"onclick="window.location.href = '${pageContext.request.contextPath}/html/a-panel-principal-admin.jsp'">Regresar</button>
 
 
-             <%
-             String producto = request.getParameter("producto");
-             %>
+            <!-- </a> -->
 
-             <% if ("activado".equals(producto)) { %>
+        </main>
 
-             <script>
-                 alert("Producto activado correctamente.");
-             </script>
+        <!-- FOOTER -->
 
-             <% } else if ("desactivado".equals(producto)) { %>
+        <footer class="footer">
 
-             <script>
-                 alert("Producto desactivado correctamente.");
-             </script>
+            <p>
+                &copy; 2025 Labur-Ga. Todos los derechos reservados.
+            </p>
 
-             <% } %>
+        </footer>
 
-</body>
+
+        <%
+            String producto = request.getParameter("producto");
+        %>
+
+        <% if ("activado".equals(producto)) { %>
+
+        <script>
+            alert("Producto activado correctamente.");
+        </script>
+
+        <% } else if ("desactivado".equals(producto)) { %>
+
+        <script>
+            alert("Producto desactivado correctamente.");
+        </script>
+
+        <% } %>
+
+        
+
+        <% if ("registrado".equals(producto)) { %>
+        <script>alert("Producto creado satisfactoriamente.");</script>
+        <% } else if ("editado".equals(producto)) { %>
+        <script>alert("Producto actualizado satisfactoriamente.");</script>
+        <% }%>
+
+    </body>
 
 </html>

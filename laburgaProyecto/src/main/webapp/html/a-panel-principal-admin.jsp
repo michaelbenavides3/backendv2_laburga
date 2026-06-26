@@ -40,7 +40,7 @@
                     <!-- <a href="a-actualizar-menu.html" class="btn">Asignar Rol</a> -->
                     <!-- <a href="../ListarUsuariosControlador" class="btn">Desactivar Usuario</a> -->
                     <a href="${pageContext.request.contextPath}/ListarUsuariosControlador" class="btn">Desactivar Usuario</a>
-                    <a href="a-listar-categorias.jsp" class="btn">Categorias</a>
+                   <!-- <a href="a-listar-categorias.jsp" class="btn">Categorias</a> -->
                     <!--<a href="a-listar-productos.jsp" class="btn">Productos</a>-->
                     <a href="../ProductosControlador" class="btn">Gestionar productos</a>
                     <!-- <a href="a-listar-usuarios.jsp" class="btn">Desactivar Usuario</a> -->
