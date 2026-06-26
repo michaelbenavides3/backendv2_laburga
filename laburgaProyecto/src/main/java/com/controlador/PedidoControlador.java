@@ -66,7 +66,7 @@ public class PedidoControlador extends HttpServlet {
 
         if (idPedidoGenerado > 0) {
 
-            // ✅ CAMBIO: ya no usamos el array hardcodeado de precios
+            // CAMBIO: ya no usamos el array hardcodeado de precios
             // Ahora consultamos el precio real de cada producto desde la BD
             ProductosDao productosDao = new ProductosDao();
 
@@ -84,7 +84,7 @@ public class PedidoControlador extends HttpServlet {
                         if (cantidad > 0) {
                             int idProducto = Integer.parseInt(nombreCampo.replace("prod_", ""));
 
-                            // ✅ Consultamos el precio real desde la BD
+                            // Consultamos el precio real desde la BD
                             Productos producto = productosDao.obtenerProductoPorId(idProducto);
 
                             if (producto != null) {

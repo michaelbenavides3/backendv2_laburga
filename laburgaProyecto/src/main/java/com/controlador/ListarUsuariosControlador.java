@@ -1,8 +1,21 @@
 /*
-    encargado de traer la lista de personas que trabajan en el restaurante (o que tienen acceso al sistema).
 
-    Metodo Usuariodao-> obtenerListaUsuariosConRol
+RESPONSABILIDAD
 
+    - Consultar todos los usuarios registrados en el sistema.
+    - Enviar la lista de usuarios al JSP.
+    - Mostrar la información en la tabla de administración.
+
+------------------------------------------------------------
+
+METODO DAO UTILIZADO
+
+UsuarioDao
+
+1. obtenerListaUsuariosConRol()
+
+Consulta todos los usuarios registrados junto con
+el rol que tiene asignado cada uno.
 
 */
 
@@ -24,28 +37,96 @@ import jakarta.servlet.http.HttpServletResponse;
 public class ListarUsuariosControlador extends HttpServlet {
 
     @Override
-    protected void doGet(HttpServletRequest peticionWeb,HttpServletResponse respuestaWeb)
+    protected void doGet(HttpServletRequest peticionWeb,
+            HttpServletResponse respuestaWeb)
             throws ServletException, IOException {
-        
 
+        /*
+      
+        PASO 1 MENSAJE DE CONTROL
+        
+        Se imprime un mensaje en consola para verificar que el controlador fue ejecutado correctamente.
+        */
         System.out.println("iniciando consulta de usuarios");
 
-        // Creo el administrador de acceso a datos
+        /*
+       
+        PASO 2 CREAR EL DAO
+        
+
+        Se crea el objeto UsuarioDao para poder acceder a los métodos que consultan la base de datos.
+        */
         UsuarioDao administradorUsuarios = new UsuarioDao();
 
-        // Solicito la lista completa de usuarios
+        /*
+        
+        PASO 3 CONSULTAR LOS USUARIOS
+        
+
+        Se llama al método:
+
+        obtenerListaUsuariosConRol()
+
+        Este método consulta MySQL y devuelve una lista con todos los usuarios registrados y su rol.
+        */
         List<Usuario> listaDeUsuariosEncontrados = administradorUsuarios.obtenerListaUsuariosConRol();
 
-        System.out.println("cantidad de usuarios encontrados: " + listaDeUsuariosEncontrados.size());
-        // Guardo la lista dentro de la petición
-        // para enviarla al JSP
-        peticionWeb.setAttribute("listaUsuarios",listaDeUsuariosEncontrados);
-        
-        System.out.println(
-        "ATRIBUTO ENVIADO -> "
-        + peticionWeb.getAttribute("listaUsuarios"));
+        /*
+        Muestra en consola cuántos usuarios fueron encontrados.
+        Esto sirve únicamente para verificar que la consulta funcionó correctamente.
+        */
+        System.out.println("cantidad de usuarios encontrados: "  + listaDeUsuariosEncontrados.size());
 
-        // Redirecciono al JSP encargado de mostrar la tabla
-        peticionWeb.getRequestDispatcher("/html/a-listar-usuarios.jsp").forward(peticionWeb,respuestaWeb);
+        /*
+       
+        PASO 4 ENVIAR LA LISTA AL JSP
+        
+
+        setAttribute() guarda la lista dentro del objeto request utilizando el nombre "listaUsuarios".
+
+        Posteriormente el JSP podrá recuperar la lista con: request.getAttribute("listaUsuarios");
+        */
+        peticionWeb.setAttribute("listaUsuarios",listaDeUsuariosEncontrados);
+
+        /*
+        Se imprime en consola el atributo enviado al JSP.
+
+        Solo se utiliza para verificar durante el desarrollo que el atributo fue almacenado correctamente.
+        */
+        System.out.println( "ATRIBUTO ENVIADO -> " + peticionWeb.getAttribute("listaUsuarios"));
+
+        /*
+       
+        PASO 5 ABRIR EL JSP
+       
+
+        getRequestDispatcher()
+
+        Busca el archivo JSP que mostrará la lista
+        de usuarios.
+
+        En este caso:
+
+        /html/a-listar-usuarios.jsp
+        */
+        peticionWeb.getRequestDispatcher(
+                "/html/a-listar-usuarios.jsp")
+
+                /*
+                forward()
+
+                Transfiere el control hacia el JSP utilizando
+                el mismo request y response.
+
+                Gracias al forward():
+
+                • El JSP recibe el atributo listaUsuarios.
+
+                • No se crea una nueva petición HTTP.
+
+                • El JSP puede mostrar inmediatamente
+                  la información obtenida de la base de datos.
+                */
+                .forward(peticionWeb, respuestaWeb);
     }
 }
