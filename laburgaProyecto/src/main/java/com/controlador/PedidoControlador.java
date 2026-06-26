@@ -1,14 +1,3 @@
-/*
-    Su función es crear una orden de compra completa. Recibe la solicitud de la mesa, la vincula con el mesero que inició sesión y desglosa una lista variable de productos
-    (cantidad y precio real) para guardarlos en la base de datos de una sola vez.
-
-    PedidoDao-> registrarNuevoPedido
-    PedidoDao->	registrarDetallePedido
-    ProductosDao->	obtenerProductoPorId
-    MesaDao->	cambiarEstado
-
-*/
-
 package com.controlador;
 
 import com.dao.PedidoDao;
@@ -20,6 +9,7 @@ import com.modelo.Usuario;
 
 import java.io.IOException;
 import java.util.Enumeration;
+
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -33,85 +23,196 @@ public class PedidoControlador extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        // RECUPERACIÓN DE DATOS
+       
+        // PASO 1. RECUPERAR LOS DATOS QUE ENVÍA EL FORMULARIO
+        
+
+        // Obtiene el id de la mesa enviado desde el JSP.
         String paramIdMesa = request.getParameter("txtIdMesa");
-        int idMesa = (paramIdMesa != null && !paramIdMesa.isEmpty()) ? Integer.parseInt(paramIdMesa) : 0;
+
+        // Operador ternario.
+        // Si el parámetro existe y no viene vacío, lo convierte a entero.
+        // Si viene vacío, asigna 0 para evitar errores.
+        int idMesa = (paramIdMesa != null && !paramIdMesa.isEmpty())
+                ? Integer.parseInt(paramIdMesa)
+                : 0;
+
+        // Obtiene las observaciones escritas por el mesero.
         String observaciones = request.getParameter("txtObservaciones");
 
-        // Verificamos quién es el mesero
+        
+        // PASO 2. IDENTIFICAR AL MESERO QUE ESTÁ HACIENDO EL PEDIDO
+        
+
+        // Obtiene la sesión actual.
+        // El false indica que NO cree una nueva sesión si no existe.
         HttpSession sesion = request.getSession(false);
+
+        // Variable donde se almacenará el usuario autenticado.
         Usuario usuarioLogeado = null;
 
+        // Si existe una sesión...
         if (sesion != null) {
-            usuarioLogeado = (Usuario) sesion.getAttribute("usuarioLogeadoObjeto");
+
+            // Recupera el objeto Usuario guardado durante el Login.
+            usuarioLogeado =(Usuario) sesion.getAttribute("usuarioLogeadoObjeto");
         }
 
-        if (usuarioLogeado == null) {
-            System.out.println("DEBUG: Sesión inválida o usuario no logueado. Usando ID Mesero 3 por defecto.");
-        } else {
-            System.out.println("DEBUG: Usuario ID: " + usuarioLogeado.getIdUsuario() + " realizando pedido.");
-        }
+        // Operador ternario.
+        // Si el usuario existe utiliza su id.
+        // Si no existe utiliza el id 3 como respaldo.
+        int idMesero = (usuarioLogeado != null)? usuarioLogeado.getIdUsuario() : 3;
 
-        int idMesero = (usuarioLogeado != null) ? usuarioLogeado.getIdUsuario() : 3;
+        
+        // PASO 3. CREAR EL ENCABEZADO DEL PEDIDO
+     
 
-        // REGISTRO DE PEDIDO
+        // Se crea un nuevo objeto Pedido.
         Pedido nuevoPedido = new Pedido();
+
+        // El id queda en cero porque MySQL lo genera automáticamente.
         nuevoPedido.setIdPedido(0);
+
+        // Se asigna la mesa donde se está realizando el pedido.
         nuevoPedido.setIdMesa(idMesa);
+
+        // Se asigna el mesero responsable.
         nuevoPedido.setIdMesero(idMesero);
+
+        // Todo pedido inicia como ACTIVO.
         nuevoPedido.setEstadoPedido("activo");
 
-        PedidoDao pedidoDao = new PedidoDao();
-        int idPedidoGenerado = pedidoDao.registrarNuevoPedido(nuevoPedido);
+      
+        // PASO 4. REGISTRAR EL PEDIDO EN LA BASE DE DATOS
+     
 
+        // Se crea el DAO encargado de trabajar con pedidos.
+        PedidoDao pedidoDao = new PedidoDao();
+
+        // Guarda el pedido en MySQL.
+        // Este método devuelve el id generado automáticamente.
+        int idPedidoGenerado =
+                pedidoDao.registrarNuevoPedido(nuevoPedido);
+
+        
+        // PASO 5. VERIFICAR QUE EL PEDIDO SE HAYA CREADO
+      
+        // Si el id generado es mayor que cero significa que el pedido fue creado.
         if (idPedidoGenerado > 0) {
 
-            // CAMBIO: ya no usamos el array hardcodeado de precios
-            // Ahora consultamos el precio real de cada producto desde la BD
+           
+            // Ahora se registran todos los productos del pedido.
+            
+
             ProductosDao productosDao = new ProductosDao();
 
-            Enumeration<String> nombresCampos = request.getParameterNames();
+            // Obtiene TODOS los nombres de campos enviados por el formulario.
+            Enumeration<String> nombresCampos =
+                    request.getParameterNames();
 
+            // Recorre todos los parámetros enviados.
             while (nombresCampos.hasMoreElements()) {
-                String nombreCampo = nombresCampos.nextElement();
 
+                // Obtiene el siguiente nombre del formulario.
+                String nombreCampo =
+                        nombresCampos.nextElement();
+
+                // Solo procesa los campos que empiezan por "prod_".
                 if (nombreCampo.startsWith("prod_")) {
-                    String valorCantidad = request.getParameter(nombreCampo);
 
-                    if (valorCantidad != null && !valorCantidad.trim().isEmpty()) {
-                        int cantidad = Integer.parseInt(valorCantidad);
+                    // Obtiene la cantidad digitada para ese producto.
+                    String valorCantidad =
+                            request.getParameter(nombreCampo);
 
+                    // Valida que el campo no esté vacío.
+                    if (valorCantidad != null
+                            && !valorCantidad.trim().isEmpty()) {
+
+                        // Convierte la cantidad a entero.
+                        int cantidad =
+                                Integer.parseInt(valorCantidad);
+
+                        // Solo registra productos cuya cantidad sea mayor que cero.
                         if (cantidad > 0) {
-                            int idProducto = Integer.parseInt(nombreCampo.replace("prod_", ""));
 
-                            // Consultamos el precio real desde la BD
+                            // Extrae el id del producto.
+                            // Ejemplo:
+                            // prod_8 → 8
+                            int idProducto =
+                                    Integer.parseInt(
+                                            nombreCampo.replace("prod_", ""));
+
+                            
+                            // CONSULTA EL PRODUCTO EN LA BASE DE DATOS
+                            
+
+                            // Busca el producto para obtener su información.
                             Productos producto = productosDao.obtenerProductoPorId(idProducto);
 
+                            // Si el producto existe...
                             if (producto != null) {
+
+                                // Obtiene el precio oficial desde la BD.
+                                // Nunca desde el formulario por seguridad.
                                 double precioVenta = producto.getPrecioBaseProducto();
-                                pedidoDao.registrarDetallePedido(idPedidoGenerado, idProducto, cantidad, precioVenta);
-                                System.out.println("DEBUG: Producto " + producto.getNombreProducto() 
-                                    + " x" + cantidad + " a $" + precioVenta);
-                            } else {
-                                System.out.println("WARN: Producto con id " + idProducto + " no encontrado en BD, se omite.");
+
+                                // Guarda el producto dentro del detalle del pedido.
+                                pedidoDao.registrarDetallePedido(
+                                        idPedidoGenerado,
+                                        idProducto,
+                                        cantidad,
+                                        precioVenta);
                             }
                         }
                     }
                 }
             }
 
-            // Actualización de estado de mesa
+            
+            // PASO 6. CAMBIAR EL ESTADO DE LA MESA
+         
+
+            // Se crea el DAO encargado de administrar mesas.
             MesaDao mesaDao = new MesaDao();
+
+            // Cambia la mesa de disponible a ocupada.
             mesaDao.cambiarEstado(idMesa, "ocupada");
-            response.sendRedirect("html/m-meserocopy.jsp?pedido=exitoso");
+
+        
+            // PASO 7. REDIRECCIONAR AL PANEL DEL MESERO
+           
+
+            response.sendRedirect( "html/m-meserocopy.jsp?pedido=exitoso");
 
         } else {
+
+          
+            // SI EL PEDIDO NO PUDO CREARSE
+            
+
+            // Redirecciona nuevamente al formulario mostrando un mensaje de error.
             response.sendRedirect("html/m-registrar-pedido.jsp?error=3&idMesa=" + idMesa);
         }
     }
 
+    
+    // Ambos métodos llaman al mismo processRequest().
+    // Así se evita repetir código.
+    
+
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException { processRequest(request, response); }
+    protected void doPost(HttpServletRequest request,
+                          HttpServletResponse response)
+            throws ServletException, IOException {
+
+        processRequest(request, response);
+    }
+
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException { processRequest(request, response); }
+    protected void doGet(HttpServletRequest request,
+                         HttpServletResponse response)
+            throws ServletException, IOException {
+
+        processRequest(request, response);
+    }
 }
