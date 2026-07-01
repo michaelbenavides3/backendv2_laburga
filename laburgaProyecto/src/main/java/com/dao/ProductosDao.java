@@ -57,12 +57,14 @@ public class ProductosDao {
 
         try {
             // 1. Abrimos la puerta a la base de datos
+            // si todo sale bien regresa un un objeto connection ese objeto se guarda en la variable (conexionFisicaBaseDatos)
             conexionFisicaBaseDatos = claseConexion.getConexion();
 
+            // si la conecxion existe entra en la condicional if, de lo contrario no entra
             if (conexionFisicaBaseDatos != null) {
 
                 // 2. Le preparamos la orden a MySQL
-                //(sentenciaSqlPreparada)
+                //(sentenciaSqlPreparada) --> inyecta los datos
                 sentenciaSqlPreparada = conexionFisicaBaseDatos.prepareStatement(consultaInsertarSql);
 
                 // 3. Llenamos las cajas vacías (?) con los datos del producto
@@ -334,7 +336,12 @@ public class ProductosDao {
     
      */
     public int registrarProductoRetornandoId(Productos nuevoProductoObjeto) {
-
+        
+        
+        /*
+        
+        estamos preparando la consulta a mysql que se llama (consultaInsertarSql)
+        */
         String consultaInsertarSql
                 = """
         INSERT INTO productos
@@ -349,7 +356,10 @@ public class ProductosDao {
         """;
 
         try (
-                Connection conexion = claseConexion.getConexion(); PreparedStatement sentenciaSql = conexion.prepareStatement(consultaInsertarSql, PreparedStatement.RETURN_GENERATED_KEYS);) {
+                /*
+                con RETURN_GENERATED_KEYS, despues de ejecutar el insert, nos devuelve la llave (id), que genero automaticamente la base de datos
+                */
+            Connection conexion = claseConexion.getConexion(); PreparedStatement sentenciaSql = conexion.prepareStatement(consultaInsertarSql, PreparedStatement.RETURN_GENERATED_KEYS);) {
 
             sentenciaSql.setString(1, nuevoProductoObjeto.getNombreProducto());
 
@@ -360,17 +370,23 @@ public class ProductosDao {
             sentenciaSql.setString(4, nuevoProductoObjeto.getCategoriaProducto());
 
             sentenciaSql.setBoolean(5, nuevoProductoObjeto.isDisponibleProducto());
-
-            int filasAfectadas
-                    = sentenciaSql.executeUpdate();
-
+            
+            
+            /*
+            con executeupdate, devuelve cuantas filas modifico
+            */
+            int filasAfectadas = sentenciaSql.executeUpdate();
+            
+            /*
+            si se modifico 1 fila, entra al if
+            */
             if (filasAfectadas > 0) {
 
-                ResultSet resultadoIdGenerado = sentenciaSql.getGeneratedKeys();
+                ResultSet resultadoIdGenerado = sentenciaSql.getGeneratedKeys(); /*aquie se guarda la llave generada automaticamente*/
 
                 if (resultadoIdGenerado.next()) {
 
-                    return resultadoIdGenerado.getInt(1);
+                    return resultadoIdGenerado.getInt(1); /*nos devuelve el resultado de a primera la columna por eso getInt(1)*/
                 }
             }
 
