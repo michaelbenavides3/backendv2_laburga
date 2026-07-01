@@ -79,7 +79,7 @@
                     <div class="grupo-campo">
 
                         <label>Nombre Producto</label>
-
+                        <!-- name="txtNombreProducto viajan atravez del parametro"-->
                         <input type="text" name="txtNombreProducto" required>
 
                     </div>
@@ -96,7 +96,7 @@
 
                         <label>Precio</label>
 
-                        <input type="number"step="0.01" min="1" name="txtPrecioProducto"required>
+                        <input type="number"step="500" min="0" name="txtPrecioProducto"required>
 
                     </div>
 

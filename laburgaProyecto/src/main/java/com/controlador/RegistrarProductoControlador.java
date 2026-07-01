@@ -81,7 +81,11 @@ public class RegistrarProductoControlador extends HttpServlet {
 
         Obtiene el archivo de imagen enviado.
         */
-
+        
+        /*
+        request--> representa la peticion que hizo el navegador al servidor
+        getParameter--> es el metodo, busca el formulario el valor del atributo, (name="txtNombreProducto")
+        */
         String nombreProducto = request.getParameter("txtNombreProducto");
 
         String descripcionProducto = request.getParameter("txtDescripcionProducto");
@@ -130,6 +134,7 @@ public class RegistrarProductoControlador extends HttpServlet {
 
         /*
         Validar longitud mínima.
+        trim, es un metodo que elimina los espacios en blanco inciando y finalizadno el texto
         */
 
         if (nombreProducto.trim().length() < 3) {
@@ -143,14 +148,26 @@ public class RegistrarProductoControlador extends HttpServlet {
 
         /*
         Validar descripción.
+        la descripcion no puede venir vacia 
         */
 
-        if (descripcionProducto != null&& !descripcionProducto.trim().isEmpty() && !descripcionProducto.matches(".*[a-zA-ZáéíóúÁÉÍÓÚüÜñÑ].*")) {
+        if (descripcionProducto == null || descripcionProducto.trim().isEmpty()){
 
             response.sendRedirect( request.getContextPath()  + "/html/a-registrar-productos.jsp?error=descripcion");
 
             return;
 
+        }
+        
+        /*
+        la descipcion ademas debe contener al menos una letra
+        */
+        
+        if(!descripcionProducto.matches(".*[a-zA-ZáéíóúÁÉÍÓÚüÜñÑ].*")){
+            
+            response.sendRedirect(request.getContextPath() + "/html/a-registrar-productos.jsp?error=descripcion" );
+            
+            return;
         }
 
 
@@ -182,6 +199,7 @@ public class RegistrarProductoControlador extends HttpServlet {
 
 
         /*
+            TODO LO ANTERIOR DEBE PASAR PARA LLEGAR A ESTE PASO DONDE SE CREA EL NUEVO PRODUCTOS Y VIAJAN LOS DATOS A MYSQL
         
         PASO 3  CREAR OBJETO PRODUCTO
         
@@ -192,7 +210,7 @@ public class RegistrarProductoControlador extends HttpServlet {
         double precioProducto = Double.parseDouble(precioTexto);
 
         Productos nuevoProducto = new Productos();
-
+        /*por medio de set, se utiliza para asignale un valor a una variable*/
         nuevoProducto.setNombreProducto(nombreProducto.trim());
 
         nuevoProducto.setDescripcionProducto(descripcionProducto.trim());
@@ -233,8 +251,9 @@ public class RegistrarProductoControlador extends HttpServlet {
         
 
         Si el ID es mayor que cero, significa que el registro fue exitoso.
+        si idProductoGenerado es mayor que 0 entra en la condicional if 
         */
-
+        
         if (idProductoGenerado > 0) {
 
             /*
@@ -242,11 +261,11 @@ public class RegistrarProductoControlador extends HttpServlet {
             */
 
             String nombreArchivo =
-                    System.currentTimeMillis()
+                    System.currentTimeMillis() /*regresa la fehca y hora actual*/
                     + "_"
                     + Paths.get(
-                            archivoImagen.getSubmittedFileName())
-                            .getFileName()
+                            archivoImagen.getSubmittedFileName()) /*obitne el nombre original del archivo que escogio el usuario ej(burguermarrano.png)*/
+                            .getFileName() /*extrae unicamente el nombre del archivo obviando la ruta*/
                             .toString();
 
 
@@ -301,15 +320,14 @@ public class RegistrarProductoControlador extends HttpServlet {
 
 
             /*
-            Crear objeto imagen.
+            Crear objeto imagen. estos datos viene del modelo
             */
 
             ProductoImagen nuevaImagen = new ProductoImagen();
 
             nuevaImagen.setIdProducto(idProductoGenerado);
 
-            nuevaImagen.setRutaArchivoImagen(
-                    rutaImagenBaseDatos);
+            nuevaImagen.setRutaArchivoImagen(rutaImagenBaseDatos);
 
             nuevaImagen.setImagenActualizada(true);
 
