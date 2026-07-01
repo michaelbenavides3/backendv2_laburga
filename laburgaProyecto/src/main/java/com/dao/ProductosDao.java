@@ -34,14 +34,25 @@ public class ProductosDao {
      */
     // GUARDAR UN NUEVO PRODUCTO EN LA BASE DE DATOS
     public boolean registrarNuevoProducto(Productos nuevoProductoObjeto) {
-
+        
+        
+        /*prepar la conexion a la base de datos, primero se declara la variable
+        porque null ?, null, no apunta ningun objeto aun porque mas adelante dentro del try vamos a obtener la conexion. */
         Connection conexionFisicaBaseDatos = null;
+        /*
+        preparedstatement, es una consulta sql parametrizada, permite enviar datos de maneta segura utiizando parametros (?)
+        se declara null, porque aun no existe ninguna consulta preparada
+        es la forma de inyectar los datos al mysql dde forma segura 
+        es un objeto de java, su trabajo es tomar la consulta sql preparala para ejecutar (sentenciaSqlPreparada)
+        */
         PreparedStatement sentenciaSqlPreparada = null;
 
         // Esta variable nos dirá al final si se guardó o no el producto
+        //por el momento se inicializa en false
         boolean operacionRegistroExitosa = false;
 
         // La orden para insertar en MySQL. Los "?" son cajas vacías que llenaremos luego.
+        //contiene la instrucion sql que se quiere ejecutar
         String consultaInsertarSql = "INSERT INTO productos (nombre_producto, descripcion_producto, precio_baseproducto, categoria_producot, disponible_producto) VALUES (?, ?, ?, ?, ?)";
 
         try {
@@ -51,6 +62,7 @@ public class ProductosDao {
             if (conexionFisicaBaseDatos != null) {
 
                 // 2. Le preparamos la orden a MySQL
+                //(sentenciaSqlPreparada)
                 sentenciaSqlPreparada = conexionFisicaBaseDatos.prepareStatement(consultaInsertarSql);
 
                 // 3. Llenamos las cajas vacías (?) con los datos del producto
