@@ -36,34 +36,75 @@ public class PedidoDao {
 
     // MÉTODO 1: Para crear el pedido 
     public int registrarNuevoPedido(Pedido nuevoPedido) {
+        /*
+        se declaran nulas porque todavia no existen, esta variable existe pero aun no apunta a ningun lado.
+        */
         java.sql.Connection accesoBD = com.conexion.claseConexion.getConexion();
         java.sql.PreparedStatement operacion = null;
         java.sql.PreparedStatement operacionMesa = null;
         java.sql.ResultSet resultadoClave = null;
-        //aqui se ingresa el nuevo perodi, cuando se registre el peiddo con e update modificamos mesas estadomesa pasa a ocupada
-        //asi evitamos que 2 meseros usen la misma mesa y registren el pedido encima de una 
+        /*
+        Inserta el encabezado del pedido.
+
+        Se guarda:
+        - la mesa donde se realiza el pedido
+        - el mesero que lo atiende
+        - el estado inicial del pedido (activo)
+
+        MySQL genera automáticamente el id_pedido.
+        */
         String sqlPedido = "INSERT INTO pedidos (id_mesa, id_mesero, estado_pedido) VALUES (?, ?, ?)";
+        /*
+        Actualiza la mesa asociada al pedido.
+
+        Cuando un pedido se registra correctamente, la mesa pasa a estado 'ocupada'.
+
+        Esto evita que otro mesero tome la misma mesa y registre otro pedido sobre ella.
+        */
         String sqlMesa = "UPDATE mesas SET estado_mesa = 'ocupada' WHERE id_mesas = ?";
 
         try {
             //insertamos el pedido
+            /*
+            aqui se prepara la consulta, utilizando  (prepareStatement)
+            (RETURN_GENERATED_KEYS), despues de insertar el pedido, devuelve el id, que se caba de generar automaticamente, 
+            */
             operacion = accesoBD.prepareStatement(sqlPedido, java.sql.Statement.RETURN_GENERATED_KEYS);
+            /*
+            se reemplaza el primer ?
+            */
             operacion.setInt(1, nuevoPedido.getIdMesa());
             operacion.setInt(2, nuevoPedido.getIdMesero());
             operacion.setString(3, nuevoPedido.getEstadoPedido());
-
+            /*
+            aquie envia la consulta a la base de datos
+            */
             int filasInsertadas = operacion.executeUpdate();
-
+            /*
+            si la fila se inserta exitosamente, o es mayor que 0 entra dentro del if, 
+            */
             if (filasInsertadas > 0) {
                 resultadoClave = operacion.getGeneratedKeys();
+                /*
+                el resultado quedara guardado en resultadoclave,  (ResultSet resultadoClave)
+                */
                 if (resultadoClave.next()) {
                     int idPedidioGenerado = resultadoClave.getInt(1); //se guarad el id el pedido
                     // return resultadoClave.getInt(1); // Éxito total: devuelve el ID generado
-
+                    
+                    /*
+                    ahora se prepara la consulta del update
+                    */
                     operacionMesa = accesoBD.prepareStatement(sqlMesa);
+                    
                     operacionMesa.setInt(1, nuevoPedido.getIdMesa());
+                    /*
+                    aca se procede a cambiar el estado de la mesa
+                    */
                     operacionMesa.executeUpdate();
-
+                    /*
+                    el metodo termina regresando el idpedidogenrado
+                    */
                     return idPedidioGenerado;
                 }
             }

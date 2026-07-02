@@ -200,12 +200,7 @@ public class ProductosControlador extends HttpServlet {
                     /*
                         Se llama al DAO.
 
-                        MÉTODO:
-
-                        cambiarDisponibilidadProducto()
-
-                        El DAO ejecuta el UPDATE
-                        sobre la base de datos.
+                        MÉTODO: cambiarDisponibilidadProducto() El DAO ejecuta el UPDATE sobre la base de datos.
                     */
 
                     boolean exito = productosDao.cambiarDisponibilidadProducto( idProducto, nuevoEstado);
