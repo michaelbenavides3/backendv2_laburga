@@ -99,8 +99,7 @@ public class CobrarPedidoControlador extends HttpServlet {
 
             /*
             
-            PASO 2
-            CONSULTAR EL PEDIDO
+            PASO 2 CONSULTAR EL PEDIDO
             
              */
 
@@ -113,8 +112,7 @@ public class CobrarPedidoControlador extends HttpServlet {
 
                 Si no existe devuelve null.
              */
-            Pedido pedidoEncontrado =
-                    pedidoDao.obtenerPedidoPorId(idPedido);
+            Pedido pedidoEncontrado = pedidoDao.obtenerPedidoPorId(idPedido);
 
             /*
                 Validamos si realmente el pedido existe.
@@ -229,8 +227,7 @@ public class CobrarPedidoControlador extends HttpServlet {
 
             /*
             
-            PASO 8
-            LIBERAR LA MESA
+            PASO 8 LIBERAR LA MESA
             
              */
 
@@ -240,8 +237,7 @@ public class CobrarPedidoControlador extends HttpServlet {
 
             /*
             
-            PASO 9
-            REGRESAR AL PANEL DEL CAJERO
+            PASO 9 REGRESAR AL PANEL DEL CAJERO
             
              */
 
