@@ -4,9 +4,9 @@
 responsabilidad; administar todas las operaciones rekacuibasd cib oedudism detalles pedidos, solictidu de cuenta y cobros dentro del restaurante
 
 
-    - MÉTODO 1: Para crear el pedido   --> crear un nuevo pedido y ocupa la mesa
+    - MÉTODO 1: registrarNuevoPedidoo   --> crear un nuevo pedido y ocupa la mesa
  
-    - MÉTODO 2:para guardar los productos del pedido --> guarda los productos asociado a un pedido
+    - MÉTODO 2: registrarDetallePedido --> guarda los productos asociado a un pedido
 
     - METODO 3. ACTUALIZAR EL ESTADO DEL PEDIDO --> cambia el estado actual del pedido
 

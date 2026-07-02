@@ -1,3 +1,12 @@
+/*
+
+    ESTE ES EL CONTROLADOR ESPECIFIACAMENTE EL ENCARGADO DE CREAR UN NUEVO PEDIDO POR PARTE DEL MESERO
+
+
+*/
+
+
+
 package com.controlador;
 
 import com.dao.PedidoDao;
@@ -33,9 +42,17 @@ public class PedidoControlador extends HttpServlet {
         // Operador ternario.
         // Si el parámetro existe y no viene vacío, lo convierte a entero.
         // Si viene vacío, asigna 0 para evitar errores.
+        /*
+        por medio de un operardor ternario verifica que paramIdMesa exista y que no sea nula,
+        con el operado && se exigue que se cumplan ambas condiciones, paramIdMesa (!),
+        signgica negacion se debe interpretar que el texto no esete vacio
+        */
         int idMesa = (paramIdMesa != null && !paramIdMesa.isEmpty())
+                /*
+                si el texto no viene vacio toma el texto = 5 y lo combierte en numero (int)
+                */
                 ? Integer.parseInt(paramIdMesa)
-                : 0;
+                : 0; /*si no hay datos se le asigna 0*/
 
         // Obtiene las observaciones escritas por el mesero.
         String observaciones = request.getParameter("txtObservaciones");
@@ -51,7 +68,7 @@ public class PedidoControlador extends HttpServlet {
         // Variable donde se almacenará el usuario autenticado.
         Usuario usuarioLogeado = null;
 
-        // Si existe una sesión...
+        // Si existe una sesión o no viene vacia entra en el if
         if (sesion != null) {
 
             // Recupera el objeto Usuario guardado durante el Login.
@@ -91,8 +108,7 @@ public class PedidoControlador extends HttpServlet {
 
         // Guarda el pedido en MySQL.
         // Este método devuelve el id generado automáticamente.
-        int idPedidoGenerado =
-                pedidoDao.registrarNuevoPedido(nuevoPedido);
+        int idPedidoGenerado = pedidoDao.registrarNuevoPedido(nuevoPedido);
 
         
         // PASO 5. VERIFICAR QUE EL PEDIDO SE HAYA CREADO
@@ -107,30 +123,25 @@ public class PedidoControlador extends HttpServlet {
             ProductosDao productosDao = new ProductosDao();
 
             // Obtiene TODOS los nombres de campos enviados por el formulario.
-            Enumeration<String> nombresCampos =
-                    request.getParameterNames();
+            Enumeration<String> nombresCampos = request.getParameterNames();
 
             // Recorre todos los parámetros enviados.
             while (nombresCampos.hasMoreElements()) {
 
                 // Obtiene el siguiente nombre del formulario.
-                String nombreCampo =
-                        nombresCampos.nextElement();
+                String nombreCampo = nombresCampos.nextElement();
 
                 // Solo procesa los campos que empiezan por "prod_".
-                if (nombreCampo.startsWith("prod_")) {
+                if (nombreCampo.startsWith("prod_")) { /*aca captura el id del producto desde el jsp*/
 
                     // Obtiene la cantidad digitada para ese producto.
-                    String valorCantidad =
-                            request.getParameter(nombreCampo);
+                    String valorCantidad = request.getParameter(nombreCampo);
 
                     // Valida que el campo no esté vacío.
-                    if (valorCantidad != null
-                            && !valorCantidad.trim().isEmpty()) {
+                    if (valorCantidad != null && !valorCantidad.trim().isEmpty()) {
 
                         // Convierte la cantidad a entero.
-                        int cantidad =
-                                Integer.parseInt(valorCantidad);
+                        int cantidad = Integer.parseInt(valorCantidad);
 
                         // Solo registra productos cuya cantidad sea mayor que cero.
                         if (cantidad > 0) {
@@ -138,9 +149,7 @@ public class PedidoControlador extends HttpServlet {
                             // Extrae el id del producto.
                             // Ejemplo:
                             // prod_8 → 8
-                            int idProducto =
-                                    Integer.parseInt(
-                                            nombreCampo.replace("prod_", ""));
+                            int idProducto = Integer.parseInt(  nombreCampo.replace("prod_", ""));
 
                             
                             // CONSULTA EL PRODUCTO EN LA BASE DE DATOS
@@ -157,11 +166,7 @@ public class PedidoControlador extends HttpServlet {
                                 double precioVenta = producto.getPrecioBaseProducto();
 
                                 // Guarda el producto dentro del detalle del pedido.
-                                pedidoDao.registrarDetallePedido(
-                                        idPedidoGenerado,
-                                        idProducto,
-                                        cantidad,
-                                        precioVenta);
+                                pedidoDao.registrarDetallePedido( idPedidoGenerado, idProducto, cantidad, precioVenta);
                             }
                         }
                     }

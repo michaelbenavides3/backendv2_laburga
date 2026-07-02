@@ -3,7 +3,9 @@
     el mesero pueda tomar un pedido rápidamente. Su complejidad radica en que no solo trae una lista plana de productos, 
     sino que organiza la información para que la vista sea más profesional y eficiente.
 
+   ---- este controlador es el encargado de mostrar el menu al mesero, mas no de tomas el pedido o registrar el pedido ----
 
+    
     ProductosDao-> obtenerProductosDisponibles
     ProductoImagenDao->	obtenerRutaImagenProducto
 
@@ -47,8 +49,22 @@ public class MenuMeseroControlador extends HttpServlet {
          * Creamos un mapa donde la clave es el nombre de la categoría (String) 
          * y el valor es la lista de productos de esa categoría.
          */
+        /*
+        map es como un diccionario, donde guarda una clave y un valor
+        string es la categoria texto : el valor sera list<productos> porque una categoria tiene muchos productos
+        LinkedHashMap --> mantiene el orden que se agregan las categorias
+        */
         Map<String, List<Productos>> menuPorCategoria = new LinkedHashMap<>();
+        /*
+        productos p = hamburguesa doble, lasagna, agua
+        recorre porductos disponibles y los almacena en p
+        */
         for (Productos p : productosDisponibles) {
+            /*
+            string cat, obtiene la categoria del prodcutos actual
+            lasgnas = pastas
+            agua = otros
+            */
             String cat = p.getCategoriaProducto();
             // Si la categoría aún no existe en el mapa, crea una lista vacía y agrega el producto.
             menuPorCategoria.computeIfAbsent(cat, k -> new java.util.ArrayList<>()).add(p);

@@ -39,16 +39,16 @@
                     <div class="productos-grid">
 
                         <%-- Iteramos por cada categoría --%>
-                        <c:forEach var="entrada" items="${menuPorCategoria}">
+                        <c:forEach var="entrada" items="${menuPorCategoria}"> <!--nombre de las categorias -->
 
                             <%-- Título de categoría --%>
                             <h2 class="titulo__categoria">${entrada.key}</h2>
 
                             <%-- Productos de esa categoría --%>
-                            <c:forEach var="producto" items="${entrada.value}">
+                            <c:forEach var="producto" items="${entrada.value}"> <!--recorre los productos de la categoria -->
                                 <div class="producto-card">
 
-                                    <c:choose>
+                                    <c:choose>  <!--aca se mira si el producto tiene imagen -->
                                         <c:when test="${not empty imagenesProductos[producto.idProducto]}">
                                             <img src="${pageContext.request.contextPath}/${imagenesProductos[producto.idProducto]}"
                                                  alt="${producto.nombreProducto}"
@@ -61,14 +61,14 @@
                                         </c:otherwise>
                                     </c:choose>
 
-                                    <h3 class="producto-nombre">${producto.nombreProducto}</h3>
-                                    <p class="producto-descripcion">${producto.descripcionProducto}</p>
+                                    <h3 class="producto-nombre">${producto.nombreProducto}</h3> <!--nombre -->
+                                    <p class="producto-descripcion">${producto.descripcionProducto}</p>  <!--descripcion -->
                                     <p class="producto-precio">
-                                        $<c:out value="${producto.precioBaseProducto}"/>
+                                        $<c:out value="${producto.precioBaseProducto}"/> <!--precio -->
                                     </p>
                                     <label>Cantidad:
                                         <input type="number"
-                                               name="prod_${producto.idProducto}"
+                                               name="prod_${producto.idProducto}" <!--aca es donde captura el id del producto -->
                                                class="producto-cantidad"
                                                value="0"
                                                min="0">

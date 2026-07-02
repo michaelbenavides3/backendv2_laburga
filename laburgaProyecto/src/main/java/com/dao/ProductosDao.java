@@ -402,22 +402,41 @@ public class ProductosDao {
     
     
        METODO 7. OBTENER PRODUCTOS DISPONIBLES
+    
+    
+        se va almacenar en una lista para guardar los productos disponibles
+        consultar la base de datos, y regresa los productos disponibles
+        regresa una lista con los productos que retornen true
      */
     public List<Productos> obtenerProductosDisponibles() {
-
+        /*
+        se crea una lista vacia, donde se almacenaran todos los productos encontrados en la consulta
+        */
         List<Productos> productosDisponibles = new ArrayList<>();
-
+        /*
+        la consulta sql, que recibe por nombre = consultaSeleccionarDisponibles
+        la condicion con wl filtro where es que solamente regrese disponible_producto = true
+        */
         String consultaSeleccionarDisponibles
                 = "SELECT id_producto, nombre_producto, descripcion_producto, "
                 + "precio_baseproducto, categoria_producot, disponible_producto "
                 + "FROM productos "
                 + "WHERE disponible_producto = true";
-
+        
+        /*se abre la conexion a la base de datos, tambien se prepara la insercionm, y finalmente se ejecuta la consulta, el resultado queda almacenado dentro de resulset=resultadoconsulta*/
         try (Connection conexionBaseDatos = claseConexion.getConexion(); PreparedStatement declaracionPreparada = conexionBaseDatos.prepareStatement(consultaSeleccionarDisponibles); ResultSet resultadoConsulta = declaracionPreparada.executeQuery()) {
-
+            /*
+            mientras, que resultadoconsulta existan las filas se recorre ppor medio del while
+            cuando ya no existan mas filas el ciclo termina
+            */
             while (resultadoConsulta.next()) {
 
                 // Agregamos directamente a la lista creando el objeto con su constructor
+                /*
+                se crea un objeto productos utilizando el constructor. (productosDisponibles)
+                los datos se leen directamente desde el resultset.
+                aca sucede todo, si el prodcutos 1 pizza pizzamixta 1000 pizzas true, se agrega a la lista 
+                */
                 productosDisponibles.add(new Productos(
                         resultadoConsulta.getInt("id_producto"),
                         resultadoConsulta.getString("nombre_producto"),
