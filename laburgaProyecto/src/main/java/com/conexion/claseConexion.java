@@ -12,8 +12,8 @@ public class claseConexion {
     private static final String USER = "root";
     // Se define la contraseña de la base de datos
     //private static final String PASSWORD = "#Aprendiz2024";
-    //private static final String PASSWORD = "Lauraluna94.";
-    private static final String PASSWORD = "";
+    private static final String PASSWORD = "Lauraluna94.";
+    //private static final String PASSWORD = "";
     
     // Creamos el método principal para obtener la conexión. Se deja
     // static para poder llamarlo directamente desde el DAO sin crear objetos.

@@ -52,7 +52,7 @@
                     <!-- <a href="verificarcuenta.jsp" class="btn">Verificar cuenta</a> -->                   
                     <a href="m-listar-reservas.jsp" class="btn">Ver reservas</a>
                     <a href="m-formulario-reserva.jsp" class="btn">Realizar reserva</a>
-                    <a href="m-formulario-clientenuevo-mesero.jsp" class="btn">Nuevo cliente</a>
+                    <!--<a href="m-formulario-clientenuevo-mesero.jsp" class="btn">Nuevo cliente</a>-->
                     <a href="../cerrarSesion" class="btn">Cerrar Sesión</a>
                 </nav>
             </aside>

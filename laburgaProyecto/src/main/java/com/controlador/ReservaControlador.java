@@ -74,6 +74,7 @@ public class ReservaControlador extends HttpServlet {
         nuevaReserva.setPersonasReserva(personas);
         nuevaReserva.setObservacionesReserva(observacion);
         nuevaReserva.setEstadoReserva("reservada");
+        
 
         /*
         
@@ -132,7 +133,7 @@ public class ReservaControlador extends HttpServlet {
          */
         if (existeReserva) {
 
-            response.getWriter().println( "Error: La mesa ya está reservada.");
+            response.sendRedirect(request.getContextPath() + "/html/m-formulario-reserva.jsp?error=mesaReservada");
 
         } /*
                 Segundo if

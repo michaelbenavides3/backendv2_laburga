@@ -67,6 +67,17 @@
         </script>
 
         <% }%>
+        <%
+            String error = request.getParameter("error");
+        %>
+
+        <% if ("mesaReservada".equals(error)) { %>
+
+        <script>
+            alert("Esta mesa ya tiene una reserva activa. Solo podrá volver a reservarse cuando la reserva sea finalizada o después de transcurridas las 2 horas.");
+        </script>
+
+        <% } %>
 
         
         

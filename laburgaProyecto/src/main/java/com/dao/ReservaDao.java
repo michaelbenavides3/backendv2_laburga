@@ -22,7 +22,7 @@ package com.dao;
 
 import com.conexion.claseConexion;
 import com.modelo.Mesa;
-import com.modelo.Reserva;  
+import com.modelo.Reserva;
 
 import java.sql.Connection;
 import java.sql.Date;
@@ -45,7 +45,7 @@ public class ReservaDao {
     
      */
     public boolean registrarNuevaReserva(Reserva nuevaReservaObjeto) {
-       
+
         Connection conexionFisicaBaseDatos = null;
 
         PreparedStatement sentenciaReserva = null;
@@ -103,19 +103,19 @@ public class ReservaDao {
                     PASO 1. REGISTRAR RESERVA
         
                  */
-                sentenciaReserva = conexionFisicaBaseDatos.prepareStatement(consultaInsertarReserva, PreparedStatement.RETURN_GENERATED_KEYS );
+                sentenciaReserva = conexionFisicaBaseDatos.prepareStatement(consultaInsertarReserva, PreparedStatement.RETURN_GENERATED_KEYS);
 
-                sentenciaReserva.setInt(  1,       nuevaReservaObjeto.getIdCliente() );
+                sentenciaReserva.setInt(1, nuevaReservaObjeto.getIdCliente());
 
-                sentenciaReserva.setDate( 2, nuevaReservaObjeto.getFechaReserva());
+                sentenciaReserva.setDate(2, nuevaReservaObjeto.getFechaReserva());
 
-                sentenciaReserva.setTime(  3, nuevaReservaObjeto.getHoraReserva() );
+                sentenciaReserva.setTime(3, nuevaReservaObjeto.getHoraReserva());
 
-                sentenciaReserva.setInt(  4, nuevaReservaObjeto.getPersonasReserva() );
+                sentenciaReserva.setInt(4, nuevaReservaObjeto.getPersonasReserva());
 
-                sentenciaReserva.setString( 5, nuevaReservaObjeto.getObservacionesReserva() );
+                sentenciaReserva.setString(5, nuevaReservaObjeto.getObservacionesReserva());
 
-                sentenciaReserva.setString(  6, nuevaReservaObjeto.getEstadoReserva() );
+                sentenciaReserva.setString(6, nuevaReservaObjeto.getEstadoReserva());
 
                 sentenciaReserva.executeUpdate();
 
@@ -138,11 +138,11 @@ public class ReservaDao {
                     PASO 3. GUARDAR RELACION RESERVA - MESA
         
                  */
-                sentenciaDetalleReserva  = conexionFisicaBaseDatos.prepareStatement(  consultaInsertarDetalle );
+                sentenciaDetalleReserva = conexionFisicaBaseDatos.prepareStatement(consultaInsertarDetalle);
 
-                sentenciaDetalleReserva.setInt(  1, idReservaGenerada );
+                sentenciaDetalleReserva.setInt(1, idReservaGenerada);
 
-                sentenciaDetalleReserva.setInt( 2, nuevaReservaObjeto.getIdMesa() );
+                sentenciaDetalleReserva.setInt(2, nuevaReservaObjeto.getIdMesa());
 
                 sentenciaDetalleReserva.executeUpdate();
 
@@ -173,7 +173,7 @@ public class ReservaDao {
                 e.printStackTrace();
             }
 
-            System.out.println( "Error al registrar la reserva: " + errorBaseDatos.getMessage()
+            System.out.println("Error al registrar la reserva: " + errorBaseDatos.getMessage()
             );
 
         } finally {
@@ -196,23 +196,20 @@ public class ReservaDao {
 
                     conexionFisicaBaseDatos.close();
 
-                    System.out.println( "Conexion de reservas cerrada correctamente."
+                    System.out.println("Conexion de reservas cerrada correctamente."
                     );
                 }
 
             } catch (SQLException errorAlCerrar) {
 
-                System.out.println("Error al cerrar recursos: "+ errorAlCerrar.getMessage()
+                System.out.println("Error al cerrar recursos: " + errorAlCerrar.getMessage()
                 );
             }
         }
 
         return operacionRegistroExitosa;
-    
 
-   
-
-}
+    }
 
 
     /*
@@ -283,10 +280,8 @@ public class ReservaDao {
 
                 Cada fila representa una reserva distinta.
                  */
-                
                 System.out.println("Consultando reservas...");
-                
-                
+
                 while (filasResultadoConsultaSql.next()) {
 
                     // crear objeto temporal vacío
@@ -323,7 +318,7 @@ public class ReservaDao {
 
                     // agregar la reserva cargada completamente a la lista
                     listaReservasEncontradas.add(reservaTemporalEncontrada);
-                    
+
                     System.out.println("Reserva encontrada: " + filasResultadoConsultaSql.getInt("id_reservas"));
                 }
             }
@@ -365,85 +360,134 @@ public class ReservaDao {
     /*
     
     3. METODO VALIDAR MESA RESERVADA
-         
-        // verificar si una mesa se encuetra reservada para ese dia y hora 
-    
-            identificadorMesa
-                -> número identificador de la mesa que se desea reservar.
 
-            fechaReserva
-                -> fecha para la cual se desea realizar la reserva.
+    OBJETIVO
 
-            horaReserva
-                -> hora para la cual se desea realizar la reserva.
+    Verificar si la mesa ya posee una reserva ACTIVA durante las siguientes dos horas.
+
+    Si existe una reserva activa no permitirá registrar otra.
+
+    Si la reserva fue finalizada antes (estado = finalizada) la mesa volverá a estar disponible.
+
      */
-    public boolean validarMesaReservada( int identificadorMesa, Date fechaReserva,Time horaReserva) {
+    public boolean validarMesaReservada(  int identificadorMesa, Date fechaReserva, Time horaReserva) {
 
-        // variable para abrir la conexión física con MySQL
+        
+        
         Connection conexionFisicaBaseDatos = null;
 
-        // variable para preparar la consulta SQL
         PreparedStatement sentenciaSqlPreparada = null;
 
-        // variable donde MySQL depositará el resultado
         ResultSet filasResultadoConsultaSql = null;
 
-        // variable que almacenará la respuesta final
         boolean mesaYaReservada = false;
 
         /*
-            * Esta consulta realiza una validación de disponibilidad técnica.
-            * Buscamos si ya existe una reserva activa para una mesa específica
-            * en una fecha y hora determinadas.
+        CONSULTA SQL
+
+        Busca reservas que:
+
+        1. Sean de la misma mesa.
+        2. Sean el mismo día.
+        3. Estén activas.
+        4. Su hora esté comprendida entre la hora solicitada y dos horas después.
+
+        Ejemplo
+
+        Nueva reserva: 7:00 pm
+
+        Buscará reservas entre 7:00 pm  y  9:00 pm
+
          */
-        String consultaValidacionSql
-                = "SELECT id_reservas "
-                + "FROM reservas "
-                + "INNER JOIN detalleReservaMesa "
-                + "ON reservas.id_reservas = detalleReservaMesa.id_reserva "
-                + "WHERE detalleReservaMesa.id_mesa = ? " //filtramos el id de la mesa seleccioanda
-                + "AND reservas.fehca_reserva = ? " //  filtramos por fecha de servas
-                + "AND reservas.hora_reserva = ? " // por hora de reserva
-                + "AND reservas.estado_reserva = 'reservada' ";  // y si el estado sale reservada
+        String consultaValidacionSql = """
+                     
+        SELECT reservas.id_reservas
+         /* Trae el ID de la reserva si encuentra un choque */
+
+        FROM reservas
+         /* Busca en la tabla principal de reservas */                                                                     
+
+        INNER JOIN detalleReservaMesa
+        /* Conecta con la tabla que sabe que mesa tiene cada reserva */
+                                                                      
+        ON reservas.id_reservas = detalleReservaMesa.id_reserva
+         /* Usa el ID de la reserva como puente de union */                               
+        WHERE detalleReservaMesa.id_mesa = ?
+         /* FILTRO 1: Evalua la mesa que pide el cliente */                              
+        AND reservas.fehca_reserva = ?
+         /* FILTRO 2: Evalua la fecha (ojo con la ortografia 'fehca') */                               
+        AND reservas.estado_reserva = 'reservada'
+         /* FILTRO 3: Solo toma en cuenta reservas activas y vigentes */                               
+        AND ?
+         /* FILTRO 4: Aqui Java inyecta la HORA NUEVA que pide el cliente */                                                                      
+        BETWEEN reservas.hora_reserva
+         /* Verifica si la hora nueva es mayor o igual a la hora de una reserva existente */                                                                      
+        AND ADDTIME(reservas.hora_reserva,'02:00:00')
+        /* Y si es menor o igual a esa hora existente mas 2 horas de tolerancia */  
+                                                                    
+        """;
+         
+        
 
         try {
 
-            // abrir conexión
             conexionFisicaBaseDatos = claseConexion.getConexion();
 
             if (conexionFisicaBaseDatos != null) {
 
-                // preparar consulta
-                sentenciaSqlPreparada = conexionFisicaBaseDatos.prepareStatement(consultaValidacionSql);
+                sentenciaSqlPreparada = conexionFisicaBaseDatos.prepareStatement( consultaValidacionSql);
 
-                // reemplazar primer ?
-                sentenciaSqlPreparada.setInt(1, identificadorMesa);
+                /*
+                PARAMETRO 1 Id de la mesa.
+                 */
+                sentenciaSqlPreparada.setInt( 1, identificadorMesa);
 
-                // reemplazar segundo ?
-                sentenciaSqlPreparada.setDate(2, fechaReserva);
+                /*
+                PARAMETRO 2 Fecha solicitada.
+                 */
+                sentenciaSqlPreparada.setDate( 2, fechaReserva);
 
-                // reemplazar tercer ?
-                sentenciaSqlPreparada.setTime(3, horaReserva);
+                /*
+                PARAMETRO 3 Hora inicial del rango.
 
-                // ejecutar consulta
+                Ejemplo
+
+                7:00 pm
+                 */
+                sentenciaSqlPreparada.setTime( 3, horaReserva);
+
+                /*
+                PARAMETRO 4 Hora utilizada para calcular las dos horas posteriores.
+
+                Ejemplo
+
+                ADDTIME(7:00,2)
+
+                Resultado
+
+                9:00 pm
+                 */
+               /* sentenciaSqlPreparada.setTime( 4, horaReserva);*/
+
                 filasResultadoConsultaSql = sentenciaSqlPreparada.executeQuery();
 
                 /*
-                Si next() devuelve true
-                significa que encontró al menos una reserva.
+                Si existe al menos un registro
+
+                significa que la mesa ya está  ocupada dentro del rango permitido.
                  */
                 if (filasResultadoConsultaSql.next()) {
 
                     mesaYaReservada = true;
 
-                    System.out.println("la mesa ya se encuentra reservada para esa fecha y hora");
+                    System.out.println( "La mesa ya posee una reserva activa " + "durante las próximas dos horas.");
                 }
 
             }
 
         } catch (SQLException errorBaseDatos) {
 
-            System.out.println("error al validar disponibilidad de la mesa: " + errorBaseDatos.getMessage());
+            System.out.println( "Error validando disponibilidad: " + errorBaseDatos.getMessage());
 
         } finally {
 
@@ -461,13 +505,14 @@ public class ReservaDao {
 
                     conexionFisicaBaseDatos.close();
 
-                    System.out.println("conexion de validacion de reservas cerrada correctamente");
+                    System.out.println( "Conexión de validación cerrada correctamente.");
                 }
 
-            } catch (SQLException errorAlCerrar) {
+            } catch (SQLException errorCerrar) {
 
-                System.out.println("error al cerrar recursos de validacion: " + errorAlCerrar.getMessage());
+                System.out.println( "Error cerrando recursos: " + errorCerrar.getMessage());
             }
+
         }
 
         return mesaYaReservada;
