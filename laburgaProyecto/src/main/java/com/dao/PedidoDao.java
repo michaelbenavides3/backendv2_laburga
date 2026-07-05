@@ -135,29 +135,33 @@ public class PedidoDao {
         return 0; // Si falla devuelve 0
     }
 
-    // MÉTODO 2:para guardar los productos del pedido
-    public boolean registrarDetallePedido(int idPedido, int idProducto, int cantidad, double precioVenta) {
-        Connection accesoBD = claseConexion.getConexion();
-        PreparedStatement operacion;
+    // MÉTODO 2: para guardar los productos del pedido
+        public boolean registrarDetallePedido(int idPedido, int idProducto, int cantidad, double precioVenta, String observaciones) {
 
-        // SQL limpio apuntando a tu tabla de detalles (Ajusta los nombres si cambian en tu BD)
-        //insertameos en detallepedido los valroes, esto lo captura al momento de hacer el pedido
-        String sqlQuery = "INSERT INTO detallePedido (id_pedido, id_producto, cantidad_producto, precio_unitarioventa) VALUES (?, ?, ?, ?)";
+            Connection accesoBD = claseConexion.getConexion();
+            PreparedStatement operacion;
 
-        try {
-            operacion = accesoBD.prepareStatement(sqlQuery);
-            operacion.setInt(1, idPedido);
-            operacion.setInt(2, idProducto);
-            operacion.setInt(3, cantidad);
-            operacion.setDouble(4, precioVenta);
+            // Agregamos observaciones al INSERT
+            String sqlQuery = "INSERT INTO detallePedido "
+                    + "(id_pedido, id_producto, cantidad_producto, precio_unitarioventa, observaciones) "
+                    + "VALUES (?, ?, ?, ?, ?)";
 
-            int filasInsertadas = operacion.executeUpdate();
-            return filasInsertadas > 0; // Devuelve true si se guardó el producto con éxito
-        } catch (Exception error) {
-            System.out.println("Error en el detalle del pedido DAO: " + error.getMessage());
-            return false;
+            try {
+                operacion = accesoBD.prepareStatement(sqlQuery);
+                operacion.setInt(1, idPedido);
+                operacion.setInt(2, idProducto);
+                operacion.setInt(3, cantidad);
+                operacion.setDouble(4, precioVenta);
+                operacion.setString(5, observaciones != null ? observaciones : ""); // ✅ si viene null guardamos vacío
+
+                int filasInsertadas = operacion.executeUpdate();
+                return filasInsertadas > 0;
+
+            } catch (Exception error) {
+                System.out.println("Error en el detalle del pedido DAO: " + error.getMessage());
+                return false;
+            }
         }
-    }
 
     /*
     METODO 3. ACTUALIZAR EL ESTADO DEL PEDIDO

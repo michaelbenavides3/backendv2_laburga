@@ -11,6 +11,8 @@ package com.controlador;
 
 import com.dao.PedidoDao;
 import com.dao.MesaDao;
+import com.dao.DetallePedidoDao;
+import com.modelo.DetallePedido;
 import com.dao.ProductosDao;
 import com.modelo.Pedido;
 import com.modelo.Productos;
@@ -166,7 +168,7 @@ public class PedidoControlador extends HttpServlet {
                                 double precioVenta = producto.getPrecioBaseProducto();
 
                                 // Guarda el producto dentro del detalle del pedido.
-                                pedidoDao.registrarDetallePedido( idPedidoGenerado, idProducto, cantidad, precioVenta);
+                                pedidoDao.registrarDetallePedido(idPedidoGenerado, idProducto, cantidad, precioVenta, observaciones);
                             }
                         }
                     }

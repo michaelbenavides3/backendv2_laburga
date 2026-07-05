@@ -36,6 +36,9 @@ public class AgregarProductoPedidoControlador extends HttpServlet {
          */
         int identificadorMesa = Integer.parseInt(request.getParameter("txtIdMesa"));
 
+        // Recuperar observaciones del formulario
+        String observacionesPedido = request.getParameter("txtObservaciones");
+        
         /*
         2. BUSCAR EL PEDIDO ACTIVO DE ESA MESA
          */
@@ -151,9 +154,9 @@ public class AgregarProductoPedidoControlador extends HttpServlet {
                                 detallePedidoNuevo.setCantidad(cantidadProducto);
                                 detallePedidoNuevo.setPrecioVenta(producto.getPrecioBaseProducto());
                                 /*
-                                se inicializa el campo vacio, 
+                                DESPUÉS — guardamos lo que escribió el mesero
                                 */
-                                detallePedidoNuevo.setObservaciones("");
+                                detallePedidoNuevo.setObservaciones(observacionesPedido != null ? observacionesPedido : "");
 
                                 /*
                                 7. GUARDAR EL PRODUCTO
