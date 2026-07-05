@@ -3,7 +3,7 @@
 
 /* Contenedor principal que simula el papel térmico */
 .ticket-container {
-    width: 300px;
+    width: 400px;
     margin: 40px auto; /* Centrado en la pantalla */
     padding: 20px;
     border: 1px solid #333;
@@ -64,6 +64,32 @@
     cursor: pointer;
     text-decoration: none;
     border-radius: 5px;
+}
+
+
+.ticket-detalle {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+    margin: 10px 0;
+}
+
+.ticket-detalle th {
+    text-align: left;
+    border-bottom: 1px dashed #333;
+    padding: 4px 2px;
+    font-weight: bold;
+}
+
+.ticket-detalle td {
+    padding: 4px 2px;
+    border-bottom: 1px dotted #ccc;
+}
+
+.ticket-detalle td:nth-child(2),
+.ticket-detalle td:nth-child(3),
+.ticket-detalle td:nth-child(4) {
+    text-align: right;
 }
 
 /* Configuración para la impresión física */

@@ -1,5 +1,10 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
+
+<%@page import="com.dao.DetallePedidoDao"%>
+<%@page import="com.modelo.DetallePedido"%>
+<%@page import="java.util.List"%>
+
 <%@page import="com.dao.PedidoDao"%>
 <%@page import="com.dao.FacturaDao"%>
 <%@page import="com.dao.PagoDao"%>
@@ -119,6 +124,16 @@
             <% if (pedidoEncontrado != null) { %>
 
 
+            <%
+                List<DetallePedido> listaDetalle = new java.util.ArrayList<>();
+                if (pedidoEncontrado != null) {
+                    DetallePedidoDao detallePedidoDao = new DetallePedidoDao();
+                    listaDetalle = detallePedidoDao.listarDetallesPorPedido(
+                            pedidoEncontrado.getIdPedido());
+                }
+            %>
+
+
             <div class="ticket-header">
 
                 <img src="../recurso/logo-burguer.png" alt="Logo Labur-Ga" class="ticket-logo">
@@ -189,17 +204,27 @@
 
                 <hr>
 
-                <p>
-
-                    <strong>Detalle:</strong>
-
-                </p>
-
-                <p>
-
-                    <%= pedidoEncontrado.getDetalle().replace(",", "<br>")%>
-
-                </p>
+                <p><strong>Detalle:</strong></p>
+                <table class="ticket-detalle">
+                    <thead>
+                        <tr>
+                            <th>Producto</th>
+                            <th>Cant.</th>
+                            <th>P. Unit.</th>
+                            <th>Subtotal</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% for (DetallePedido linea : listaDetalle) {%>
+                        <tr>
+                            <td><%= linea.getNombreProducto()%></td>
+                            <td><%= linea.getCantidad()%></td>
+                            <td>$<%= String.format("%,.0f", linea.getPrecioVenta())%></td>
+                            <td>$<%= String.format("%,.0f", linea.getSubtotalLinea())%></td>
+                        </tr>
+                        <% }%>
+                    </tbody>
+                </table>
 
             </div>
 
@@ -226,7 +251,7 @@
 
             </div>
 
-        
+
 
             <% if (medioPagoEncontrado != null) {%>
 
@@ -261,11 +286,7 @@
             </div>
 
 
-            <% }
-
-                
-                
-            else { %>
+            <% } else { %>
 
 
             <p>

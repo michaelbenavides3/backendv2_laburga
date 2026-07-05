@@ -24,6 +24,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.ResultSet;
+import java.util.List;
 
 public class DetallePedidoDao {
 
@@ -63,30 +64,78 @@ public class DetallePedidoDao {
     
      */
     // metodo para traer todos los productos de un pedido especifico
-    public java.util.List<DetallePedido> listarDetallesPorPedido(int idPedido) {
-        java.util.List<DetallePedido> lista = new java.util.ArrayList<>();
-        // aqui nomas pido todo de la tabla donde el id del pedido coincida con el que busco
-        String sql = "SELECT * FROM detallePedido WHERE id_pedido = ?";
+    public List<DetallePedido> listarDetallesPorPedido(int identificadorPedido) {
 
-        try (java.sql.Connection con = com.conexion.claseConexion.getConexion(); java.sql.PreparedStatement ps = con.prepareStatement(sql)) {
+        // lista vacia donde se van a guardar todos los productos del pedido
+        List<DetallePedido> listaDetallesPedido = new java.util.ArrayList<>();
 
-            ps.setInt(1, idPedido);
-            java.sql.ResultSet rs = ps.executeQuery();
+        // consultamos el detalle del pedido y hacemos JOIN con productos
+        // para obtener el nombre del producto sin tener que hacer otra consulta
+        String consultaDetalleConProducto
+                = "SELECT " /* Especifica qué columnas queremos traer de la base de datos */
+                + "detallePedido.id_detallepedido, " /* El identificador único de este renglón del pedido */
+                + "detallePedido.id_pedido, " /* El número general de la orden (ej: Pedido #45) */
+                + "detallePedido.id_producto, " /* El código del producto solicitado (ej: Producto #8) */
+                + "detallePedido.cantidad_producto, " /* Cuántas unidades de ese producto pidió el cliente (ej: 2) */
+                + "detallePedido.precio_unitarioventa, " /* El precio al que se vendió en ese momento (por seguridad histórica) */
+                + "detallePedido.observaciones, "     /* Notas especiales del cliente (ej: "Sin cebolla", "Bien cocido") */
+                + "productos.nombre_producto "  /* ¡La clave! Trae el nombre real del producto desde la otra tabla */
+                + "FROM detallePedido "  /* Indica que la búsqueda principal inicia en la tabla de detalles */
+                + "INNER JOIN productos "  /* Une la tabla de detalles con la tabla de productos */
+                + "ON detallePedido.id_producto = productos.id_producto " /* Conecta ambas tablas haciendo coincidir el código del producto */
+                + "WHERE detallePedido.id_pedido = ?"; /* FILTRO: Trae SOLO los productos que correspondan al número de pedido solicitado */
 
-            // voy recorriendo fila por fila lo que trajo el select y lo guardo en la lista
-            while (rs.next()) {
-                DetallePedido d = new DetallePedido();
-                d.setIdDetalle(rs.getInt("id_detallepedido"));
-                d.setIdPedido(rs.getInt("id_pedido"));
-                d.setIdProducto(rs.getInt("id_producto"));
-                d.setCantidad(rs.getInt("cantidad_producto"));
-                d.setPrecioVenta(rs.getDouble("precio_unitarioventa"));
-                lista.add(d);
+        try (
+                Connection conexionBaseDatos = claseConexion.getConexion(); PreparedStatement sentenciaPreparada = conexionBaseDatos.prepareStatement(consultaDetalleConProducto)) {
+
+            // le indicamos de cual pedido queremos los detalles
+            sentenciaPreparada.setInt(1, identificadorPedido);
+
+            ResultSet resultadoConsulta = sentenciaPreparada.executeQuery();
+
+            // recorremos fila por fila el resultado de la consulta
+            while (resultadoConsulta.next()) {
+
+                // creamos un objeto DetallePedido por cada fila encontrada
+                DetallePedido detallePedidoActual = new DetallePedido();
+
+                // id único de esta línea del pedido
+                detallePedidoActual.setIdDetalle( resultadoConsulta.getInt("id_detallepedido"));
+
+                // id del pedido al que pertenece esta línea
+                detallePedidoActual.setIdPedido( resultadoConsulta.getInt("id_pedido"));
+
+                // id del producto pedido
+                detallePedidoActual.setIdProducto( resultadoConsulta.getInt("id_producto"));
+
+                // cuántas unidades pidió el cliente
+                detallePedidoActual.setCantidad( resultadoConsulta.getInt("cantidad_producto"));
+
+                // precio al que se vendió la unidad en ese momento
+                detallePedidoActual.setPrecioVenta( resultadoConsulta.getDouble("precio_unitarioventa"));
+
+                // observaciones del mesero para este producto
+                detallePedidoActual.setObservaciones( resultadoConsulta.getString("observaciones"));
+
+                // nombre del producto obtenido del JOIN con la tabla productos
+                detallePedidoActual.setNombreProducto( resultadoConsulta.getString("nombre_producto"));
+
+                // calculamos el subtotal de esta línea: cantidad x precio unitario
+                // ejemplo: 2 hamburguesas x $19.000 = $38.000
+                double subtotalLineaCalculado = detallePedidoActual.getCantidad() * detallePedidoActual.getPrecioVenta();
+
+                detallePedidoActual.setSubtotalLinea(subtotalLineaCalculado);
+
+                // agregamos el detalle lleno a la lista final
+                listaDetallesPedido.add(detallePedidoActual);
             }
-        } catch (java.sql.SQLException e) {
-            System.out.println("error al listar: " + e.getMessage());
+
+        } catch (SQLException errorConsulta) {
+            System.out.println("Error al listar detalles por pedido: "
+                    + errorConsulta.getMessage());
         }
-        return lista;
+
+        return listaDetallesPedido;
     }
 
     /*
@@ -473,15 +522,15 @@ public class DetallePedidoDao {
 
             if (conexionFisicaBaseDatos != null) {
 
-                sentenciaSqlPreparada = conexionFisicaBaseDatos.prepareStatement( consultaConteoSql);
+                sentenciaSqlPreparada = conexionFisicaBaseDatos.prepareStatement(consultaConteoSql);
 
-                sentenciaSqlPreparada.setInt( 1, identificadorPedido);
+                sentenciaSqlPreparada.setInt(1, identificadorPedido);
 
                 resultadoConsulta = sentenciaSqlPreparada.executeQuery();
 
                 if (resultadoConsulta.next()) {
 
-                    cantidadDetallesPedido = resultadoConsulta.getInt( "cantidad_detalles");
+                    cantidadDetallesPedido = resultadoConsulta.getInt("cantidad_detalles");
                 }
             }
 
