@@ -19,14 +19,16 @@
                 <h2>Agregar nuevo trabajador</h2>
                 <form action="<%= request.getContextPath() %>/UsuarioControlador" method="POST">
                     <label>Nombre completo:</label>
-                    <input type="text" name="nombre" pattern="[A-Za-zÀ-ÿ\s]+" title="Solo se permiten letras y espacios">
+                    <input type="text" name="nombre" pattern="[A-Za-zÀ-ÿ\s]+" title="Solo se permiten letras y espacios"
+                           placeholder="Ingrese Nombre: Ej: Falcao Rodriguez">
 
                     <label>Correo electronico:</label>
-                    <input type="email" name="email" required>
+                    <input type="email" name="email" placeholder="Ej: correo@yahoo.com" required>
 
                     <label>Telefono:</label>
                     <input type="tel" name="telefono" pattern="[0-9]{0, 10)" title="Solo aceptan Numeros"
-                       maxlength="10" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
+                       maxlength="10" oninput="this.value = this.value.replace(/[^0-9]/g, '')"
+                       placeholder="Solo recibe Numero del 0 a 9">
 
                     <!-- <label>Rol:</label>
                     <select name="rol">
