@@ -118,6 +118,66 @@ main {
     background-color: var(--btn-hover-cancelar); /* rojo más oscuro */
 }
 
+/* 
+   BOTÓN BUSCAR CLIENTE - COMPACTO
+   */
+
+/* Contenedor para input + botón en línea */
+.campo-telefono {
+    display: flex;
+    gap: 10px;
+    margin-top: 5px;
+    align-items: center;
+}
+
+/* El input ocupa el espacio restante */
+.campo-telefono input[type="text"] {
+    flex: 1;
+    padding: 8px;
+    border: 1px solid var(--gris-claro);
+    border-radius: 4px;
+}
+
+/* Botón compacto - CON EL PUNTO */
+.btn--buscar--cliente {
+    display: inline-block;
+    width: auto;
+    padding: 8px 16px;
+    background-color: var(--naranja-medio);
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: bold;
+    white-space: nowrap;
+    transition: background-color 0.2s ease;
+    margin: 15px auto;
+}
+
+.btn--buscar--cliente:hover {
+    background-color: var(--naranja-oscuro);
+}
+
+/* Mensajes de estado */
+.mensaje-exito {
+    color: green;
+    background-color: #e8f5e9;
+    padding: 10px;
+    border-radius: 4px;
+    margin-top: 10px;
+    font-size: 14px;
+}
+
+.mensaje-advertencia {
+    color: #e65100;
+    background-color: #fff3e0;
+    padding: 10px;
+    border-radius: 4px;
+    margin-top: 10px;
+    font-size: 14px;
+}
+
 
 /* Footer */
 .footer {

@@ -12,7 +12,7 @@ Este DAO es el encargado de administrar todas las operaciones relacionadas
 
     2. METODO OBTENER LISTA RESERVAS       -> obtiene todas las reservas registradas.
 
-    3. METODO VALIDAR MESA RESERVADA       -> verifica si una mesa ya se encuentra reservada para una fecha y hora.
+    3. METODO VALIDAR MESA RESERVADA       -> verifica si una mesa ya se encuentra reservada para una fecha y hora. si esta reservada bloquear las reservas nuevs
 
     4. METODO PARA OBTENER LA CAPACIDAD POR MESA  --> obtendremos la capacidad por mesas, si la reserva es mayor las persona que la capacidad no puede aplicar
 

@@ -44,6 +44,7 @@ public class ReservaControlador extends HttpServlet {
         // 1. CAPTURA DEL FORMULARIO
         String nombre = request.getParameter("nombre");
         String telefono = request.getParameter("telefono");
+        String documentoIdentidad = request.getParameter("documentoIdentidad");
         String fechaStr = request.getParameter("fecha");
         String horaStr = request.getParameter("hora") + ":00";
         int personas = Integer.parseInt(request.getParameter("personas"));
@@ -53,10 +54,17 @@ public class ReservaControlador extends HttpServlet {
         // 2. BUSCAR CLIENTE
         int idCliente = clienteDao.obtenerIdClientePorTelefono(telefono);
 
+        // 2.1 Validar que el documento sea solo números y entre 6 y 10 dígitos
+        if (documentoIdentidad == null || !documentoIdentidad.matches("^[0-9]{6,10}$")) {
+            response.sendRedirect(request.getContextPath()
+                    + "/html/m-formulario-reserva.jsp?error=documentoInvalido");
+            return;
+        }
+
         // 3. SI NO EXISTE → CREARLO
         if (idCliente == -1) {
 
-            idCliente = clienteDao.registrarClienteYRetornarId(nombre, telefono);
+            idCliente = clienteDao.registrarClienteYRetornarId(nombre, documentoIdentidad, telefono);
 
             // validación extra por seguridad
             if (idCliente == -1) {
@@ -74,7 +82,7 @@ public class ReservaControlador extends HttpServlet {
         nuevaReserva.setPersonasReserva(personas);
         nuevaReserva.setObservacionesReserva(observacion);
         nuevaReserva.setEstadoReserva("reservada");
-        
+
 
         /*
         
@@ -119,7 +127,7 @@ public class ReservaControlador extends HttpServlet {
          */
 
 
-        /*
+ /*
             Primer if
 
             Pregunta:
@@ -153,8 +161,8 @@ public class ReservaControlador extends HttpServlet {
 
                 No permite registrar.
          */ else if (personas > capacidad) {
-             
-         response.getWriter().println("Error: La mesa no tiene capacidad suficiente.");
+
+            response.getWriter().println("Error: La mesa no tiene capacidad suficiente.");
 
         } /*
                 Si ninguna regla falló,
@@ -180,7 +188,7 @@ public class ReservaControlador extends HttpServlet {
 
                 false -> Ocurrió un error durante el registro.
              */
-            boolean registrado  = reservaDao.registrarNuevaReserva(nuevaReserva);
+            boolean registrado = reservaDao.registrarNuevaReserva(nuevaReserva);
 
 
             /*
@@ -190,13 +198,13 @@ public class ReservaControlador extends HttpServlet {
              */
             if (registrado) {
 
-                response.sendRedirect( "html/m-meserocopy.jsp?exito=true");
+                response.sendRedirect("html/m-meserocopy.jsp?exito=true");
 
             } /*
                 Si registrado es FALSE, ocurrió un problema durante la inserción.
              */ else {
 
-                response.getWriter().println( "Error al registrar la reserva.");
+                response.getWriter().println("Error al registrar la reserva.");
 
             }
 

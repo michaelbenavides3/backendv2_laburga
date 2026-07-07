@@ -12,6 +12,8 @@ responsabilidad: administrar el registro y validacion de clientes
 
     - 4. METODO REGISTRAR CLIENTE Y RETORNAAR ID --> este metodo se utiliza para cuando un clinente no esta registrado en la base de datos, se crea automatico y me deja registrar en reservas
 
+    - 5. METODO 5 BUSCAR CLIENTE POR TELÉFONO --> cuando un cliente existe pueda traer los datos del cliente solo por el telefono y se autocomplete el formulario
+
 
  */
 package com.dao;
@@ -274,7 +276,7 @@ public class ClienteDao {
         METODO 4 REGISTAR CLIENTE Y RETORNAR ID
     
      */
-    public int registrarClienteYRetornarId(String nombre, String telefono) {
+    public int registrarClienteYRetornarId(String nombre,String documentoIdentidad, String telefono) {
 
         /*
         CONEXIÓN A BASE DE DATOS
@@ -315,8 +317,8 @@ public class ClienteDao {
         - El teléfono va en otra tabla (normalización)
          */
         String sqlCliente = """
-                INSERT INTO clientes (nombrecompleto_cliente)
-                VALUES (?)
+                INSERT INTO clientes (nombrecompleto_cliente, documentoidentidad_cliente)
+                VALUES (?, ?)
             """;
 
         /*
@@ -335,12 +337,13 @@ public class ClienteDao {
             /*
             PASO 1: INSERTAR CLIENTE
              */
-            sentenciaCliente = conexionBaseDatos.prepareStatement(sqlCliente,Statement.RETURN_GENERATED_KEYS );
+            sentenciaCliente = conexionBaseDatos.prepareStatement(sqlCliente, Statement.RETURN_GENERATED_KEYS);
 
             /*
             Reemplaza el "?" con el nombre del cliente
              */
             sentenciaCliente.setString(1, nombre);
+            sentenciaCliente.setString(2, documentoIdentidad);
 
             /*
             Ejecuta el INSERT en la tabla clientes
@@ -418,6 +421,242 @@ public class ClienteDao {
         - Error: -1
          */
         return -1;
+    }
+
+    /*
+    
+    METODO 5: BUSCAR CLIENTE POR TELÉFONO
+   
+
+    OBJETIVO:
+        Buscar un cliente en la base de datos utilizando su número de teléfono como criterio de búsqueda.
+
+        Si el cliente existe, devuelve un objeto Cliente con toda su información para autocompletar el formulario de reserva automáticamente.
+
+        Si el cliente NO existe, devuelve null para que el mesero pueda ingresar el nombre manualmente.
+
+    FLUJO:
+    
+        Mesero ingresa teléfono en el formulario
+                ↓
+        BuscarClientePorTelefonoControlador recibe el teléfono
+                ↓
+        Llama a este método con el teléfono recibido
+                ↓
+        Se ejecuta SELECT con JOIN en MySQL
+                ↓
+        Si existe → devuelve objeto Cliente con nombre y teléfono Si no existe → devuelve null
+
+    POR QUÉ SE HACE UN JOIN:
+    
+        El nombre del cliente está en la tabla "clientes"
+        El teléfono del cliente está en la tabla "clientetelefono"
+        Son dos tablas diferentes relacionadas por id_cliente
+        Sin JOIN tendríamos que hacer dos consultas separadas
+        Con JOIN traemos todo en una sola consulta
+
+    EJEMPLO DE CONSULTA SQL QUE SE EJECUTA:
+        SELECT clientes.id_cliente,
+               clientes.nombrecompleto_cliente,
+               clientetelefono.cliente_telefono
+        FROM clientes
+        INNER JOIN clientetelefono
+        ON clientes.id_cliente = clientetelefono.id_cliente
+        WHERE clientetelefono.cliente_telefono = '3001234567'
+
+    PARÁMETRO: telefonoBuscado → número de teléfono ingresado por el mesero
+                          ejemplo: "3001234567"
+
+    RETORNO: Cliente  → si se encontró el cliente con ese teléfono  null     → si no existe ningún cliente con ese teléfono
+     */
+    
+    
+    public Cliente buscarClientePorTelefono(String telefonoBuscado) {
+
+        /*
+    VARIABLE DE RESULTADO
+
+    Iniciamos en null porque todavía no sabemos si el cliente existe en la base de datos.
+
+    Si lo encontramos, esta variable dejará de ser null y tendrá todos los datos del cliente.
+
+    Si no lo encontramos, se devuelve null al final para que el formulario lo maneje correctamente.
+         */
+        Cliente clienteEncontrado = null;
+
+        /*
+    CONSULTA SQL CON JOIN
+
+    Necesitamos unir dos tablas porque la información del cliente está dividida por normalización:
+
+    TABLA clientes:
+        - id_cliente          → identificador único
+        - nombrecompleto_cliente → nombre que queremos mostrar
+
+    TABLA clientetelefono:
+        - id_cliente          → llave foránea que conecta con clientes
+        - cliente_telefono    → número de teléfono del cliente
+
+    INNER JOIN:
+        Une ambas tablas cuando id_cliente coincide en ambas. Solo devuelve registros que existan en LAS DOS tablas.
+
+    WHERE clientetelefono.cliente_telefono = ?:
+        Filtra únicamente el cliente que tenga ese número.
+        El "?" será reemplazado de forma segura con setString() para evitar ataques de inyección SQL.
+         */
+        String consultaBuscarClientePorTelefono
+                = "SELECT clientes.id_clientes, "
+                + "clientes.nombrecompleto_cliente, "
+                + "clientes.documentoidentidad_cliente,"
+                + "clientetelefono.cliente_telefono "
+                + "FROM clientes "
+                + "INNER JOIN clientetelefono "
+                + "ON clientes.id_clientes = clientetelefono.id_cliente "
+                + "WHERE clientetelefono.cliente_telefono = ?";
+
+        /*
+    TRY-WITH-RESOURCES
+
+    Abre la conexión y el PreparedStatement automáticamente.
+    Los cierra solos al terminar, sin necesidad de finally.
+    Esto evita fugas de memoria y conexiones abiertas.
+         */
+        try (
+                Connection conexionBaseDatos = claseConexion.getConexion(); PreparedStatement sentenciaPreparada = conexionBaseDatos
+                .prepareStatement(consultaBuscarClientePorTelefono)) {
+
+            /*
+        REEMPLAZAR EL PARÁMETRO
+
+        setString(1, telefonoBuscado):
+            - El "1" indica que reemplazamos el primer "?"
+            - telefonoBuscado es el número que ingresó el mesero
+            - Ejemplo: "3001234567"
+
+        Esto convierte la consulta en: WHERE clientetelefono.cliente_telefono = '3001234567'
+             */
+            sentenciaPreparada.setString(1, telefonoBuscado);
+
+            /*
+        EJECUTAR LA CONSULTA
+
+        executeQuery() envía el SELECT a MySQL y devuelve un ResultSet con los resultados.
+
+        ResultSet es como una tabla temporal en memoria que contiene las filas que MySQL encontró.
+             */
+            ResultSet resultadoConsulta = sentenciaPreparada.executeQuery();
+
+            /*
+        VERIFICAR SI SE ENCONTRÓ UN RESULTADO
+
+        resultadoConsulta.next():
+            - Mueve el cursor a la primera fila del resultado
+            - Devuelve true si hay datos
+            - Devuelve false si no encontró ningún cliente
+
+        Solo esperamos UNA fila porque el teléfono debe ser único por cliente en la base de datos.
+             */
+            if (resultadoConsulta.next()) {
+
+                /*
+            CLIENTE ENCONTRADO
+
+            Creamos un objeto Cliente vacío para llenarlo con los datos de la base de datos.
+                 */
+                clienteEncontrado = new Cliente();
+
+                /*
+            ASIGNAR ID DEL CLIENTE
+
+            getInt("id_cliente"): Lee el valor de la columna "id_cliente"  de la fila actual del ResultSet.
+
+            Ejemplo: si el cliente tiene id 7, aquí guardamos 7.
+                 */
+                clienteEncontrado.setIdCliente(
+                        resultadoConsulta.getInt("id_clientes"));
+
+                /*
+            ASIGNAR NOMBRE DEL CLIENTE
+
+            getString("nombrecompleto_cliente"): Lee el nombre completo guardado en la tabla clientes.
+
+            Ejemplo: "María García"  Este valor se mostrará automáticamente en el formulario.
+                 */
+                clienteEncontrado.setNombreCompleto(
+                        resultadoConsulta.getString("nombrecompleto_cliente"));
+                
+                
+                /*
+                
+                CAPTURAR DOCUMENTO DE IDENTIDAD
+                
+                */
+                   /*
+                mediante una varibale de tipo texto almacenamos la cc o documento de identidad
+                */
+                String documento = resultadoConsulta.getString("documentoidentidad_cliente");
+                clienteEncontrado.setDocumentoIdentidad(documento != null ? documento : "");
+                
+                
+
+                /*
+                
+                
+            ASIGNAR TELÉFONO DEL CLIENTE
+
+            getString("cliente_telefono"):  Lee el teléfono guardado en la tabla clientetelefono.
+
+            Ejemplo: "3001234567"
+                 */
+                clienteEncontrado.setTelefono(
+                        resultadoConsulta.getString("cliente_telefono"));
+
+                // confirmamos en consola que el cliente fue encontrado
+                System.out.println("DEBUG: Cliente encontrado → "
+                        + clienteEncontrado.getNombreCompleto()
+                        + " | doc;  " + clienteEncontrado.getDocumentoIdentidad()
+                        + " | Teléfono: " + clienteEncontrado.getTelefono());
+
+            } else {
+
+                /*
+            CLIENTE NO ENCONTRADO
+
+            Si no hay resultados significa que ningún cliente tiene ese número de teléfono registrado.
+
+            En este caso clienteEncontrado sigue siendo null  y el formulario lo manejará mostrando un mensaje para que el mesero ingrese el nombre manualmente.
+                 */
+                System.out.println("DEBUG: No existe cliente con teléfono → "
+                        + telefonoBuscado);
+            }
+
+        } catch (Exception errorConsulta) {
+
+            /*
+        MANEJO DE ERRORES
+
+        Si ocurre cualquier error durante la consulta:
+            - Problema de conexión con MySQL
+            - Error en la sintaxis SQL
+            - Columna no encontrada en el ResultSet
+
+        Se imprime el mensaje en consola para diagnóstico. clienteEncontrado sigue siendo null y se devuelve así.
+             */
+            System.out.println("Error buscando cliente por teléfono: "
+                    + errorConsulta.getMessage());
+        }
+
+        /*
+    RETORNO FINAL
+
+    Si el cliente fue encontrado → devuelve el objeto Cliente lleno
+    Si no fue encontrado         → devuelve null
+
+    El controlador y el JSP manejan ambos casos:
+        Cliente != null → autocompletamos el nombre en el formulario
+        Cliente == null → mostramos mensaje y el mesero escribe el nombre
+         */
+        return clienteEncontrado;
     }
 
 }
