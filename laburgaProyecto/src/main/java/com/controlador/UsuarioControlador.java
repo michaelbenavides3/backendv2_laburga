@@ -62,10 +62,10 @@ public class UsuarioControlador extends HttpServlet {
             tDao.insertarTelefono(idUsuarioCreado, telefono);
             cDao.insertarCorreo(idUsuarioCreado, email);
 
-            response.sendRedirect("html/a-panel-principal-admin.jsp?exito=1");
+            response.sendRedirect(request.getContextPath() + "/html/a-panel-principal-admin.jsp?exito=1");
 
         } else {
-            response.sendRedirect("html/a-nuevo-usuario.jsp?error=1");
+            response.sendRedirect(request.getContextPath() + "/html/a-nuevo-usuario.jsp?error=1");
         }
     }
 }

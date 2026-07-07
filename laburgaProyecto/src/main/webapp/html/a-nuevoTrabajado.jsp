@@ -1,3 +1,14 @@
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+
+<% 
+    // Capturamos los parámetros que envía el Servlet
+    String exito = request.getParameter("exito");
+    String error = request.getParameter("error");
+%>
+
+
+
+
 <!DOCTYPE html>
 <html lang="es">
     <head>
@@ -8,6 +19,21 @@
         <link rel="stylesheet" href="../css/variables.css">
     </head>
     <body class="admin">
+        
+       
+        <%-- TUS ALERTAS SIMPLES AQUÍ     --%>
+       
+        <% if ("1".equals(exito)) { %>
+            <script>
+                alert("¡Trabajador registrado con éxito!");
+            </script>
+        <% } %>
+        
+        <% if ("1".equals(error)) { %>
+            <script>
+                alert("Error al registrar. Revise los datos o el usuario ya existe.");
+            </script>
+        <% } %>
 
         <header class="encabezado">
             <h1>Panel del Administrador</h1>
@@ -19,16 +45,16 @@
                 <h2>Agregar nuevo trabajador</h2>
                 <form action="<%= request.getContextPath() %>/UsuarioControlador" method="POST">
                     <label>Nombre completo:</label>
-                    <input type="text" name="nombre" pattern="[A-Za-z�-�\s]+" title="Solo se permiten letras y espacios"
-                           placeholder="Ingrese Nombre: Ej: Falcao Rodriguez">
+                    <input type="text" name="nombre" pattern="[A-Za-zÀ-ÿ\s]+" title="Solo se permiten letras y espacios"
+                           placeholder="Ingrese Nombre: Ej: Falcao Rodriguez" required>
 
                     <label>Correo electronico:</label>
                     <input type="email" name="email" placeholder="Ej: correo@yahoo.com" required>
 
                     <label>Telefono:</label>
-                    <input type="tel" name="telefono" pattern="[0-9]{0, 10)" title="Solo aceptan Numeros"
+                    <input type="tel" name="telefono" pattern="[0-9]{0, 10}" title="Solo aceptan Numeros"
                        maxlength="10" oninput="this.value = this.value.replace(/[^0-9]/g, '')"
-                       placeholder="Solo recibe Numero del 0 a 9">
+                       placeholder="Solo recibe Numero del 0 a 9" required>
 
                     <!-- <label>Rol:</label>
                     <select name="rol">
@@ -39,9 +65,9 @@
                       <option value="admin">Administrador</option>
                     </select> -->
                     <label>Usuario:</label>
-                    <input type="text" name="usuario" placeholder="Ingrese Nombre de Usuario">
-                    <label>Contrase�a:</label>
-                    <input type="password" name="password">
+                    <input type="text" name="usuario" placeholder="Ingrese Nombre de Usuario" required>
+                    <label>Contraseña:</label>
+                    <input type="password" name="password" required>
                     <label for="idRol">Asignar Rol:</label>
                     <select name="idRol" id="idRol" required>
                         <option value="0">-------</option>
@@ -53,7 +79,11 @@
                     <div class="form__botones">
                         <button type="submit" class="btn btn-naranja">Registrar</button>
                         <!-- <button type="reset" class="btn btn-rojo">Cancelar</button> -->
-                        <button type="reset" class="btn btn-rojo btn--cancelar" onclick="window.location.href = 'a-panel-principal-admin.jsp'">Cancelar Registro</button>
+                       
+                        <button type="button" class="btn btn-rojo btn--cancelar" 
+                                onclick="window.location.href = '<%= request.getContextPath() %>/html/a-panel-principal-admin.jsp'">
+                            Cancelar Registro
+                        </button>
                     </div>
                 </form>
             </section>
