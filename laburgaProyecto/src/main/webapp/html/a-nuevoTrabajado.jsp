@@ -46,7 +46,7 @@
                 <form action="<%= request.getContextPath() %>/UsuarioControlador" method="POST">
                     <label>Nombre completo:</label>
                     <input type="text" name="nombre" pattern="[A-Za-zÀ-ÿ\s]+" title="Solo se permiten letras y espacios"
-                           placeholder="Ingrese Nombre: Ej: Falcao Rodriguez" required>
+                           placeholder="Ej: Falcao Rodriguez" required>
 
                     <label>Correo electronico:</label>
                     <input type="email" name="email" placeholder="Ej: correo@yahoo.com" required>
