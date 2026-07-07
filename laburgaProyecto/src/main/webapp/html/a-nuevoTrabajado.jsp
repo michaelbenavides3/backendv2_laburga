@@ -39,7 +39,7 @@
                       <option value="admin">Administrador</option>
                     </select> -->
                     <label>Usuario:</label>
-                    <input type="text" name="usuario">
+                    <input type="text" name="usuario" placeholder="Ingrese Nombre de Usuario">
                     <label>Contraseña:</label>
                     <input type="password" name="password">
                     <label for="idRol">Asignar Rol:</label>
