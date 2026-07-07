@@ -105,7 +105,7 @@
                            id="nombre"
                            name="nombre"
                            value="<%= nombreCliente%>"
-                           placeholder="Se autocompleta al buscar el teléfono"
+                           placeholder="Ingrese Nombre"
                            required>
 
                     <%-- teléfono oculto para que llegue al controlador de reserva --%>
@@ -137,6 +137,7 @@
                            id="ocasion"
                            name="ocasion"
                            value="<%= ocasionValor%>"
+                           placeholder="Ej: Bautizo"
                            required>
 
                     <label for="fecha">Fecha:</label>
@@ -159,6 +160,7 @@
                            name="personas"
                            value="<%= personasValor%>"
                            min="1" max="8"
+                           placeholder="Ej: Min 1, Max 8"
                            required>
 
                     <label for="mesa">Mesa:</label>
