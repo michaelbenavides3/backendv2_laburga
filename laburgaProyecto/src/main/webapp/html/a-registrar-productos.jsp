@@ -80,7 +80,7 @@
 
                         <label>Nombre Producto</label>
                         <!-- name="txtNombreProducto viajan atravez del parametro"-->
-                        <input type="text" name="txtNombreProducto" required>
+                        <input type="text" name="txtNombreProducto" placeholder="Ingrese Nombre de Producto"required>
 
                     </div>
 
@@ -88,7 +88,7 @@
 
                         <label>Descripción</label>
 
-                        <textarea name="txtDescripcionProducto"rows="4"></textarea>
+                        <textarea name="txtDescripcionProducto"rows="4" placeholder="Registrar una breve descripcion sobre el producto"></textarea>
 
                     </div>
 
@@ -104,7 +104,7 @@
 
                         <label>Categoría</label>
 
-                        <input type="text"  name="txtCategoriaProducto" required>
+                        <input type="text"  name="txtCategoriaProducto" placeholder="Ingresar una categoria" required>
 
                     </div>
 
