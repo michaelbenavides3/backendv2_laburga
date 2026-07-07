@@ -67,7 +67,7 @@
                     <label>Usuario:</label>
                     <input type="text" name="usuario" placeholder="Ingrese Nombre de Usuario" required>
                     <label>Contraseña:</label>
-                    <input type="password" name="password" required>
+                    <input type="password" name="password" placeholder="Ingresar Contraseña" required >
                     <label for="idRol">Asignar Rol:</label>
                     <select name="idRol" id="idRol" required>
                         <option value="0">-------</option>
