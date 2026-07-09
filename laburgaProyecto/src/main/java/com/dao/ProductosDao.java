@@ -183,7 +183,10 @@ public class ProductosDao {
     3. METODO PARA OBTENER PRODUCTO POR ID
      */
     public Productos obtenerProductoPorId(int idProducto) {
-
+        
+        /*
+        iniciamos la variable null, para que despues sea llenada
+        */
         Productos productoEncontrado = null;
 
         /*
@@ -199,11 +202,18 @@ public class ProductosDao {
         WHERE id_producto = ?
         """;
 
-        try (
+        try ( /*
+                se prepara la conexion a la bse de datos, y se prepara la consulta,
+                */
                 Connection con = claseConexion.getConexion(); PreparedStatement ps = con.prepareStatement(sql)) {
-
+            /*
+            tomar elvalor e ingresarlo en el espacio reservado en la consulta 
+            */
             ps.setInt(1, idProducto);
 
+            /*
+            
+            */
             ResultSet consulta = ps.executeQuery();
 
             if (consulta.next()) {

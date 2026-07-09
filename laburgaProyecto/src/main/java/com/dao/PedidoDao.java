@@ -61,6 +61,9 @@ public class PedidoDao {
 
         Esto evita que otro mesero tome la misma mesa y registre otro pedido sobre ella.
         */
+        /*
+        modifica dentro de la tabla mesas cambie el valor a ocupada, modifique el id_mesa en especifico
+        */
         String sqlMesa = "UPDATE mesas SET estado_mesa = 'ocupada' WHERE id_mesas = ?";
 
         try {
@@ -152,7 +155,7 @@ public class PedidoDao {
                 operacion.setInt(2, idProducto);
                 operacion.setInt(3, cantidad);
                 operacion.setDouble(4, precioVenta);
-                operacion.setString(5, observaciones != null ? observaciones : ""); // ✅ si viene null guardamos vacío
+                operacion.setString(5, observaciones != null ? observaciones : ""); // si viene null guardamos vacío
 
                 int filasInsertadas = operacion.executeUpdate();
                 return filasInsertadas > 0;
