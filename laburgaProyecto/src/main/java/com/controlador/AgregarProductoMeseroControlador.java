@@ -1,6 +1,6 @@
 /*
     
-    CONTROLADOR AGREGAR PRODUCTO MESERO NUEVO PEDIDO
+    CONTROLADOR AGREGAR PRODUCTO, es el mapa que nos muestra los productos dentro del jsp
     
     RESPONSABILIDAD:
     
