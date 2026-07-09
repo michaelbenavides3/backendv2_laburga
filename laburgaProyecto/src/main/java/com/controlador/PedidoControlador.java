@@ -49,12 +49,14 @@ public class PedidoControlador extends HttpServlet {
         con el operado && se exigue que se cumplan ambas condiciones, paramIdMesa (!),
         signgica negacion se debe interpretar que el texto no esete vacio
         */
+        /*
+        valida que paramidemesa no llegue vacia que no sea nula y que no se encuente vacia
+        */
         int idMesa = (paramIdMesa != null && !paramIdMesa.isEmpty())
                 /*
                 si el texto no viene vacio toma el texto = 5 y lo combierte en numero (int)
                 */
-                ? Integer.parseInt(paramIdMesa)
-                : 0; /*si no hay datos se le asigna 0*/
+                ? Integer.parseInt(paramIdMesa) : 0; /*si no hay datos se le asigna 0*/
 
         // Obtiene las observaciones escritas por el mesero.
         String observaciones = request.getParameter("txtObservaciones");
@@ -63,10 +65,11 @@ public class PedidoControlador extends HttpServlet {
         // PASO 2. IDENTIFICAR AL MESERO QUE ESTÁ HACIENDO EL PEDIDO
         
 
-        // Obtiene la sesión actual.
+        // Obtiene la sesión actual. y se almacena en sesion
         // El false indica que NO cree una nueva sesión si no existe.
         HttpSession sesion = request.getSession(false);
-
+        
+        //inicializacion de la variable
         // Variable donde se almacenará el usuario autenticado.
         Usuario usuarioLogeado = null;
 
@@ -85,7 +88,7 @@ public class PedidoControlador extends HttpServlet {
         
         // PASO 3. CREAR EL ENCABEZADO DEL PEDIDO
      
-
+        //instanciamos la clase que se le asiganra a nuevopedido
         // Se crea un nuevo objeto Pedido.
         Pedido nuevoPedido = new Pedido();
 
@@ -103,6 +106,7 @@ public class PedidoControlador extends HttpServlet {
 
       
         // PASO 4. REGISTRAR EL PEDIDO EN LA BASE DE DATOS
+        //INYECTA EL PEDIDO EN MYSQL
      
 
         // Se crea el DAO encargado de trabajar con pedidos.
