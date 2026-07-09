@@ -62,8 +62,16 @@ public class ActualizarDetallePedidoControlador extends HttpServlet {
         2. ACTUALIZAR DETALLE
         
          */
+        /*
+        DetallePedidoDao --> el nombre de la clase 
+        detallePedidoDao --> nombre de la variable
+        new DetallePedidoDao() --> es la llamada al constructor de la clase, aqui es donde se crea el objeto en la memoria
+        */
         DetallePedidoDao detallePedidoDao = new DetallePedidoDao();
-
+        /*
+        pametros(argumento)  identificadorDetallePedido, nuevaCantidadProducto: que registro voy actualizar y cual es la nueva cantidad
+        
+        */
         boolean operacionActualizacionExitosa = detallePedidoDao.actualizarCantidadDetalle( identificadorDetallePedido, nuevaCantidadProducto);
 
         /*
@@ -71,6 +79,9 @@ public class ActualizarDetallePedidoControlador extends HttpServlet {
         3. VALIDAR RESULTADO
         
          */
+        /*
+        si operacionActualizacionExitosa entra en el if, es true, de lo contrarioa salta al else
+        */
         if (operacionActualizacionExitosa) {
 
             response.sendRedirect("html/m-meserocopy.jsp?actualizacion=exitosa");
