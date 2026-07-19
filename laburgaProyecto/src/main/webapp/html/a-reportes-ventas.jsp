@@ -156,21 +156,34 @@
                     <form action="${pageContext.request.contextPath}/VentasPorMesControlador" method="get" class="form-filtro">
                         <label>Mes:</label>
                         <select name="mes">
-                            <option value="1">Enero</option>
-                            <option value="2">Febrero</option>
-                            <option value="3">Marzo</option>
-                            <option value="4">Abril</option>
-                            <option value="5">Mayo</option>
-                            <option value="6">Junio</option>
-                            <option value="7" selected>Julio</option>
-                            <option value="8">Agosto</option>
-                            <option value="9">Septiembre</option>
-                            <option value="10">Octubre</option>
-                            <option value="11">Noviembre</option>
-                            <option value="12">Diciembre</option>
+
+                            <option value="1" ${mesBuscado == 1 ? "selected" : ""}>Enero</option>
+
+                            <option value="2" ${mesBuscado == 2 ? "selected" : ""}>Febrero</option>
+
+                            <option value="3" ${mesBuscado == 3 ? "selected" : ""}>Marzo</option>
+
+                            <option value="4" ${mesBuscado == 4 ? "selected" : ""}>Abril</option>
+
+                            <option value="5" ${mesBuscado == 5 ? "selected" : ""}>Mayo</option>
+
+                            <option value="6" ${mesBuscado == 6 ? "selected" : ""}>Junio</option>
+
+                            <option value="7" ${mesBuscado == 7 ? "selected" : ""}>Julio</option>
+
+                            <option value="8" ${mesBuscado == 8 ? "selected" : ""}>Agosto</option>
+
+                            <option value="9" ${mesBuscado == 9 ? "selected" : ""}>Septiembre</option>
+
+                            <option value="10" ${mesBuscado == 10 ? "selected" : ""}>Octubre</option>
+
+                            <option value="11" ${mesBuscado == 11 ? "selected" : ""}>Noviembre</option>
+
+                            <option value="12" ${mesBuscado == 12 ? "selected" : ""}>Diciembre</option>
+
                         </select>
                         <label>Año:</label>
-                        <input type="number" name="anio" value="2026" min="2020" max="2099" style="width:90px">
+                        <input type="number"name="anio"value="${anioBuscado}"min="2020" max="2099"style="width:90px">
                         <button type="submit" class="btn-filtrar">Consultar</button>
                     </form>
                 </section>
@@ -186,11 +199,11 @@
                     <%-- FORMULARIO DE FILTROS — mismo form, dos campos --%>
                     <form action="${pageContext.request.contextPath}/VentasControlador" method="get" class="form-filtro" style="margin-bottom:16px;">
 
-                    <%--    <input type="text"
-                               name="buscarProducto"
-                               placeholder="Buscar por nombre..."
-                               value="<%= request.getAttribute("filtroBusqueda") != null ? request.getAttribute("filtroBusqueda") : ""%>"
-                               style="padding:7px 10px; border:1px solid #ccc; border-radius:6px; font-size:14px;"> --%>
+                        <%--    <input type="text"
+                                   name="buscarProducto"
+                                   placeholder="Buscar por nombre..."
+                                   value="<%= request.getAttribute("filtroBusqueda") != null ? request.getAttribute("filtroBusqueda") : ""%>"
+                                   style="padding:7px 10px; border:1px solid #ccc; border-radius:6px; font-size:14px;"> --%>
 
                         <select name="filtrarCategoria" style="padding:7px 10px; border:1px solid #ccc; border-radius:6px; font-size:14px;">
                             <option value="">Todas las categorías</option>

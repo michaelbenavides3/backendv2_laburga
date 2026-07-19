@@ -99,7 +99,7 @@ public class VentasControlador extends HttpServlet {
             listaProductosMasVendidos = ventasDao.obtenerTop5ProductosMasVendidos();
         }
 
-        request.setAttribute("listaProductosMasVendidos", listaProductosMasVendidos);
+        request.setAttribute("listaProductosMasVendidos",listaProductosMasVendidos);
 
         /*
        
@@ -126,7 +126,7 @@ public class VentasControlador extends HttpServlet {
 
         request.setAttribute("totalFacturado", totalFacturado);
 
-        request.setAttribute("listaProductosMasVendidos", listaProductosMasVendidos);
+        request.setAttribute("listaProductosMasVendidos",listaProductosMasVendidos);
 
         request.setAttribute("listaCategorias", listaCategorias);
 
@@ -140,9 +140,7 @@ public class VentasControlador extends HttpServlet {
 
        
          */
-        request.getRequestDispatcher(
-                "/html/a-reportes-ventas.jsp")
-                .forward(request, response);
+        request.getRequestDispatcher("/html/a-reportes-ventas.jsp").forward(request, response);
 
     }
 

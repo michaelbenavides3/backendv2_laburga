@@ -42,10 +42,10 @@ public class VentasPorMesControlador extends HttpServlet {
         request.setAttribute("resultadoMes",      resultadoMes);
         request.setAttribute("mesBuscado",        mes);
         request.setAttribute("anioBuscado",       anio);
-        request.setAttribute("listaProductosMasVendidos", ventasDao.obtenerProductosMasVendidos());
+        request.setAttribute("listaProductosMasVendidos",ventasDao.obtenerTop5ProductosMasVendidos());
         request.setAttribute("listaCategorias",    ventasDao.obtenerVentasPorCategoria());
 
         request.getRequestDispatcher("/html/a-reportes-ventas.jsp")
                .forward(request, response);
     }
-}
+}  

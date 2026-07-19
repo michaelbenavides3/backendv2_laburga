@@ -42,7 +42,7 @@ public class VentasPorFechasControlador extends HttpServlet {
         request.setAttribute("resultadoFechas",   resultadoFechas);
         request.setAttribute("fechaInicio",        fechaInicio);
         request.setAttribute("fechaFin",           fechaFin);
-        request.setAttribute("listaProductosMasVendidos", ventasDao.obtenerProductosMasVendidos());
+        request.setAttribute("listaProductosMasVendidos",ventasDao.obtenerTop5ProductosMasVendidos());
         request.setAttribute("listaCategorias",    ventasDao.obtenerVentasPorCategoria());
 
         request.getRequestDispatcher("/html/a-reportes-ventas.jsp")
