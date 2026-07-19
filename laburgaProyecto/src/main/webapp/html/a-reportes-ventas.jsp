@@ -130,7 +130,7 @@
                             Facturas: <%= totalFacturado != null ? totalFacturado.getNumeroFacturas() : 0%>
                         </p>
                     </div>
-                        
+
 
                 </div>
 
@@ -178,11 +178,47 @@
                 <%-- 
                      PRODUCTOS MÁS VENDIDOS
                 --%>
+                <%-- SECCIÓN PRODUCTOS MÁS VENDIDOS CON FILTROS --%>
                 <section class="seccion-tabla">
+
                     <h3>Productos más vendidos</h3>
 
+                    <%-- FORMULARIO DE FILTROS — mismo form, dos campos --%>
+                    <form action="${pageContext.request.contextPath}/VentasControlador" method="get" class="form-filtro" style="margin-bottom:16px;">
+
+                    <%--    <input type="text"
+                               name="buscarProducto"
+                               placeholder="Buscar por nombre..."
+                               value="<%= request.getAttribute("filtroBusqueda") != null ? request.getAttribute("filtroBusqueda") : ""%>"
+                               style="padding:7px 10px; border:1px solid #ccc; border-radius:6px; font-size:14px;"> --%>
+
+                        <select name="filtrarCategoria" style="padding:7px 10px; border:1px solid #ccc; border-radius:6px; font-size:14px;">
+                            <option value="">Todas las categorías</option>
+                            <% for (VentasCategoria cat : listaCategorias) {%>
+                            <option value="<%= cat.getCategoriaProducto()%>"
+                                    <%= cat.getCategoriaProducto().equals(request.getAttribute("filtroCategoria") != null ? request.getAttribute("filtroCategoria") : "") ? "selected" : ""%>>
+                                <%= cat.getCategoriaProducto()%>
+                            </option>
+                            <% } %>
+                        </select>
+
+                        <button type="submit" class="btn-filtrar">Filtrar</button>
+                        <a href="${pageContext.request.contextPath}/VentasControlador" class="btn-limpiar">Ver Top 5</a>
+
+                    </form>
+
+                    <%-- ETIQUETA DE QUÉ SE ESTÁ MOSTRANDO --%>
+                    <% if (request.getAttribute("filtroBusqueda") != null) {%>
+                    <p class="etiqueta-filtro">Resultados para: "<%= request.getAttribute("filtroBusqueda")%>"</p>
+                    <% } else if (request.getAttribute("filtroCategoria") != null) {%>
+                    <p class="etiqueta-filtro">Categoría: "<%= request.getAttribute("filtroCategoria")%>"</p>
+                    <% } else { %>
+                    <p class="etiqueta-filtro">Mostrando Top 5 productos más vendidos</p>
+                    <% } %>
+
+                    <%-- TABLA --%>
                     <% if (listaProductosMasVendidos == null || listaProductosMasVendidos.isEmpty()) { %>
-                    <p class="sin-datos">No hay datos de productos vendidos aún.</p>
+                    <p class="sin-datos">No hay datos para el filtro aplicado.</p>
                     <% } else { %>
                     <table class="tabla-reporte">
                         <thead>
@@ -208,6 +244,7 @@
                         </tbody>
                     </table>
                     <% } %>
+
                 </section>
 
                 <%-- 
@@ -241,19 +278,19 @@
                 </section>
         </div>
 
-                <%-- BOTÓN REGRESAR --%>
-                <div class="contenedor-boton-regresar">
-                    <button type="button" class="btn-regresar"
-                            onclick="window.location.href = '${pageContext.request.contextPath}/html/a-panel-principal-admin.jsp'">
-                        Regresar al Panel
-                    </button>
-                </div>    
+        <%-- BOTÓN REGRESAR --%>
+        <div class="contenedor-boton-regresar">
+            <button type="button" class="btn-regresar"
+                    onclick="window.location.href = '${pageContext.request.contextPath}/html/a-panel-principal-admin.jsp'">
+                Regresar al Panel
+            </button>
+        </div>    
 
-            </main>
+    </main>
 
-        <footer class="footer">
-            <p>&copy; 2025 Labur-Ga. Todos los derechos reservados.</p>
-        </footer>
+    <footer class="footer">
+        <p>&copy; 2025 Labur-Ga. Todos los derechos reservados.</p>
+    </footer>
 
-    </body>
+</body>
 </html>

@@ -942,4 +942,201 @@ del mes seleccionado.
         return resumen;
     }
 
+    /*
+    METODO 7 — TOP 5 PRODUCTOS MÁS VENDIDOS
+    - por defecto muestra solo los 5 primeros
+     */
+    public List<ProductoMasVendido> obtenerTop5ProductosMasVendidos() {
+
+        Connection conexionBD = claseConexion.getConexion();
+        PreparedStatement consultaPreparada = null;
+        ResultSet resultadoConsulta = null;
+        List<ProductoMasVendido> listaTop5 = new ArrayList<>();
+
+        String consultaTop5 = """
+        SELECT
+            productos.id_producto,
+            productos.nombre_producto,
+            SUM(detallePedido.cantidad_producto) AS cantidadVendida,
+            SUM(detallePedido.cantidad_producto * detallePedido.precio_unitarioventa) AS totalVendido
+        FROM productos
+        INNER JOIN detallepedido detallePedido ON productos.id_producto = detallePedido.id_producto
+        INNER JOIN pedidos pedido ON pedido.id_pedido = detallePedido.id_pedido
+        INNER JOIN facturas ON facturas.id_pedido = pedido.id_pedido
+        WHERE facturas.estado_pago = 'pagada'
+        GROUP BY productos.id_producto, productos.nombre_producto
+        ORDER BY cantidadVendida DESC
+        LIMIT 5
+        """;
+
+        try {
+            consultaPreparada = conexionBD.prepareStatement(consultaTop5);
+            resultadoConsulta = consultaPreparada.executeQuery();
+
+            while (resultadoConsulta.next()) {
+                ProductoMasVendido productoActual = new ProductoMasVendido();
+                productoActual.setIdProducto(resultadoConsulta.getInt("id_producto"));
+                productoActual.setNombreProducto(resultadoConsulta.getString("nombre_producto"));
+                productoActual.setCantidadVendida(resultadoConsulta.getInt("cantidadVendida"));
+                productoActual.setTotalVendido(resultadoConsulta.getDouble("totalVendido"));
+                listaTop5.add(productoActual);
+            }
+        } catch (Exception error) {
+            System.out.println("Error obteniendo top 5: " + error.getMessage());
+        } finally {
+            try {
+                if (resultadoConsulta != null) {
+                    resultadoConsulta.close();
+                }
+            } catch (Exception e) {
+            }
+            try {
+                if (consultaPreparada != null) {
+                    consultaPreparada.close();
+                }
+            } catch (Exception e) {
+            }
+            try {
+                if (conexionBD != null) {
+                    conexionBD.close();
+                }
+            } catch (Exception e) {
+            }
+        }
+        return listaTop5;
+    }
+
+    /*
+    METODO 8 — BUSCAR PRODUCTO POR NOMBRE
+    - filtra productos que contengan el texto buscado
+    - usa LIKE para búsqueda parcial
+     */
+    public List<ProductoMasVendido> buscarProductosPorNombre(String nombreBuscado) {
+
+        Connection conexionBD = claseConexion.getConexion();
+        PreparedStatement consultaPreparada = null;
+        ResultSet resultadoConsulta = null;
+        List<ProductoMasVendido> listaFiltrada = new ArrayList<>();
+
+        String consultaBuscarNombre = """
+        SELECT
+            productos.id_producto,
+            productos.nombre_producto,
+            SUM(detallePedido.cantidad_producto) AS cantidadVendida,
+            SUM(detallePedido.cantidad_producto * detallePedido.precio_unitarioventa) AS totalVendido
+        FROM productos
+        INNER JOIN detallepedido detallePedido ON productos.id_producto = detallePedido.id_producto
+        INNER JOIN pedidos pedido ON pedido.id_pedido = detallePedido.id_pedido
+        INNER JOIN facturas ON facturas.id_pedido = pedido.id_pedido
+        WHERE facturas.estado_pago = 'pagada'
+        AND productos.nombre_producto LIKE ?
+        GROUP BY productos.id_producto, productos.nombre_producto
+        ORDER BY cantidadVendida DESC
+        """;
+
+        try {
+            consultaPreparada = conexionBD.prepareStatement(consultaBuscarNombre);
+            // % antes y después permite buscar el texto en cualquier posición
+            // ejemplo: "hamb" encuentra "Hamburguesa Clásica"
+            consultaPreparada.setString(1, "%" + nombreBuscado + "%");
+            resultadoConsulta = consultaPreparada.executeQuery();
+
+            while (resultadoConsulta.next()) {
+                ProductoMasVendido productoActual = new ProductoMasVendido();
+                productoActual.setIdProducto(resultadoConsulta.getInt("id_producto"));
+                productoActual.setNombreProducto(resultadoConsulta.getString("nombre_producto"));
+                productoActual.setCantidadVendida(resultadoConsulta.getInt("cantidadVendida"));
+                productoActual.setTotalVendido(resultadoConsulta.getDouble("totalVendido"));
+                listaFiltrada.add(productoActual);
+            }
+        } catch (Exception error) {
+            System.out.println("Error buscando producto: " + error.getMessage());
+        } finally {
+            try {
+                if (resultadoConsulta != null) {
+                    resultadoConsulta.close();
+                }
+            } catch (Exception e) {
+            }
+            try {
+                if (consultaPreparada != null) {
+                    consultaPreparada.close();
+                }
+            } catch (Exception e) {
+            }
+            try {
+                if (conexionBD != null) {
+                    conexionBD.close();
+                }
+            } catch (Exception e) {
+            }
+        }
+        return listaFiltrada;
+    }
+
+    /*
+    METODO 9 — BUSCAR PRODUCTOS POR CATEGORÍA
+    - filtra todos los productos de una categoría específica
+     */
+    public List<ProductoMasVendido> buscarProductosPorCategoria(String categoriaBuscada) {
+
+        Connection conexionBD = claseConexion.getConexion();
+        PreparedStatement consultaPreparada = null;
+        ResultSet resultadoConsulta = null;
+        List<ProductoMasVendido> listaCategoria = new ArrayList<>();
+
+        String consultaBuscarCategoria = """
+        SELECT
+            productos.id_producto,
+            productos.nombre_producto,
+            SUM(detallePedido.cantidad_producto) AS cantidadVendida,
+            SUM(detallePedido.cantidad_producto * detallePedido.precio_unitarioventa) AS totalVendido
+        FROM productos
+        INNER JOIN detallepedido detallePedido ON productos.id_producto = detallePedido.id_producto
+        INNER JOIN pedidos pedido ON pedido.id_pedido = detallePedido.id_pedido
+        INNER JOIN facturas ON facturas.id_pedido = pedido.id_pedido
+        WHERE facturas.estado_pago = 'pagada'
+        AND productos.categoria_producot = ?
+        GROUP BY productos.id_producto, productos.nombre_producto
+        ORDER BY cantidadVendida DESC
+        """;
+
+        try {
+            consultaPreparada = conexionBD.prepareStatement(consultaBuscarCategoria);
+            consultaPreparada.setString(1, categoriaBuscada);
+            resultadoConsulta = consultaPreparada.executeQuery();
+
+            while (resultadoConsulta.next()) {
+                ProductoMasVendido productoActual = new ProductoMasVendido();
+                productoActual.setIdProducto(resultadoConsulta.getInt("id_producto"));
+                productoActual.setNombreProducto(resultadoConsulta.getString("nombre_producto"));
+                productoActual.setCantidadVendida(resultadoConsulta.getInt("cantidadVendida"));
+                productoActual.setTotalVendido(resultadoConsulta.getDouble("totalVendido"));
+                listaCategoria.add(productoActual);
+            }
+        } catch (Exception error) {
+            System.out.println("Error buscando por categoría: " + error.getMessage());
+        } finally {
+            try {
+                if (resultadoConsulta != null) {
+                    resultadoConsulta.close();
+                }
+            } catch (Exception e) {
+            }
+            try {
+                if (consultaPreparada != null) {
+                    consultaPreparada.close();
+                }
+            } catch (Exception e) {
+            }
+            try {
+                if (conexionBD != null) {
+                    conexionBD.close();
+                }
+            } catch (Exception e) {
+            }
+        }
+        return listaCategoria;
+    }
+
 }

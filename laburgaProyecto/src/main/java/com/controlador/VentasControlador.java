@@ -21,8 +21,7 @@ METODOS DAO UTILIZADOS
 
 6. obtenerTotalFacturado()
 
-*/
-
+ */
 package com.controlador;
 
 import com.dao.VentasDao;
@@ -63,7 +62,7 @@ public class VentasControlador extends HttpServlet {
         PASO 2  Obtener ventas del día.
       
          */
-        ResumenVentas ventasDia =   ventasDao.obtenerVentasDelDia();
+        ResumenVentas ventasDia = ventasDao.obtenerVentasDelDia();
 
         /*
        
@@ -74,10 +73,33 @@ public class VentasControlador extends HttpServlet {
 
         /*
       
-        PASO 4  Obtener productos más vendidos.
-       
+        /*
+        PASO 4 — OBTENER PRODUCTOS
+        - si viene filtro de nombre → busca por nombre
+        - si viene filtro de categoría → busca por categoría
+        - si no hay filtro → muestra top 5
          */
-        List<ProductoMasVendido> listaProductosMasVendidos =  ventasDao.obtenerProductosMasVendidos();
+        String filtroBusqueda = request.getParameter("buscarProducto");
+        String filtroCategoria = request.getParameter("filtrarCategoria");
+
+        List<ProductoMasVendido> listaProductosMasVendidos;
+
+        if (filtroBusqueda != null && !filtroBusqueda.trim().isEmpty()) {
+            // búsqueda por nombre de producto
+            listaProductosMasVendidos = ventasDao.buscarProductosPorNombre(filtroBusqueda.trim());
+            request.setAttribute("filtroBusqueda", filtroBusqueda);
+
+        } else if (filtroCategoria != null && !filtroCategoria.trim().isEmpty()) {
+            // búsqueda por categoría
+            listaProductosMasVendidos = ventasDao.buscarProductosPorCategoria(filtroCategoria.trim());
+            request.setAttribute("filtroCategoria", filtroCategoria);
+
+        } else {
+            // sin filtro → top 5 por defecto
+            listaProductosMasVendidos = ventasDao.obtenerTop5ProductosMasVendidos();
+        }
+
+        request.setAttribute("listaProductosMasVendidos", listaProductosMasVendidos);
 
         /*
        
@@ -100,14 +122,13 @@ public class VentasControlador extends HttpServlet {
 
         
          */
+        request.setAttribute("ventasDia", ventasDia);
 
-        request.setAttribute( "ventasDia",ventasDia);
+        request.setAttribute("totalFacturado", totalFacturado);
 
-        request.setAttribute( "totalFacturado",totalFacturado);
+        request.setAttribute("listaProductosMasVendidos", listaProductosMasVendidos);
 
-        request.setAttribute( "listaProductosMasVendidos", listaProductosMasVendidos);
-
-        request.setAttribute( "listaCategorias", listaCategorias);
+        request.setAttribute("listaCategorias", listaCategorias);
 
         /*
        
