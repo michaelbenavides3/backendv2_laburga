@@ -106,9 +106,7 @@ public class EliminarDetallePedidoControlador extends HttpServlet {
 
             Ahora se consulta nuevamente la base de datos.
 
-            Método utilizado:
-
-                contarDetallesPorPedido()
+            Método utilizado: contarDetallesPorPedido()
 
             Este método hace un COUNT(*) para saber cuántos productos siguen perteneciendo al pedido.
 
@@ -142,15 +140,11 @@ public class EliminarDetallePedidoControlador extends HttpServlet {
 
                 Se crea el DAO de pedidos.
 
-                Método utilizado:
-
-                    obtenerMesaPorPedido()
+                Método utilizado:   obtenerMesaPorPedido()
 
                 Busca en la base de datos cuál es la mesa asociada a ese pedido.
 
-                Devuelve:
-
-                    idMesa
+                Devuelve:  idMesa
 
                 */
 
@@ -165,13 +159,9 @@ public class EliminarDetallePedidoControlador extends HttpServlet {
                 PASO 6. CERRAR EL PEDIDO
                 
 
-                Método utilizado:
+                Método utilizado: actualizarEstadoPedido()
 
-                    actualizarEstadoPedido()
-
-                Cambia el estado del pedido a:
-
-                    cerrada
+                Cambia el estado del pedido a: cerrada
 
                 Esto indica que ya no puede seguir recibiendo productos.
 
