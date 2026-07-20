@@ -65,7 +65,7 @@ public class UsuarioControlador extends HttpServlet {
             response.sendRedirect(request.getContextPath() + "/html/a-panel-principal-admin.jsp?exito=1");
 
         } else {
-            response.sendRedirect(request.getContextPath() + "/html/a-nuevo-usuario.jsp?error=1");
+            response.sendRedirect(request.getContextPath() + "/html/a-nuevoTrabajado.jsp?error=1");
         }
     }
 }
