@@ -13,6 +13,23 @@
         <title>Registrar Pedido</title>
     </head>
     <body>
+        
+        
+         <%-- ========================================================================= --%>
+        <%-- AQUÍ SE CAPTURA EL PARAMETRO DE ERROR ENVIADO DESDE EL SERVLET            --%>
+        <%-- ========================================================================= --%>
+        <%
+            String error = request.getParameter("error");
+            if ("vacio".equals(error)) {
+        %>
+            <script>
+                // Abre el letrero negro nativo del navegador indicando el fallo
+                alert("No se puede registrar el pedido porque está vacío. Debe ingresar la cantidad de al menos un producto.");
+            </script>
+        <%
+            }
+        %>
+        <%-- ========================================================================= --%>
 
         <header class="header">
             <h1>Gestión Menú - Panel Mesero | Mesa ${idMesa}</h1>

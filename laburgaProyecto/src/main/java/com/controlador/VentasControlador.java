@@ -1,5 +1,8 @@
 /*
 
+EL ENCARGADO DE DAR LA VISUAL O MOSTRAR A TRAVEZ DEL JSP TODAS LAS VENTAS
+
+
 RESPONSABILIDAD DEL CONTROLADOR
 
 - Obtener todos los reportes del módulo de ventas.

@@ -46,6 +46,6 @@ public class SolicitarCuenta extends HttpServlet {
         // Redirijo al mesero nuevamente a su pantalla principal
         // Esto hace que la página se actualice y el pedido ya no aparezca como activo
        
-        response.sendRedirect("html/m-meserocopy.jsp");
+        response.sendRedirect("html/m-meserocopy.jsp");       
     }
 }

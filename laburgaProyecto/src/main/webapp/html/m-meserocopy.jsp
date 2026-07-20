@@ -80,9 +80,9 @@
                         <span class="etiqueta-amarilla">Esperando en Caja....</span>
 
                         <% } else { %>
-                       <!-- <a href="m-registrar-pedido.jsp?idMesa=1" class="btn btn--registrar-pedido btn-naranja">Registrar pedido</a>-->
+                        <!-- <a href="m-registrar-pedido.jsp?idMesa=1" class="btn btn--registrar-pedido btn-naranja">Registrar pedido</a>-->
                         <a href="../MenuMeseroControlador?idMesa=1" class="btn btn--registrar-pedido btn-naranja">Registrar pedido</a>
-                        
+
                         <% } %>
                         <% if (estadoMesa1.equals("ocupada")) { %>
                         <a href="../AgregarProductoMeseroControlador?idMesa=1" class="btn btn--agregar-producto btn-verde">Agregar producto</a>
@@ -296,8 +296,8 @@
         </script>
 
         <% }%>
-        
-          <%
+
+        <%
             String finalizado = request.getParameter("finalizado");
         %>
 
@@ -308,6 +308,20 @@
         </script>
 
         <% }%>
+
+        <%
+            // Capturamos el parámetro que indica que la cuenta fue solicitada
+            String cuentaStatus = request.getParameter("cuenta");
+            if ("solicitada".equals(cuentaStatus)) {
+        %>
+        <script>
+            // Abre el letrero negro nativo del navegador indicando el éxito del proceso
+            alert("Cuenta solicitada satisfactoriamente");
+        </script>
+        <%
+            }
+        %>
+
 
     </body>
 

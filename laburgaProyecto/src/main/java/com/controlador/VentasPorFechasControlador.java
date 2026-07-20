@@ -1,3 +1,12 @@
+
+/*
+
+
+    ENCARGADO DE MOSTRAR LOS PRODUCTOS VENDIDOS POR FECHA
+*/
+
+
+
 package com.controlador;
 
 import com.dao.VentasDao;
