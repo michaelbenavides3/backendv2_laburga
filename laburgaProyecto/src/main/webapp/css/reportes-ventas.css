@@ -269,8 +269,8 @@
     font-size: 14px;
     font-weight: bold;
     transition: background 0.3s;
-          margin-top: -326px;
-    margin-bottom: 268px;      /* Resetea márgenes que lo empujen a los lados */
+    margin-top: -200px;
+    margin-bottom: 150px;      /* Resetea márgenes que lo empujen a los lados */
 }
 
 .etiqueta-filtro {
